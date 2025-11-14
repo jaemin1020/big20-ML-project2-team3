@@ -1,6 +1,37 @@
 # big20-ML-project2-team3
 
+## 팀원
+- 엄재민(jmu)	   um.jm1020@gmail.com
+- 권준호(jhk)	jjoonyho@gmail.com
+- 이경주(kjl)	july1003@gmail.com
+- 이승재(sjl)	lsj0110245@gmail.com
+- 윤지훈(jhy)	lookjihoon911@gmail.com
+
 ### file dir C:/big20/git/
+
+## Directory 
+**csv 파일은 git에 업로드하지 않기** .gitignore 파일 생성
+/(root)
+/notice           (공지사항 md or txt file)
+/SantanderCS
+/SantanderCS/data (train.csv, test.csv 각자 l 사용하기)
+/SantanderCS/doc  (documents)
+/SantanderCS/src  (source files)
+
+/CreditCardFraud
+/CreditCardFraud/data
+/CreditCardFraud/doc
+/CreditCardFraud/src
+
+
+## File명 규칙
+- 해당 폴더에 filename_최초생성일자_이니셜.확장자 사용하기
+  ex) data_preprocessing_20251115_kjl.ipynb
+
+
+
+## 코딩 규칙
+ - coding_rule.md : 꼭 숙지합시다~ (해당 파일은 언제든지 수정 가능)
 
 
 
