@@ -11,6 +11,7 @@
 
 ## Directory 
 **csv 파일은 git에 업로드하지 않기** .gitignore 파일 생성
+```
 /(root)
 /notice           (공지사항 md or txt file)
 /SantanderCS
@@ -22,7 +23,7 @@
 /CreditCardFraud/data
 /CreditCardFraud/doc
 /CreditCardFraud/src
-
+```
 
 ## File명 규칙
 - 해당 폴더에 filename_최초생성일자_이니셜.확장자 사용하기
