@@ -19,6 +19,7 @@ build/
 # 환경 설정
 .env
 .env.local
+*.yml
 
 # 데이터 파일 제외
 *.csv
