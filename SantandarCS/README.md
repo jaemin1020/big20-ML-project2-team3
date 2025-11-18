@@ -1,17 +1,18 @@
-# 산탄데르 고객 만족 예측
+# 산탄데르 고객 만족 예측 - 팀 프로젝트 Basic
 
 ## data 관련
-./data : test.csv.zip, train.csv.zip 파일이 있습니다. 다운 로드 받아 사용하세요
+./data : test.csv.zip, train.csv.zip 파일이 있습니다. 다운 로드 받아 사용하세요  
 ./data/test.csv : target (label)이 없음. 단, ID 값으로 적용 가능함
 
-./src/0_firstExcise.ipynb : 수업내용 review용
+./src/0_firstExcise.ipynb : 수업내용 review용  
+./src/data_preparing.py   : 데이터 로딩, split, 전처리용 util 함수 포함
 
-- test data 를 5:3:2 로 split 
-  전체: 100%
-  ├─ Train: 50% (첫 번째 split)
-  └─ Temp: 50%
-    ├─ Validation: 30% (temp의 60% = 전체의 30%)
-    └─ Test: 20% (temp의 40% = 전체의 20%)
+- test data 를 5:3:2 로 split   
+  전체: 100%  
+  ├─ Train: 50% (첫 번째 split)  
+  └─ Temp: 50%  
+    ├─ Validation: 30% (temp의 60% = 전체의 30%)  
+    └─ Test: 20% (temp의 40% = 전체의 20%)  
 ```python
     # 방법 1: 두 번의 split으로 5:3:2 분할
     # 첫 번째 split: train(50%) vs temp(50%)
@@ -30,7 +31,7 @@
     )
 ```    
 
-- 최종 test.csv 를 예측해 보기 
+- 최종 test.csv 로 예측해 보기 
 
 ## overview
 이 데이터는 370 개의 피처로 구성되어 있으며, 클래스가 매우 불균형한(0:만족 96%, 약 4%만 1:불만족) 특징을 가집니다.  
@@ -48,7 +49,7 @@ XGBClassifier()에서 .fit(학습시키고) -> predict() 하면 0.9997 -> 불만
 
 ---
 ### 해야할 것 (우선, 순서없이 나열 중)
-1. feature selection : 5 / 370 = 74 개씩 나눠서 분석 (이때 간단한 report 만들기 - 엑셀 ) 
+1. feature selection : 5 / 370 = 74 개씩 나눠서 분석 (이때 간단한 report 만들기 - 엑셀 by 팀장 UMJ) 
    | column_name | 담당자 | 파악한 특성(memo)  | 삭제 여부(Y/N) | fillna할 값 | 
    |-------------|--------|--------------------|----------------|-------------| 
    |  ID         |        | 캐글 답안지 작성용 |        Y       |             | 
