@@ -447,6 +447,7 @@ def drop_highly_correlated_features(df, threshold=0.95):
 ---
 
 ## 📁 `utils/modeling.py`
+- pip install catboost  @ ml_dev 에 필요함! 
 
 ```python
 from xgboost import XGBClassifier
@@ -474,6 +475,8 @@ def get_stacking_model(xgb, lgbm, catboost):
 ---
 
 ## 📁 `utils/evaluation.py`
+
+- pip install shap @ ml_dev # install 필요함
 
 ```python
 import shap
