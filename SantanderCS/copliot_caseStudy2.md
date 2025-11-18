@@ -232,6 +232,158 @@ plt.ylabel("PC2")
 plt.colorbar(label='TARGET')
 plt.show()
 ```
+---
+아래는 `notebooks/06_feature_selection_statsmodels.ipynb`의 구성입니다.  
+이 노트북은 **statsmodels를 활용한 로지스틱 회귀 분석**과 **p-value 기반 피처 선택**을 중심으로 구성되어 있어요.
+
+---
+
+## 📘 06_feature_selection_statsmodels.ipynb
+
+### 🔹 1. 데이터 로딩 및 전처리
+
+```python
+import pandas as pd
+from utils.preprocessing import load_data, undersample, split_features_target
+from utils.feature_engineering import add_statistical_features
+
+# 데이터 로딩
+train, _ = load_data('data/train.csv', 'data/test.csv')
+balanced = undersample(train)
+X_bal, y_bal = split_features_target(balanced)
+
+# 파생 변수 추가
+X_bal = add_statistical_features(X_bal)
+```
+
+---
+
+### 🔹 2. statsmodels 로지스틱 회귀 분석
+
+```python
+import statsmodels.api as sm
+
+# 상수항 추가
+X_const = sm.add_constant(X_bal)
+
+# 모델 적합
+logit_model = sm.Logit(y_bal, X_const)
+result = logit_model.fit()
+
+# 회귀표 출력
+print(result.summary())
+```
+
+---
+
+### 🔹 3. p-value 기반 피처 선택
+
+```python
+# p-value 기준 피처 선택
+p_values = result.pvalues
+selected_features = p_values[p_values < 0.05].index.tolist()
+
+# 상수항 제거
+selected_features = [f for f in selected_features if f != 'const']
+
+# 선택된 피처만 추출
+X_selected = X_bal[selected_features]
+```
+
+---
+
+### 🔹 4. 선택된 피처로 모델 재학습 및 평가
+
+```python
+from sklearn.model_selection import StratifiedKFold
+from sklearn.metrics import roc_auc_score
+from xgboost import XGBClassifier
+
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+auc_scores = []
+
+for train_idx, val_idx in skf.split(X_selected, y_bal):
+    X_tr, X_val = X_selected.iloc[train_idx], X_selected.iloc[val_idx]
+    y_tr, y_val = y_bal.iloc[train_idx], y_bal.iloc[val_idx]
+
+    model = XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42)
+    model.fit(X_tr, y_tr)
+    val_pred = model.predict_proba(X_val)[:, 1]
+    auc_scores.append(roc_auc_score(y_val, val_pred))
+
+print("선택된 피처 기반 평균 AUC:", np.mean(auc_scores))
+```
+여기서는 **statsmodels 기반 로지스틱 회귀 분석 결과를 시각화하는 방법**을 소개할게요. 특히 다음 두 가지를 중심으로 설명드릴게요:
+
+---
+
+## 📊 1. 회귀계수 시각화 (p-value 기반 중요도)
+
+### 🔧 막대그래프: 유의한 피처만 시각화
+
+```python
+import matplotlib.pyplot as plt
+
+# 회귀계수와 p-value 추출
+coefs = result.params
+pvals = result.pvalues
+
+# 유의한 피처만 필터링 (p < 0.05)
+significant = pvals[pvals < 0.05].index
+coefs_sig = coefs[significant].drop('const', errors='ignore')
+
+# 시각화
+plt.figure(figsize=(10, 6))
+coefs_sig.sort_values().plot(kind='barh', color='skyblue')
+plt.title("유의한 피처의 회귀계수 (p < 0.05)")
+plt.xlabel("회귀계수")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## 📈 2. p-value 분포 시각화
+
+### 🔧 히스토그램: 전체 피처의 p-value 분포 확인
+
+```python
+plt.figure(figsize=(8, 5))
+plt.hist(pvals, bins=30, color='salmon', edgecolor='black')
+plt.axvline(0.05, color='blue', linestyle='--', label='p = 0.05')
+plt.title("전체 피처의 p-value 분포")
+plt.xlabel("p-value")
+plt.ylabel("피처 수")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+## 🧠 해석 팁
+
+- **회귀계수가 양수**이면 해당 피처가 `TARGET=1`일 확률을 **높이는 방향**으로 작용
+- **음수**이면 **낮추는 방향**
+- **p-value < 0.05**는 통계적으로 유의미한 피처로 간주
+
+---
+
+이 시각화는 모델 해석과 피처 선택에 매우 유용해요. 원하시면 이 시각화 결과를 자동 저장하거나 Streamlit 대시보드로 보여주는 방법도 알려드릴 수 있어요!
+
+---
+
+### 📌 요약
+
+- `statsmodels`로 피처 유의성 분석
+- `p-value < 0.05` 기준으로 피처 선택
+- 선택된 피처로 모델 재학습 → 성능 비교
+
+---
+
+
 
 ---
 
