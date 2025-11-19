@@ -47,12 +47,10 @@
 - ** imp : 거래 금액 **
 ---
 
-- test data 를 5:3:2 로 split   
+- train data 를 8:2 로 split   
   전체: 100%  
-  ├─ Train: 50% (첫 번째 split)  
-  └─ Temp: 50%  
-    ├─ Validation: 30% (temp의 60% = 전체의 30%)  
-    └─ Test: 20% (temp의 40% = 전체의 20%)  
+  ├─ Train: 80% 
+  ├─ Validation: 20% 
 
 ```python
     # 방법 1: 두 번의 split으로 5:3:2 분할
