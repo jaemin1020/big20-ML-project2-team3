@@ -32,7 +32,9 @@
 
 ## File명 규칙
 - 해당 폴더에 이니셜_filename_최초생성일자.확장자 사용하기
-  ex) lkj_data_preprocessing_20251115.doc
+  ex) lkj_eda.ipynb
+- 공통 작업해서 분할할때는 filename_이니셜.확장자
+  ex) 분석작업_lkj_20251120.doc
 
 
 
