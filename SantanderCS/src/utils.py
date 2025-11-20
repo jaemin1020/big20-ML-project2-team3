@@ -1,7 +1,38 @@
+import pandas as pd
+import numpy  as np 
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import precision_score, recall_score
 from sklearn.metrics import f1_score, roc_auc_score 
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing   import StandardScaler
+
+# sof ----------------------------------------------------------- #
+def load_data(train_path, test_path):
+    train = pd.read_csv(train_path)
+    test = pd.read_csv(test_path)
+    return train, test
+# eof ----------------------------------------------------------- #
+
+def split_features_target(train_df, target_col='TARGET'):
+    X = train_df.drop(['ID', target_col], axis=1)
+    y = train_df[target_col]
+    return X, y
+# eof ----------------------------------------------------------- #
+
+def scale_data(X_train, X_test):
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    return X_train_scaled, X_test_scaled, scaler
+# eof ----------------------------------------------------------- #
+
+def undersample(train_df, target_col='TARGET', n_majority=20000, random_state=42):
+    majority = train_df[train_df[target_col] == 0].sample(n=n_majority, random_state=random_state)
+    minority = train_df[train_df[target_col] == 1]
+    balanced = pd.concat([majority, minority])
+    return balanced
+# eof ----------------------------------------------------------- #
 
 def get_clf_eval(y_test, pred, pred_proba):
     confusion = confusion_matrix(y_test, pred) 
@@ -13,7 +44,7 @@ def get_clf_eval(y_test, pred, pred_proba):
     roc_auc   = roc_auc_score(y_test, pred_proba)
     # print('오차행렬: ')
     # print(confusion)
-    print(f'정확도: {accuracy:.4f}, 정밀도: {precision:.4f}, 재현율: {recall:.4f}, F1: {f1:.4f}, AUC: {roc_auc:.4f}')
+    print(f'AUC: {roc_auc:.4f}, 정확도: {accuracy:.4f}, 정밀도: {precision:.4f}, 재현율: {recall:.4f}, F1: {f1:.4f}')
 # --- eof ------------------
     
 def get_model_train_eval(model, ftr_train=None, ftr_test=None, tgt_train=None, tgt_test=None):
