@@ -31,8 +31,8 @@
 ```
 
 ## File명 규칙
-- 해당 폴더에 filename_최초생성일자_이니셜.확장자 사용하기
-  ex) data_preprocessing_20251115_lkj.ipynb
+- 해당 폴더에 이니셜_filename_최초생성일자.확장자 사용하기
+  ex) lkj_data_preprocessing_20251115.doc
 
 
 
