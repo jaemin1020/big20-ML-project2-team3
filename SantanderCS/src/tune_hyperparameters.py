@@ -112,15 +112,9 @@ def lgbm_objective(params):
     params["num_leaves"] = int(params["num_leaves"])
     params["n_estimators"] = int(params["n_estimators"])
 
-    lgbm = LGBMClassifier(**params, random_state=23)
+    lgbm = LGBMClassifier(**params, random_state=23, verbose=-1)
 
-    lgbm.fit(
-        X_train,
-        y_train,
-        early_stopping_rounds=30,
-        eval_set=[(X_val, y_val)],
-        verbose=False,
-    )
+    lgbm.fit(X_train, y_train, early_stopping_rounds=30, eval_set=[(X_val, y_val)])
 
     roc_auc = roc_auc_score(y_val, lgbm.predict_proba(X_val)[:, 1])
 
