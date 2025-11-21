@@ -9,30 +9,29 @@ def load_data(train_path= '../data/train.csv', test_path= '../data/test.csv'):
     return train, test
 # eof ----------------------------------------------------------- #
 
-
 def remove_zero_columns(df, threshold_rate=0.99, save_report=True):    
     """
-        0값이 threshold_rate 이상인 컬럼들을 제거
-        
-        Parameters:
-        -----------
-        df : pd.DataFrame
-            분석할 데이터프레임
-        threshold_rate : float, default=0.99
-            0값 비율 임계값 (0~1 사이)
-        save_report : bool, default=True
-            제거된 컬럼 정보를 CSV로 저장할지 여부
-        
-        Returns:
-        --------
-        pd.DataFrame : 컬럼이 제거된 데이터프레임
-        
-        Example:
-        --------
-        >>> clean_df = remove_zero_columns(df, threshold_rate=0.95)
-        >>> print(f"Original: {df.shape}, Cleaned: {clean_df.shape}")
+    0값이 threshold_rate 이상인 컬럼들을 제거
+    
+    Parameters:
+    -----------
+    df : pd.DataFrame
+        분석할 데이터프레임
+    threshold_rate : float, default=0.99
+        0값 비율 임계값 (0~1 사이, 예: 0.99 = 99%)
+    save_report : bool, default=True
+        제거된 컬럼 정보를 텍스트 파일로 저장할지 여부
+    
+    Returns:
+    --------
+    pd.DataFrame : 컬럼이 제거된 데이터프레임
+    
+    Example:
+    --------
+    >>> clean_df = remove_zero_columns(df, threshold_rate=0.95)
+    >>> print(f"Original: {df.shape}, Cleaned: {clean_df.shape}")
     """
-        
+    
     # 입력 검증
     if not isinstance(df, pd.DataFrame):
         raise ValueError("df는 pandas DataFrame이어야 합니다.")
@@ -41,10 +40,9 @@ def remove_zero_columns(df, threshold_rate=0.99, save_report=True):
         raise ValueError("threshold_rate는 0과 1 사이의 값이어야 합니다.")
     
     row_count = df.shape[0]
-    threshold = row_count * threshold_rate
     
     print(f'\n{"="*102}')
-    print(f"Zero Value Analysis (Threshold: {threshold_rate*100}% = {int(threshold):,} rows)")
+    print(f"Current Data Status :  (Threshold: {threshold_rate*100}% )")
     print("="*102)
     print(f"Total rows: {row_count:,}")
     print(f"Total columns: {len(df.columns):,}")
@@ -55,7 +53,9 @@ def remove_zero_columns(df, threshold_rate=0.99, save_report=True):
     
     for col in df.columns:
         zero_count = (df[col] == 0).sum()
+        zero_rate = zero_count / len(df)
         mode_freq = df[col].value_counts().iloc[0] if len(df[col]) > 0 else 0
+        mode_rate = mode_freq / len(df)
         
         summary_data.append({
             'ColumnName': col,
@@ -63,41 +63,35 @@ def remove_zero_columns(df, threshold_rate=0.99, save_report=True):
             'nUnique': df[col].nunique(),
             'mode': df[col].mode()[0] if len(df[col].mode()) > 0 else None,
             'modeFreq': mode_freq,
-            'modeFreqRate': f"{(mode_freq / len(df) * 100):.2f}%",
+            'modeFreqRate': f"{mode_rate * 100:.2f}%",
             'zero_count': zero_count,
-            'zero_count_rate': f"{(zero_count / len(df) * 100):.2f}%"
+            'zero_count_rate': zero_rate,  # ✅ 숫자 (비교용)
+            'zero_count_rate_display': f"{zero_rate * 100:.2f}%"  # ✅ 문자 (출력용)
         })
     
     summary_df = pd.DataFrame(summary_data)
     
-    # Summary 정보 출력
+    # Summary 정보 출력 (표시용 컬럼 사용)
+    display_cols = ['ColumnName', 'na_Sum', 'nUnique', 'mode', 'modeFreq', 
+                    'modeFreqRate', 'zero_count', 'zero_count_rate_display']
     print(f'\n{"Summary 정보 (zero_count 내림차순)":^102}')
     print("="*102)
-    print(summary_df.sort_values(by='zero_count', ascending=False).to_string(index=False))
+    print(summary_df[display_cols].sort_values(by='zero_count', ascending=False).to_string(index=False))
     
-    # Threshold 초과 컬럼 찾기
-    remove_cols_df = summary_df[summary_df["zero_count"] > threshold].copy()
-    remove_cols = remove_cols_df["ColumnName"].tolist()
+    # ✅ 간단하게: 이미 만들어진 숫자형으로 바로 비교
+    remove_cols = summary_df[summary_df["zero_count_rate"] > threshold_rate]["ColumnName"].tolist()
     
     # 결과 저장
     if save_report and len(remove_cols) > 0:
-        # doc 폴더 생성
         os.makedirs('../doc', exist_ok=True)
+        file_path = f'../doc/remove_cols_{threshold_rate}.txt'
         
-        # 파일 저장
-        file_path = f'../doc/remove_cols_{threshold_rate}.csv'
-        remove_cols_df.to_csv(file_path, index=False, encoding='utf-8')
+        with open(file_path, "w", encoding='utf-8') as f:
+            f.write('\n'.join(remove_cols))
         
-        print(f'\n{"="*102}')
-        print(f"제거 대상 컬럼 상세 정보")
-        print("="*102)
-        
-        for i, col in enumerate(remove_cols, 1):
-            col_info = remove_cols_df[remove_cols_df["ColumnName"] == col].iloc[0]
-            print(f"{i:3d}. {col:20s} - zero_count: {col_info['zero_count']:>10,} "
-                  f"({col_info['zero_count_rate']:>7s})")
-        
-        print(f'\n✓ {len(remove_cols)}개의 컬럼 정보를 {file_path}에 저장하였습니다.')
+        print(f'\n제거 대상 컬럼 목록 ({len(remove_cols)}개):')
+        print(remove_cols)
+        print(f'\n✓ {len(remove_cols)}개의 컬럼명을 {file_path}에 저장하였습니다.')
     
     # 컬럼 제거
     if len(remove_cols) > 0:
@@ -106,6 +100,7 @@ def remove_zero_columns(df, threshold_rate=0.99, save_report=True):
         print(f'\n{"="*102}')
         print(f"결과 요약")
         print("="*102)
+        print(f"Threshold: {threshold_rate*100}%")
         print(f"제거된 컬럼 수: {len(remove_cols):,}")
         print(f"남은 컬럼 수: {clean_df.shape[1]:,}")
         print(f"원본 shape: {df.shape}")
@@ -119,47 +114,117 @@ def remove_zero_columns(df, threshold_rate=0.99, save_report=True):
     return clean_df
 
 
-def compare_zero_thresholds(df, thresholds=[0.95, 0.97, 0.99]):
+def remove_zero_columns2(train_df, test_df, threshold_rate=0.99, save_report=True):    
     """
-    여러 threshold 값에 따른 제거 컬럼 수 비교
+    0값이 threshold_rate 이상인 컬럼들을 train_df 기준으로 train_df와 test_df에서 모두 제거
     
     Parameters:
     -----------
-    df : pd.DataFrame
-        분석할 데이터프레임
-    thresholds : list, default=[0.95, 0.97, 0.99]
-        비교할 threshold 값들
+    train_df : pd.DataFrame
+        기준이 되는 학습 데이터프레임
+    test_df : pd.DataFrame
+        테스트 데이터프레임
+    threshold_rate : float, default=0.99
+        0값 비율 임계값 (0~1 사이, 예: 0.99 = 99%)
+    save_report : bool, default=True
+        제거된 컬럼 정보를 텍스트 파일로 저장할지 여부
+    
+    Returns:
+    --------
+    tuple : (clean_train_df, clean_test_df) - 컬럼이 제거된 데이터프레임들
     
     Example:
     --------
-    >>> compare_zero_thresholds(df, [0.90, 0.95, 0.99])
+    >>> clean_train, clean_test = remove_zero_columns2(train_df, test_df, threshold_rate=0.95)
+    >>> print(f"Train: {train_df.shape} -> {clean_train.shape}")
+    >>> print(f"Test: {test_df.shape} -> {clean_test.shape}")
     """
-    print(f'\n{"="*60}')
-    print(f"Threshold 비교 분석")
-    print("="*60)
     
-    results = []
-    row_count = df.shape[0]
+    # 입력 검증
+    if not isinstance(train_df, pd.DataFrame) or not isinstance(test_df, pd.DataFrame):
+        raise ValueError("train_df와 test_df는 모두 pandas DataFrame이어야 합니다.")
     
-    for threshold_rate in thresholds:
-        threshold = row_count * threshold_rate
-        zero_counts = [(col, (df[col] == 0).sum()) for col in df.columns]
-        remove_count = sum(1 for col, count in zero_counts if count > threshold)
+    if not 0 <= threshold_rate <= 1:
+        raise ValueError("threshold_rate는 0과 1 사이의 값이어야 합니다.")
+    
+    row_count = train_df.shape[0]
+    
+    print(f'\n{"="*102}')
+    print(f"Train Data Analysis (Threshold: {threshold_rate*100}% )")
+    print("="*102)
+    print(f"Train rows: {train_df.shape[0]:,}, columns: {train_df.shape[1]:,}")
+    print(f"Test rows: {test_df.shape[0]:,}, columns: {test_df.shape[1]:,}")
+    print("="*102)
+    
+    ## Train 데이터 기준으로 Summary DataFrame 생성 
+    summary_data = []
+    
+    for col in train_df.columns:
+        zero_count = (train_df[col] == 0).sum()
+        zero_rate = zero_count / len(train_df)
+        mode_freq = train_df[col].value_counts().iloc[0] if len(train_df[col]) > 0 else 0
+        mode_rate = mode_freq / len(train_df)
         
-        results.append({
-            'threshold_rate': f"{threshold_rate*100:.0f}%",
-            'threshold': int(threshold),
-            'remove_cols': remove_count,
-            'remain_cols': len(df.columns) - remove_count,
-            'remove_rate': f"{remove_count/len(df.columns)*100:.2f}%"
+        summary_data.append({
+            'ColumnName': col,
+            'na_Sum': train_df[col].isna().sum(),
+            'nUnique': train_df[col].nunique(),
+            'mode': train_df[col].mode()[0] if len(train_df[col].mode()) > 0 else None,
+            'modeFreq': mode_freq,
+            'modeFreqRate': f"{mode_rate * 100:.2f}%",
+            'zero_count': zero_count,
+            'zero_count_rate': zero_rate,  # ✅ 숫자 (비교용)
+            'zero_count_rate_display': f"{zero_rate * 100:.2f}%"  # ✅ 문자 (출력용)
         })
     
-    result_df = pd.DataFrame(results)
-    print(result_df.to_string(index=False))
-    print("="*60)
+    summary_df = pd.DataFrame(summary_data)
     
-    return result_df
-# -- EOF ----------------------------------------------------------------------------------------------  
+    # Summary 정보 출력 (표시용 컬럼 사용)
+    display_cols = ['ColumnName', 'na_Sum', 'nUnique', 'mode', 'modeFreq', 
+                    'modeFreqRate', 'zero_count', 'zero_count_rate_display']
+    print(f'\n{"Train Summary (zero_count 내림차순)":^102}')
+    print("="*102)
+    print(summary_df[display_cols].sort_values(by='zero_count', ascending=False).to_string(index=False))
+    
+    # ✅ 간단하게: 이미 만들어진 숫자형으로 바로 비교
+    remove_cols = summary_df[summary_df["zero_count_rate"] > threshold_rate]["ColumnName"].tolist()
+    
+    # 결과 저장
+    if save_report and len(remove_cols) > 0:
+        os.makedirs('../doc', exist_ok=True)
+        file_path = f'../doc/remove_cols_train_{threshold_rate}.txt'
+        
+        with open(file_path, "w", encoding='utf-8') as f:
+            f.write('\n'.join(remove_cols))
+        
+        print(f'\n제거 대상 컬럼 목록 ({len(remove_cols)}개):')
+        print(remove_cols)
+        print(f'\n✓ {len(remove_cols)}개의 컬럼명을 {file_path}에 저장하였습니다.')
+    
+    # Train과 Test에서 동일한 컬럼 제거
+    if len(remove_cols) > 0:
+        clean_train_df = train_df.drop(remove_cols, axis=1)
+        clean_test_df = test_df.drop(remove_cols, axis=1)
+        
+        print(f'\n{"="*102}')
+        print(f"결과 요약")
+        print("="*102)
+        print(f"Threshold: {threshold_rate*100}%")
+        print(f"제거된 컬럼 수: {len(remove_cols):,}")
+        print(f"\nTrain 데이터:")
+        print(f"  원본 shape: {train_df.shape}")
+        print(f"  정제 후 shape: {clean_train_df.shape}")
+        print(f"\nTest 데이터:")
+        print(f"  원본 shape: {test_df.shape}")
+        print(f"  정제 후 shape: {clean_test_df.shape}")
+        print(f"\n제거 비율: {len(remove_cols)/len(train_df.columns)*100:.2f}%")
+        print("="*102)
+    else:
+        print(f'\n✓ Threshold({threshold_rate*100}%)를 초과하는 컬럼이 없습니다.')
+        clean_train_df = train_df.copy()
+        clean_test_df = test_df.copy()
+    
+    return clean_train_df, clean_test_df
 
 
 def split_features_target(train_df, target_col='TARGET'):
