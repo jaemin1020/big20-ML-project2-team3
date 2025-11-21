@@ -1,5 +1,6 @@
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing   import StandardScaler
+
 
 # sof ----------------------------------------------------------- #
 def load_data(train_path, test_path):
@@ -33,3 +34,33 @@ def undersample(train_df, target_col='TARGET', n_majority=20000, random_state=42
     balanced = pd.concat([majority, minority])
     return balanced
 # eof ----------------------------------------------------------- #
+
+# learn/test data sperate
+
+from sklearn.model_selection import train_test_split
+
+def data_split(X_features, y_target, size=0.2, rs=23):
+    '''
+    X_features와 y_target을 넣으면 기본 8:2로 분할하는 함수
+    사용 예제:
+        X_train, X_test, y_train, y_test = data_split(X_features, y_target)
+    '''
+    X_train = X_test = y_train = y_test = None
+
+    if X_features is not None and y_target is not None and len(X_features) > 0 and len(y_target) > 0:
+        try:
+            X_train, X_test, y_train, y_test = train_test_split(
+                X_features,
+                y_target,
+                test_size=size,
+                random_state=rs,
+                stratify=y_target
+            )
+        except ValueError as e:
+            print(f"데이터 분할 중 오류 발생: {e}")
+    else:
+        print('데이터를 입력하세요')
+
+    return X_train, X_test, y_train, y_test
+
+# eof ----------------------------------------------------------- #    

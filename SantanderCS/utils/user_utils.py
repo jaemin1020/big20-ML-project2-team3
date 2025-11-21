@@ -1,15 +1,31 @@
 import pandas as pd
 import numpy  as np 
 import os
+from datetime import datetime
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import precision_score, recall_score
 from sklearn.metrics import f1_score, roc_auc_score 
 from sklearn.model_selection import train_test_split
-from datetime import datetime
+from utils.model_utils   import save_model
 
 
-
-def get_clf_eval(y_test, pred, pred_proba, folder='results', model_name='model'):
+def get_clf_eval(y_test, pred, pred_proba, model_name='model', folder='results'):
+    '''
+        분류 모델의 평가 지표를 계산하고 결과를 파일로 저장
+        
+        Parameters:
+        -----------
+        y_test : array-like
+            실제 타겟 값
+        pred : array-like
+            예측 값
+        pred_proba : array-like
+            예측 확률 (Positive class)
+        model_name : str
+            모델 이름
+        folder : str
+            결과 저장 폴더명    
+    '''  
     confusion = confusion_matrix(y_test, pred) 
     accuracy  = accuracy_score(y_test, pred)
     precision = precision_score(y_test, pred)
@@ -23,40 +39,46 @@ def get_clf_eval(y_test, pred, pred_proba, folder='results', model_name='model')
         f"오차행렬:\n{confusion}"
     )
 
+    # 현재 작업 디렉토리 기준으로 상위 1단계 폴더를 루트로 설정
+    current_dir = os.getcwd()
+    project_root = os.path.abspath(os.path.join(current_dir, '..'))
+
     # 상위 폴더의 results 디렉토리 지정
     folder = os.path.abspath(os.path.join(os.getcwd(), '..', folder))
+    print(f'folder = {folder}')
     os.makedirs(folder, exist_ok=True)
 
-    today = datetime.now().strftime('%Y-%m-%d')
+    today = datetime.now().strftime('%Y%m%d')
     filename = f"{model_name}_{today}.txt"
     save_path = os.path.join(folder, filename)
 
     print(result_text)
     with open(save_path, 'w', encoding='utf-8') as f:
         f.write(result_text)
-
 # --- eof ------------------
     
-def get_model_train_eval(model, ftr_train=None, ftr_test=None, tgt_train=None, tgt_test=None):
+def get_model_train_eval(model, model_name, X_train=None, X_test=None, y_train=None, y_test=None):
     '''
         model별 학습, 예측값, 예측확율 구하기 
-        get_model_train_eval(lr_clf, X_train, X_test, y_train, y_test)
+        get_model_train_eval(lr_clf, 'model_name', X_train, X_test, y_train, y_test)
+     
     '''    
-    model.fit(ftr_train, tgt_train)
-    pred       = model.predict(ftr_test)
-    pred_proba = model.predict_proba(ftr_test)[:, 1] # Positive인 확률만 가져오기
+    model.fit(X_train, y_train)
+    save_model(model, model_name)
+    pred       = model.predict(X_test)
+    pred_proba = model.predict_proba(X_test)[:, 1] # Positive인 확률만 가져오기
     
-    get_clf_eval(tgt_test, pred, pred_proba)   
+    get_clf_eval(y_test, pred, pred_proba, model_name=model_name)   
 # -- eof ----------------------------------    
 
-def get_preprocssed_df(df=None):
+def get_preprocssed_df(df, columns):
   df_copy = df.copy()
   # 로그 변환
   amount_n = np.log1p(df_copy['Amount'])
   df_copy.insert(0, 'Amount_Scaled', amount_n)
   df_copy.drop(['Time', 'Amount'], axis=1, inplace=True)
   # 이상치 제거
-  outlier_index = get_outlier(df=df_copy, column='V14')
+  outlier_index = get_outlier(df=df_copy, columns=columns)
   df_copy.drop(outlier_index, axis=0, inplace=True)
   return df_copy
     
