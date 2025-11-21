@@ -39,3 +39,33 @@ AUC: 0.8503, 정확도: 0.8886, 정밀도: 0.1913, 재현율: 0.5615, F1: 0.2854
 오차행렬:
 [[13173  1429]
  [  264   338]]
+
+
+xgb_hopt.fit(X_train_scaled, y_train)
+proba_hopt = xgb_hopt.predict_proba(X_val_scaled)[:,1]
+
+get_model_train_eval(xgb_hopt, "XGB_100_HP",
+    X_train, X_val,
+    y_train, y_val
+)
+
+# threshold 탐색
+best_f1 = 0
+best_threshold = 0
+thresholds = np.arange(0.01, 0.50, 0.01)
+
+for thr in thresholds:
+    pred_thr = (proba_hopt >= thr).astype(int)
+    f1 = f1_score(y_val, pred_thr)
+    if f1 > best_f1:
+        best_f1 = f1
+        best_threshold = thr
+
+threshold_hopt = ThresholdModel(xgb_hopt, best_threshold)
+
+get_model_train_eval(
+    threshold_hopt,
+    f'XGB_100_HP_thr_{best_threshold:.2f}',
+    X_train, X_val,
+    y_train, y_val
+)
