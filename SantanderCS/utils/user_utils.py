@@ -1,10 +1,10 @@
 import pandas as pd
-import numpy  as np 
+import numpy  as np
 import os
 from datetime import datetime
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import precision_score, recall_score
-from sklearn.metrics import f1_score, roc_auc_score 
+from sklearn.metrics import f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 from utils.model_utils   import save_model
 
@@ -12,7 +12,7 @@ from utils.model_utils   import save_model
 def get_clf_eval(y_test, pred, pred_proba, model_name='model', folder='results'):
     '''
         분류 모델의 평가 지표를 계산하고 결과를 파일로 저장
-        
+
         Parameters:
         -----------
         y_test : array-like
@@ -24,9 +24,9 @@ def get_clf_eval(y_test, pred, pred_proba, model_name='model', folder='results')
         model_name : str
             모델 이름
         folder : str
-            결과 저장 폴더명    
-    '''  
-    confusion = confusion_matrix(y_test, pred) 
+            결과 저장 폴더명
+    '''
+    confusion = confusion_matrix(y_test, pred)
     accuracy  = accuracy_score(y_test, pred)
     precision = precision_score(y_test, pred)
     recall    = recall_score(y_test, pred)
@@ -56,20 +56,20 @@ def get_clf_eval(y_test, pred, pred_proba, model_name='model', folder='results')
     with open(save_path, 'w', encoding='utf-8') as f:
         f.write(result_text)
 # --- eof ------------------
-    
+
 def get_model_train_eval(model, model_name, X_train=None, X_test=None, y_train=None, y_test=None):
     '''
-        model별 학습, 예측값, 예측확율 구하기 
+        model별 학습, 예측값, 예측확율 구하기
         get_model_train_eval(lr_clf, 'model_name', X_train, X_test, y_train, y_test)
-     
-    '''    
+
+    '''
     model.fit(X_train, y_train)
     save_model(model, model_name)
     pred       = model.predict(X_test)
     pred_proba = model.predict_proba(X_test)[:, 1] # Positive인 확률만 가져오기
-    
-    get_clf_eval(y_test, pred, pred_proba, model_name=model_name)   
-# -- eof ----------------------------------    
+
+    get_clf_eval(y_test, pred, pred_proba, model_name=model_name)
+# -- eof ----------------------------------
 
 def get_preprocssed_df(df, columns):
   df_copy = df.copy()
@@ -81,15 +81,15 @@ def get_preprocssed_df(df, columns):
   outlier_index = get_outlier(df=df_copy, columns=columns)
   df_copy.drop(outlier_index, axis=0, inplace=True)
   return df_copy
-    
+
 # 학습/테스트 분리
 def get_train_test_dataset(df=None): # df : 원본 받아서, df_copy로 사용 dataset대신 df가 더 어울리는데..
   df_copy = get_preprocssed_df(df) # Time Feature drop
-  
+
   # data and label seperate
   X_features = df_copy.iloc[:, :-1]
   y_target   = df_copy.iloc[:, -1]
-  
+
   # learn/test data sperate
   X_train, X_test, y_train, y_test = train_test_split(
     X_features,
@@ -98,7 +98,7 @@ def get_train_test_dataset(df=None): # df : 원본 받아서, df_copy로 사용 
     random_state = 0,
     stratify=y_target # 불균형 데이터일 때 반드시 처리 필요!!! 중요해~
   )
-  return X_train, X_test, y_train, y_test    
+  return X_train, X_test, y_train, y_test
 
 
 def get_outlier(df, columns=None, weight=1.5): # weight=1.5 고정은 아니다! 존 튜키(John Tukey)
@@ -111,10 +111,10 @@ def get_outlier(df, columns=None, weight=1.5): # weight=1.5 고정은 아니다!
       Q1 = df.loc["25%"]
       Q3 = df.loc["75%"]
     iqr = Q3 - Q1
-    iqr_weight  = iqr * weight  
+    iqr_weight  = iqr * weight
     lower_bound = Q1 - iqr_weight
     upper_bound = Q3 + iqr_weight
-  
+
     # 이상치 마스킹 (컬럼별로)
     outlier_mask = pd.DataFrame(False, index=df.index, columns=df.columns)
 
@@ -133,10 +133,7 @@ def get_outlier(df, columns=None, weight=1.5): # weight=1.5 고정은 아니다!
         "UpperBound": upper_bound,
         "OutlierCount": outlier_mask.sum()
     })
-    
+
     return outlier_bounds
-  
+
 # -- eof -----
-
-
-
