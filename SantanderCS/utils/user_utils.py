@@ -1,13 +1,35 @@
+import os
+import sys
+
+# 현재 작업 디렉토리 기준으로 상위 1단계 폴더를 루트로 설정
+# current_dir  = os.getcwd()
+# project_root = os.path.abspath(os.path.join(current_dir, '..'))
+project_root = 'c:/big20/git/big20-ML-project2-team3/SantanderCS'
+
+# sys.path에 추가 (모듈 import용)
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+# print("프로젝트 루트로 설정된 경로:", project_root)
+# print(sys.path)
+
 import pandas as pd
 import numpy as np
-import os
 from datetime import datetime
 import time
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import precision_score, recall_score
 from sklearn.metrics import f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
+
+# import importlib
+
+# from . import model_utils
+# importlib.reload(model_utils)
+
+
+# # 수정된 함수 불러오기
 from utils.model_utils import save_model
+
 
 
 def get_clf_eval(

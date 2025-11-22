@@ -14,7 +14,7 @@ from pathlib import Path
 from datetime import datetime
 
 # SOF ------------------------------------------------------------------------- #
-def save_model(model, model_name, folder='models', add_timestamp=False):
+def save_model(model, model_name, folder='../models', add_timestamp=False):
     """
     학습된 모델을 pickle 파일로 저장
     
@@ -71,7 +71,7 @@ def save_model(model, model_name, folder='models', add_timestamp=False):
         return None
 # EOF ------------------------------------------------------------------------- #
 
-def load_model(model_name, folder='models'):
+def load_model(model_name, folder='../models'):
     """
     저장된 모델을 pickle 파일에서 불러오기
     
@@ -119,7 +119,7 @@ def load_model(model_name, folder='models'):
         return None
 # EOF ------------------------------------------------------------------------- #
 
-def list_saved_models(folder='models'):
+def list_saved_models(folder='../models'):
     """
     저장된 모델 목록 출력
     
@@ -159,7 +159,7 @@ def list_saved_models(folder='models'):
     return pkl_files
 # EOF ------------------------------------------------------------------------- #
 
-def delete_model(model_name, folder='models'):
+def delete_model(model_name, folder='../models'):
     """
     저장된 모델 삭제
     
