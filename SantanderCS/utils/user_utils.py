@@ -4,7 +4,7 @@ import sys
 # 현재 작업 디렉토리 기준으로 상위 1단계 폴더를 루트로 설정
 # current_dir  = os.getcwd()
 # project_root = os.path.abspath(os.path.join(current_dir, '..'))
-project_root = 'c:/big20/git/big20-ML-project2-team3/SantanderCS'
+project_root = "c:/big20/git/big20-ML-project2-team3/SantanderCS"
 
 # sys.path에 추가 (모듈 import용)
 if project_root not in sys.path:
@@ -31,9 +31,14 @@ from sklearn.model_selection import train_test_split
 from utils.model_utils import save_model
 
 
-
 def get_clf_eval(
-    y_test, pred, pred_proba, model_name="model", folder="results", exec_time=None
+    y_test,
+    pred,
+    pred_proba,
+    model_name="model",
+    folder="results",
+    exec_time=None,
+    HO_params=None,
 ):
     """
     분류 모델의 평가 지표를 계산하고 결과를 파일로 저장
@@ -52,6 +57,8 @@ def get_clf_eval(
         결과 저장 폴더명
     exec_time : float, optional
         실행 시간 (초)
+    HO : dictionary
+        하이퍼파라미터 값
 
     Returns:
     --------
@@ -71,6 +78,8 @@ def get_clf_eval(
     )
     if exec_time is not None:
         result_text += f"\n실행 시간: {exec_time}"
+    if HO_params is not None:
+        result_text += f"\n하이퍼파라미터: {HO_params}"
 
     # 현재 작업 디렉토리 기준으로 상위 1단계 폴더를 루트로 설정
     current_dir = os.getcwd()
@@ -97,7 +106,7 @@ def get_model_train_eval(
     model, model_name, X_train=None, X_test=None, y_train=None, y_test=None
 ):
     """
-    model별 학습, 예측값, 예측확율 구하기
+    model별 HyperOpt수치, 학습, 예측값, 예측확율 구하기
     get_model_train_eval(lr_clf, 'model_name', X_train, X_test, y_train, y_test)
 
     """
@@ -110,6 +119,41 @@ def get_model_train_eval(
     exec_time = end_time - start_time
 
     get_clf_eval(y_test, pred, pred_proba, model_name=model_name, exec_time=exec_time)
+
+
+# -- eof ----------------------------------
+
+
+def get_model_HO_train_eval(
+    model,
+    model_name,
+    X_train=None,
+    X_test=None,
+    y_train=None,
+    y_test=None,
+    hyperopt_params=None,
+):
+    """
+     학습, 예측값, 예측확율, HyperOpt 파라미터 구하기
+    get_model_train_eval(lr_clf, 'model_name', X_train, X_test, y_train, y_test, hyperopt_params)
+
+    """
+    start_time = time.time()  # 시작 시간 기록
+    model.fit(X_train, y_train)
+    save_model(model, model_name)
+    pred = model.predict(X_test)
+    pred_proba = model.predict_proba(X_test)[:, 1]  # Positive인 확률만 가져오기
+    end_time = time.time()  # 종료 시간기록
+    exec_time = end_time - start_time
+
+    get_clf_eval(
+        y_test,
+        pred,
+        pred_proba,
+        model_name=model_name,
+        exec_time=exec_time,
+        HO_params=hyperopt_params,
+    )
 
 
 # -- eof ----------------------------------
