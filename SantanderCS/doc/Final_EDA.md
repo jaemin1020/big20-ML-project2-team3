@@ -8,9 +8,14 @@
 2. 각 Feature의 값들의 zero_count_rate > 99%인 Feature 삭제 : 220개 - remove_cols_0.99.txt
 
 3. 결측치로 예상되는 Feature "var3" 는  최빈값인 '2' 로 치환
+``` python
     # var3 처리
     X_features['var3'] = X_features['var3'].replace(-999999, 2)
     X_test['var3'] = X_test['var3'].replace(-999999, 2)
+
+    # var15처리 5개 컬럼
+    X_features['var15'] = X_features['var15'].clip(upper=100)    
+```    
 
 4. 각 Feataure긴 상관관계 계산해서 > 95% 이상인 Feature 삭제 : 283개 - remove_train_0.95.txt
 
