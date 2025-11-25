@@ -44,9 +44,10 @@ lgbm_best_param = {
 # LR
 meta_best_params = {
     "random_state": 23,
-    "max_iter": 500,  #1000,
-    "C": 0.040,  # 0.029,
-    "penalty": "l2",
-    "solver": "lbfgs",
-    "class_weight": "balanced",
+    'C': np.float64(0.040779926643605094), 
+    'class_weight': None, 
+    'max_iter': int(500.0), 
+    'penalty': 'l2', 
+    'solver': 'lbfgs',
+    "n_jobs": -1
 }
