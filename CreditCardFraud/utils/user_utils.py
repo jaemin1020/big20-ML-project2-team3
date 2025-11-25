@@ -21,6 +21,8 @@ from sklearn.metrics import precision_score, recall_score
 from sklearn.metrics import f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 
+from functools import partial
+from typing import Dict, Any, Callable
 from hyperopt import hp
 from hyperopt import fmin, tpe, Trials, STATUS_OK
 from hyperopt import space_eval
@@ -242,165 +244,194 @@ def get_outlier(
 
 
 # -- eof -----
-MAX_EVALS = 100
 
 
-def lr_objective(params, X_train, y_train, X_val, y_val):
-    """LogisticRegression 목적함수"""
-    lr = LogisticRegression(**params)
-    lr.fit(X_train, y_train)
-    roc_auc = roc_auc_score(y_val, lr.predict_proba(X_val)[:, 1])
-    return {"loss": -roc_auc, "status": STATUS_OK}
+class HyperOptTuner:
+    """HyperOpt을 사용한 하이퍼파라미터 튜닝 클래스
+    사용법
+    # 튜너 초기화
+    tuner = HyperOptTuner(max_evals=100, metric='roc_auc', random_state=42)
 
+    # RandomForest 예시
+    rf_search_space = {
+        'n_estimators': hp.quniform('n_estimators', 100, 500, 50),
+        'max_depth': hp.quniform('max_depth', 3, 15, 1),
+        'min_samples_split': hp.quniform('min_samples_split', 2, 20, 1),
+        'min_samples_leaf': hp.quniform('min_samples_leaf', 1, 10, 1)
+    }
 
-def rf_objective(params, X_train, y_train, X_val, y_val):
-    """RandomForest 목적 함수"""
-    params["n_estimators"] = int(params["n_estimators"])
-    params["max_depth"] = int(params["max_depth"])
-    params["min_samples_leaf"] = int(params["min_samples_leaf"])
-    params["min_samples_split"] = int(params["min_samples_split"])
+    rf = RandomForestClassifier()
+    best_params, best_model, trials, exec_time = tuner.tune(
+        rf, X_train, y_train, X_val, y_val, rf_search_space
+    )
+    get_model_HO_train_eval(best_model, "rf_HyperOpt", X_train, X_val, y_train, y_val, best_params)
+    """
 
-    rf = RandomForestClassifier(**params, random_state=23, n_jobs=-1)
+    # 모델별 정수형 파라미터 정의
+    INT_PARAMS = {
+        "RandomForestClassifier": [
+            "n_estimators",
+            "max_depth",
+            "min_samples_leaf",
+            "min_samples_split",
+        ],
+        "XGBClassifier": ["max_depth", "n_estimators", "min_child_weight"],
+        "LGBMClassifier": [
+            "max_depth",
+            "n_estimators",
+            "min_child_weight",
+            "num_leaves",
+        ],
+    }
 
-    rf.fit(X_train, y_train)
-    roc_auc = roc_auc_score(y_val, rf.predict_proba(X_val)[:, 1])
+    # 모델별 고정 파라미터
+    FIXED_PARAMS = {
+        "RandomForestClassifier": {"random_state": 42, "n_jobs": -1},
+        "XGBClassifier": {"random_state": 42},
+        "LGBMClassifier": {"random_state": 42, "n_jobs": -1},
+    }
 
-    return {"loss": -roc_auc, "status": STATUS_OK}
+    def __init__(
+        self, max_evals: int = 100, metric: str = "roc_auc", random_state: int = 42
+    ):
+        """
+        Args:
+            max_evals: 최대 평가 횟수
+            metric: 평가 지표 ('roc_auc', 'accuracy', 'f1' 등)
+            random_state: 랜덤 시드
+        """
+        self.max_evals = max_evals
+        self.metric = metric
+        self.random_state = random_state
 
+    @staticmethod
+    def _convert_int_params(
+        params: Dict[str, Any], int_param_names: list
+    ) -> Dict[str, Any]:
+        """정수형 파라미터 변환"""
+        converted = params.copy()
+        for param in int_param_names:
+            if param in converted:
+                converted[param] = int(converted[param])
+        return converted
 
-def xgb_objective(params, X_train, y_train, X_val, y_val):
-    """XGBoost 목적 함수"""
-    params["max_depth"] = int(params["max_depth"])
-    params["n_estimators"] = int(params["n_estimators"])
-    params["min_child_weight"] = int(params["min_child_weight"])
+    def _get_metric_score(self, y_true, y_pred_proba):
+        """평가 지표 계산"""
+        if self.metric == "roc_auc":
+            return roc_auc_score(y_true, y_pred_proba[:, 1])
+        # 다른 메트릭 추가 가능
+        else:
+            raise ValueError(f"Unsupported metric: {self.metric}")
 
-    xgb = XGBClassifier(**params)
+    def _objective(
+        self, params: Dict[str, Any], model_class: type, X_train, y_train, X_val, y_val
+    ) -> Dict[str, Any]:
+        """통합 목적 함수"""
+        try:
+            model_name = model_class.__name__
 
-    xgb.fit(X_train, y_train)
-    roc_auc = roc_auc_score(y_val, xgb.predict_proba(X_val)[:, 1])
+            # 정수형 파라미터 변환
+            if model_name in self.INT_PARAMS:
+                params = self._convert_int_params(params, self.INT_PARAMS[model_name])
 
-    return {"loss": -roc_auc, "status": STATUS_OK}
+            # 고정 파라미터 추가
+            if model_name in self.FIXED_PARAMS:
+                params.update(self.FIXED_PARAMS[model_name])
 
+            # 모델 학습
+            model = model_class(**params)
+            model.fit(X_train, y_train)
 
-def lgbm_objective(params, X_train, y_train, X_val, y_val):
-    """LightGBM 목적 함수"""
-    params["max_depth"] = int(params["max_depth"])
-    params["n_estimators"] = int(params["n_estimators"])
-    params["min_child_weight"] = int(params["min_child_weight"])
-    params["num_leaves"] = int(params["num_leaves"])
+            # 평가
+            y_pred_proba = model.predict_proba(X_val)
+            score = self._get_metric_score(y_val, y_pred_proba)
 
-    lgbm = LGBMClassifier(**params)
+            return {"loss": -score, "status": STATUS_OK}
 
-    lgbm.fit(X_train, y_train)
-    roc_auc = roc_auc_score(y_val, lgbm.predict_proba(X_val)[:, 1])
+        except Exception as e:
+            print(f"Error in objective function: {str(e)}")
+            return {"loss": float("inf"), "status": STATUS_OK}
 
-    return {"loss": -roc_auc, "status": STATUS_OK}
+    def tune(
+        self,
+        model,
+        X_train,
+        y_train,
+        X_val,
+        y_val,
+        search_space: Dict[str, Any],
+        verbose: bool = True,
+    ) -> tuple:
+        """
+        하이퍼파라미터 튜닝 실행
 
+        Args:
+            model: 튜닝할 모델 인스턴스
+            X_train, y_train: 학습 데이터
+            X_val, y_val: 검증 데이터
+            search_space: HyperOpt 탐색 공간
+            verbose: 진행 상황 출력 여부
 
-def HyperOpt_Tune(model, X_train, y_train, X_val, y_val, search_space):
-    if model.__class__.__name__ == "LogisticRegression":
-        start_time = time.time()  # 시작 시간 기록
-        lr_trials = Trials()
-        best_lr = fmin(
-            fn=lambda params: lr_objective(params, X_train, y_train, X_val, y_val),
-            space=search_space,
-            algo=tpe.suggest,
-            max_evals=MAX_EVALS,
-            trials=lr_trials,
-            rstate=np.random.default_rng(seed=42),
-        )
-        end_time = time.time()
-        exec_time = end_time - start_time
-        print(f"튜닝 시간{exec_time:.2f}초")
-        print("최적 하이퍼파라미터 : ", best_lr)
+        Returns:
+            (best_params, best_model, trials, exec_time)
+        """
+        model_class = type(model)
+        model_name = model_class.__name__
 
-        best_lr = space_eval(search_space, best_lr)
+        if verbose:
+            print(f"\n{'='*50}")
+            print(f"{model_name} 튜닝 시작")
+            print(f"{'='*50}")
 
-        lr_best = LogisticRegression(**best_lr)
-
-        get_model_train_eval(lr_best, "lr_HyperOpt_ejm", X_train, X_val, y_train, y_val)
-
-    elif model.__class__.__name__ == "RandomForestClassifier":
+        # 튜닝 실행
         start_time = time.time()
-        rf_trials = Trials()
-        best_rf = fmin(
-            fn=lambda params: rf_objective(params, X_train, y_train, X_val, y_val),
+        trials = Trials()
+
+        objective_fn = partial(
+            self._objective,
+            model_class=model_class,
+            X_train=X_train,
+            y_train=y_train,
+            X_val=X_val,
+            y_val=y_val,
+        )
+
+        best_params = fmin(
+            fn=objective_fn,
             space=search_space,
             algo=tpe.suggest,
-            max_evals=MAX_EVALS,
-            trials=rf_trials,
-            rstate=np.random.default_rng(seed=42),
+            max_evals=self.max_evals,
+            trials=trials,
+            rstate=np.random.default_rng(seed=self.random_state),
+            verbose=verbose,
         )
-        end_time = time.time()
-        exec_time = end_time - start_time
-        print(f"튜닝 시간{exec_time:.2f}초")
-        print("최적 하이퍼파라미터 : ", best_rf)
 
-        best_rf = space_eval(search_space, best_rf)
+        exec_time = time.time() - start_time
 
-        best_rf["n_estimators"] = int(best_rf["n_estimators"])
-        best_rf["max_depth"] = int(best_rf["max_depth"])
-        best_rf["min_samples_leaf"] = int(best_rf["min_samples_leaf"])
-        best_rf["min_samples_split"] = int(best_rf["min_samples_split"])
+        # 최적 파라미터 변환
+        best_params = space_eval(search_space, best_params)
 
-        rf_best = RandomForestClassifier(**best_rf, random_state=23, n_jobs=-1)
+        # 정수형 파라미터 변환
+        if model_name in self.INT_PARAMS:
+            best_params = self._convert_int_params(
+                best_params, self.INT_PARAMS[model_name]
+            )
 
-        get_model_train_eval(rf_best, "rf_HyperOpt_ejm", X_train, X_val, y_train, y_val)
-    elif model.__class__.__name__ == "XGBClassifier":
-        start_time = time.time()
-        xgb_trials = Trials()
-        best_xgb = fmin(
-            fn=lambda params: xgb_objective(params, X_train, y_train, X_val, y_val),
-            space=search_space,
-            algo=tpe.suggest,
-            max_evals=MAX_EVALS,
-            trials=xgb_trials,
-            rstate=np.random.default_rng(seed=42),
-        )
-        end_time = time.time()
-        exec_time = end_time - start_time
-        print(f"튜닝 시간{exec_time:.2f}초")
-        print("최적 하이퍼파라미터 : ", best_xgb)
+        # 고정 파라미터 추가
+        if model_name in self.FIXED_PARAMS:
+            best_params.update(self.FIXED_PARAMS[model_name])
 
-        best_xgb = space_eval(search_space, best_xgb)
+        # 최적 모델 생성
+        best_model = model_class(**best_params)
 
-        best_xgb["max_depth"] = int(best_xgb["max_depth"])
-        best_xgb["n_estimators"] = int(best_xgb["n_estimators"])
-        best_xgb["min_child_weight"] = int(best_xgb["min_child_weight"])
+        if verbose:
+            print(f"\n튜닝 시간: {exec_time:.2f}초")
+            print(f"최적 {self.metric}: {-trials.best_trial['result']['loss']:.4f}")
+            print(f"최적 하이퍼파라미터:")
+            for key, value in best_params.items():
+                print(f"-{key}: {value}")
 
-        xgb_best = XGBClassifier(**best_xgb)
-
-        get_model_train_eval(
-            xgb_best, "xgb_HyperOpt_ejm", X_train, X_val, y_train, y_val
-        )
-    elif model.__class__.__name__ == "LGBMClassifier":
-        start_time = time.time()
-        lgbm_trials = Trials()
-        best_lgbm = fmin(
-            fn=lambda params: lgbm_objective(params, X_train, y_train, X_val, y_val),
-            space=search_space,
-            algo=tpe.suggest,
-            max_evals=MAX_EVALS,
-            trials=lgbm_trials,
-            rstate=np.random.default_rng(seed=42),
-        )
-        end_time = time.time()  # 종료 시간기록
-        exec_time = end_time - start_time
-        print(f"튜닝 시간{exec_time:.2f}초")
-        print("최적 하이퍼파라미터 : ", best_lgbm)
-
-        best_lgbm = space_eval(search_space, best_lgbm)
-
-        best_lgbm["max_depth"] = int(best_lgbm["max_depth"])
-        best_lgbm["n_estimators"] = int(best_lgbm["n_estimators"])
-        best_lgbm["min_child_weight"] = int(best_lgbm["min_child_weight"])
-        best_lgbm["num_leaves"] = int(best_lgbm["num_leaves"])
-
-        lgbm_best = LGBMClassifier(**best_lgbm)
-
-        get_model_train_eval(
-            lgbm_best, "lgbm_HyperOpt_ejm", X_train, X_val, y_train, y_val
-        )
+        return best_params, best_model, trials, exec_time
 
 
 # -- eof -----
