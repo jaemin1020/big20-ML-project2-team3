@@ -114,7 +114,13 @@ def get_clf_eval(
 
 
 def get_model_train_eval(
-    model, model_name, X_train=None, X_test=None, y_train=None, y_test=None
+    model,
+    model_name,
+    X_train=None,
+    X_test=None,
+    y_train=None,
+    y_test=None,
+    hyperopt_params=None,
 ):
     """
     model별 HyperOpt수치, 학습, 예측값, 예측확율 구하기
@@ -129,42 +135,19 @@ def get_model_train_eval(
     end_time = time.time()  # 종료 시간기록
     exec_time = end_time - start_time
 
-    get_clf_eval(y_test, pred, pred_proba, model_name=model_name, exec_time=exec_time)
-
-
-# -- eof ----------------------------------
-
-
-def get_model_HO_train_eval(
-    model,
-    model_name,
-    X_train=None,
-    X_test=None,
-    y_train=None,
-    y_test=None,
-    hyperopt_params=None,
-):
-    """
-     학습, 예측값, 예측확율, HyperOpt 파라미터 구하기
-    get_model_train_eval(lr_clf, 'model_name', X_train, X_test, y_train, y_test, hyperopt_params)
-
-    """
-    start_time = time.time()  # 시작 시간 기록
-    model.fit(X_train, y_train)
-    save_model(model, model_name)
-    pred = model.predict(X_test)
-    pred_proba = model.predict_proba(X_test)[:, 1]  # Positive인 확률만 가져오기
-    end_time = time.time()  # 종료 시간기록
-    exec_time = end_time - start_time
-
-    get_clf_eval(
-        y_test,
-        pred,
-        pred_proba,
-        model_name=model_name,
-        exec_time=exec_time,
-        HO_params=hyperopt_params,
-    )
+    if hyperopt_params:
+        get_clf_eval(
+            y_test,
+            pred,
+            pred_proba,
+            model_name=model_name,
+            exec_time=exec_time,
+            HO_params=hyperopt_params,
+        )
+    else:
+        get_clf_eval(
+            y_test, pred, pred_proba, model_name=model_name, exec_time=exec_time
+        )
 
 
 # -- eof ----------------------------------
@@ -264,7 +247,7 @@ class HyperOptTuner:
     best_params, best_model, trials, exec_time = tuner.tune(
         rf, X_train, y_train, X_val, y_val, rf_search_space
     )
-    get_model_HO_train_eval(best_model, "rf_HyperOpt", X_train, X_val, y_train, y_val, best_params)
+    get_model_train_eval(best_model, "rf_HyperOpt", X_train, X_val, y_train, y_val, best_params)
     """
 
     # 모델별 정수형 파라미터 정의
