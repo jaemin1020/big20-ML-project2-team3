@@ -21,6 +21,10 @@ from sklearn.metrics import precision_score, recall_score
 from sklearn.metrics import f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 
+from hyperopt import hp
+from hyperopt import fmin, tpe, Trials, STATUS_OK
+from hyperopt import space_eval
+
 # import importlib
 
 # from . import model_utils
@@ -233,3 +237,23 @@ def get_outlier(
 
 
 # -- eof -----
+
+
+def lr_objective(params):
+    """LogisticRegression 목적함수"""
+    model = LogisticRegression(**params)
+    model.fit(X_train, y_train)
+
+
+def HyperOpt_Tune(model, X_train, y_train):
+    if model.__class__.__name__ == "LogisticRegression":
+        start_time = time.time()
+        lr_trials = Trials()
+        best_lr = fmin(
+            fn=lr_objective,
+            space=lr_space,
+            algo=tpe.suggest,
+            max_evals=100,
+            trials=lr_trials,
+            rstate=np.random.default_rng(seed=42),
+        )
