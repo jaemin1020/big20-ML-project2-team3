@@ -25,6 +25,11 @@ from hyperopt import hp
 from hyperopt import fmin, tpe, Trials, STATUS_OK
 from hyperopt import space_eval
 
+from xgboost import XGBClassifier
+from lightgbm import LGBMClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+
 # import importlib
 
 # from . import model_utils
@@ -237,23 +242,165 @@ def get_outlier(
 
 
 # -- eof -----
+MAX_EVALS = 100
 
 
-def lr_objective(params):
+def lr_objective(params, X_train, y_train, X_val, y_val):
     """LogisticRegression 목적함수"""
-    model = LogisticRegression(**params)
-    model.fit(X_train, y_train)
+    lr = LogisticRegression(**params)
+    lr.fit(X_train, y_train)
+    roc_auc = roc_auc_score(y_val, lr.predict_proba(X_val)[:, 1])
+    return {"loss": -roc_auc, "status": STATUS_OK}
 
 
-def HyperOpt_Tune(model, X_train, y_train):
+def rf_objective(params, X_train, y_train, X_val, y_val):
+    """RandomForest 목적 함수"""
+    params["n_estimators"] = int(params["n_estimators"])
+    params["max_depth"] = int(params["max_depth"])
+    params["min_samples_leaf"] = int(params["min_samples_leaf"])
+    params["min_samples_split"] = int(params["min_samples_split"])
+
+    rf = RandomForestClassifier(**params, random_state=23, n_jobs=-1)
+
+    rf.fit(X_train, y_train)
+    roc_auc = roc_auc_score(y_val, rf.predict_proba(X_val)[:, 1])
+
+    return {"loss": -roc_auc, "status": STATUS_OK}
+
+
+def xgb_objective(params, X_train, y_train, X_val, y_val):
+    """XGBoost 목적 함수"""
+    params["max_depth"] = int(params["max_depth"])
+    params["n_estimators"] = int(params["n_estimators"])
+    params["min_child_weight"] = int(params["min_child_weight"])
+
+    xgb = XGBClassifier(**params)
+
+    xgb.fit(X_train, y_train)
+    roc_auc = roc_auc_score(y_val, xgb.predict_proba(X_val)[:, 1])
+
+    return {"loss": -roc_auc, "status": STATUS_OK}
+
+
+def lgbm_objective(params, X_train, y_train, X_val, y_val):
+    """LightGBM 목적 함수"""
+    params["max_depth"] = int(params["max_depth"])
+    params["n_estimators"] = int(params["n_estimators"])
+    params["min_child_weight"] = int(params["min_child_weight"])
+    params["num_leaves"] = int(params["num_leaves"])
+
+    lgbm = LGBMClassifier(**params)
+
+    lgbm.fit(X_train, y_train)
+    roc_auc = roc_auc_score(y_val, lgbm.predict_proba(X_val)[:, 1])
+
+    return {"loss": -roc_auc, "status": STATUS_OK}
+
+
+def HyperOpt_Tune(model, X_train, y_train, X_val, y_val, search_space):
     if model.__class__.__name__ == "LogisticRegression":
-        start_time = time.time()
+        start_time = time.time()  # 시작 시간 기록
         lr_trials = Trials()
         best_lr = fmin(
-            fn=lr_objective,
-            space=lr_space,
+            fn=lambda params: lr_objective(params, X_train, y_train, X_val, y_val),
+            space=search_space,
             algo=tpe.suggest,
-            max_evals=100,
+            max_evals=MAX_EVALS,
             trials=lr_trials,
             rstate=np.random.default_rng(seed=42),
         )
+        end_time = time.time()
+        exec_time = end_time - start_time
+        print(f"튜닝 시간{exec_time:.2f}초")
+        print("최적 하이퍼파라미터 : ", best_lr)
+
+        best_lr = space_eval(search_space, best_lr)
+
+        lr_best = LogisticRegression(**best_lr)
+
+        get_model_train_eval(lr_best, "lr_HyperOpt_ejm", X_train, X_val, y_train, y_val)
+
+    elif model.__class__.__name__ == "RandomForestClassifier":
+        start_time = time.time()
+        rf_trials = Trials()
+        best_rf = fmin(
+            fn=lambda params: rf_objective(params, X_train, y_train, X_val, y_val),
+            space=search_space,
+            algo=tpe.suggest,
+            max_evals=MAX_EVALS,
+            trials=rf_trials,
+            rstate=np.random.default_rng(seed=42),
+        )
+        end_time = time.time()
+        exec_time = end_time - start_time
+        print(f"튜닝 시간{exec_time:.2f}초")
+        print("최적 하이퍼파라미터 : ", best_rf)
+
+        best_rf = space_eval(search_space, best_rf)
+
+        best_rf["n_estimators"] = int(best_rf["n_estimators"])
+        best_rf["max_depth"] = int(best_rf["max_depth"])
+        best_rf["min_samples_leaf"] = int(best_rf["min_samples_leaf"])
+        best_rf["min_samples_split"] = int(best_rf["min_samples_split"])
+
+        rf_best = RandomForestClassifier(**best_rf, random_state=23, n_jobs=-1)
+
+        get_model_train_eval(rf_best, "rf_HyperOpt_ejm", X_train, X_val, y_train, y_val)
+    elif model.__class__.__name__ == "XGBClassifier":
+        start_time = time.time()
+        xgb_trials = Trials()
+        best_xgb = fmin(
+            fn=lambda params: xgb_objective(params, X_train, y_train, X_val, y_val),
+            space=search_space,
+            algo=tpe.suggest,
+            max_evals=MAX_EVALS,
+            trials=xgb_trials,
+            rstate=np.random.default_rng(seed=42),
+        )
+        end_time = time.time()
+        exec_time = end_time - start_time
+        print(f"튜닝 시간{exec_time:.2f}초")
+        print("최적 하이퍼파라미터 : ", best_xgb)
+
+        best_xgb = space_eval(search_space, best_xgb)
+
+        best_xgb["max_depth"] = int(best_xgb["max_depth"])
+        best_xgb["n_estimators"] = int(best_xgb["n_estimators"])
+        best_xgb["min_child_weight"] = int(best_xgb["min_child_weight"])
+
+        xgb_best = XGBClassifier(**best_xgb)
+
+        get_model_train_eval(
+            xgb_best, "xgb_HyperOpt_ejm", X_train, X_val, y_train, y_val
+        )
+    elif model.__class__.__name__ == "LGBMClassifier":
+        start_time = time.time()
+        lgbm_trials = Trials()
+        best_lgbm = fmin(
+            fn=lambda params: lgbm_objective(params, X_train, y_train, X_val, y_val),
+            space=search_space,
+            algo=tpe.suggest,
+            max_evals=MAX_EVALS,
+            trials=lgbm_trials,
+            rstate=np.random.default_rng(seed=42),
+        )
+        end_time = time.time()  # 종료 시간기록
+        exec_time = end_time - start_time
+        print(f"튜닝 시간{exec_time:.2f}초")
+        print("최적 하이퍼파라미터 : ", best_lgbm)
+
+        best_lgbm = space_eval(search_space, best_lgbm)
+
+        best_lgbm["max_depth"] = int(best_lgbm["max_depth"])
+        best_lgbm["n_estimators"] = int(best_lgbm["n_estimators"])
+        best_lgbm["min_child_weight"] = int(best_lgbm["min_child_weight"])
+        best_lgbm["num_leaves"] = int(best_lgbm["num_leaves"])
+
+        lgbm_best = LGBMClassifier(**best_lgbm)
+
+        get_model_train_eval(
+            lgbm_best, "lgbm_HyperOpt_ejm", X_train, X_val, y_train, y_val
+        )
+
+
+# -- eof -----
