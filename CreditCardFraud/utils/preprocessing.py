@@ -1,8 +1,13 @@
 import os
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+from sklearn.preprocessing   import StandardScaler
+from sklearn.preprocessing   import RobustScaler
+from sklearn.model_selection import train_test_split
+
+
 
 # sof : Start of function ------------------------------------------------------ #
 def ccf_load_data(train_path="../data/creditcard.csv"):
@@ -549,6 +554,120 @@ def data_split(X_features, y_target, size=0.2, rs=23):
         print("데이터를 입력하세요")
 
     return X_train, X_test, y_train, y_test
+# eof ----------------------------------------------------------- #
 
+def robustScaler(df, cols=['Amount', 'Time'], isDropCols=True):
+    """
+    RobustScaler를 사용하여 지정된 컬럼들을 스케일링
+    
+    RobustScaler는 중앙값(median)과 IQR(Interquartile Range)을 사용하여
+    이상치(outlier)에 강건한 스케일링을 수행합니다.
+    
+    Parameters:
+    -----------
+    df : DataFrame
+        스케일링할 데이터프레임
+    cols : list, default=['Amount', 'Time']
+        스케일링할 컬럼 리스트
+    isDropCols : bool, default=True
+        원본 컬럼 제거 여부
+        - True: 원본 컬럼 제거, '_scaled' 컬럼만 유지
+        - False: 원본 컬럼 유지, '_scaled' 컬럼 추가
+    
+    Returns:
+    --------
+    DataFrame
+        스케일링이 완료된 데이터프레임 복사본
+    
+    주의사항:
+    ---------
+    - 원본 df는 변경되지 않고, 복사본을 반환
+    - 각 컬럼마다 별도의 scaler를 fit (독립적 스케일링)
+    - 수치형 컬럼에만 사용 가능
+    
+    사용 예시:
+    ----------
+    >>> # 기본 사용 (원본 컬럼 제거)
+    >>> df_scaled = robustScaler(df)
+    
+    >>> # 원본 컬럼 유지
+    >>> df_scaled = robustScaler(df, isDropCols=False)
+    
+    >>> # 특정 컬럼만 스케일링
+    >>> df_scaled = robustScaler(df, cols=['Amount'])
+    
+    >>> # 여러 컬럼 스케일링
+    >>> df_scaled = robustScaler(df, cols=['Amount', 'Time', 'V1', 'V2'])
+    """
+    try:
+        # 1. DataFrame validation
+        if df is None:
+            raise ValueError("df가 None입니다.")
+        
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError(f"df는 pandas DataFrame이어야 합니다. 현재 타입: {type(df).__name__}")
+        
+        if df.empty:
+            raise ValueError("빈 데이터프레임입니다.")
+        
+        # 2. cols validation
+        if not cols:
+            raise ValueError("스케일링할 컬럼이 지정되지 않았습니다.")
+        
+        if not isinstance(cols, list):
+            raise TypeError(f"cols는 list 타입이어야 합니다. 현재 타입: {type(cols).__name__}")
+        
+        # 3. 원본 보호를 위한 복사본 생성
+        df_scaled = df.copy()
+        
+        # 4. 존재하지 않는 컬럼 확인
+        missing_cols = [col for col in cols if col not in df_scaled.columns]
+        if missing_cols:
+            raise KeyError(f"다음 컬럼이 데이터프레임에 없습니다: {missing_cols}")
+        
+        # 5. 각 컬럼 스케일링
+        scaled_cols = []
+        for col in cols:
+            try:
+                # 수치형 확인
+                if not pd.api.types.is_numeric_dtype(df_scaled[col]):
+                    print(f"⚠️ 경고: '{col}'은 수치형이 아닙니다. 스킵합니다. (dtype: {df_scaled[col].dtype})")
+                    continue
+                
+                # 결측치 확인
+                if df_scaled[col].isnull().any():
+                    print(f"⚠️ 경고: '{col}'에 결측치가 있습니다. (개수: {df_scaled[col].isnull().sum()})")
+                    # 결측치가 있어도 스케일링은 진행 (RobustScaler가 처리)
+                
+                # 스케일링 수행 (각 컬럼마다 별도 scaler 사용)
+                scaler = RobustScaler()
+                df_scaled[f'{col}_scaled'] = scaler.fit_transform(
+                    df_scaled[col].values.reshape(-1, 1)
+                )
+                scaled_cols.append(col)
+                
+                print(f"✅ '{col}' 스케일링 완료 → '{col}_scaled'")
+                
+            except Exception as e:
+                print(f"❌ '{col}' 스케일링 중 오류: {e}")
+                continue
+        
+        # 6. 스케일링 성공 확인
+        if not scaled_cols:
+            raise ValueError("스케일링된 컬럼이 하나도 없습니다.")
+        
+        # 7. 원본 컬럼 제거
+        if isDropCols:
+            df_scaled = df_scaled.drop(scaled_cols, axis=1)
+            print(f"\n🗑️  원본 컬럼 제거: {scaled_cols}")
+        
+        print(f"\n✅ 스케일링 완료: {len(scaled_cols)}개 컬럼")
+        print(f"   최종 shape: {df_scaled.shape}")
+        
+        return df_scaled
+    
+    except Exception as e:
+        print(f"❌ robustScaler 함수 실행 중 오류 발생: {e}")
+        raise
 
 # eof ----------------------------------------------------------- #
