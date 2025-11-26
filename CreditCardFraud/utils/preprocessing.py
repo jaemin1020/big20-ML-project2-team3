@@ -1,12 +1,14 @@
+# preprocessing.py 데이터 전처리 함수 
 import os
 import pandas as pd
+import numpy  as np 
+import datetime
 import matplotlib.pyplot as plt
-import seaborn as sns
+import seaborn           as sns
 
 from sklearn.preprocessing   import StandardScaler
 from sklearn.preprocessing   import RobustScaler
 from sklearn.model_selection import train_test_split
-
 
 
 # sof : Start of function ------------------------------------------------------ #
@@ -671,3 +673,208 @@ def robustScaler(df, cols=['Amount', 'Time'], isDropCols=True):
         raise
 
 # eof ----------------------------------------------------------- #
+
+def corrGraph(df, compCol='Time', title='Correlation Matrix of Features', threshold=0.7):
+    """
+    데이터프레임의 상관관계를 분석하고 시각화하는 함수.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        분석할 데이터프레임.
+    compCol : str, optional (default='Time')
+        특정 변수와의 상관관계를 별도로 출력할 기준 컬럼명.
+    title : str, optional (default='Correlation Matrix of Features')
+        상관관계 히트맵의 제목.
+    threshold : float, optional (default=0.7)
+        높은 상관관계로 판단할 절댓값 기준.
+
+    Functionality
+    -------------
+    1. 전체 상관관계 행렬을 계산하고 히트맵으로 시각화.
+       - 결과 이미지를 '../images/CorrMatrixAllFeataures_yyyy_mmdd.png'로 저장.
+    2. 상관계수의 평균, 최대, 최소, 표준편차를 출력.
+    3. |correlation| > threshold 인 변수 쌍을 찾아 출력.
+    4. compCol과 다른 변수들의 상관관계를 상위 10개까지 출력하고,
+       '../results/CorrWith{compCol}_yyyy_mmdd.txt' 파일로 저장.
+    5. 전체 상관계수 분포를 히스토그램으로 시각화.
+       - 결과 이미지를 '../images/Distr_CorreCoeff_yyyy_mmdd.png'로 저장.
+
+    Returns
+    -------
+    None
+        화면 출력과 파일 저장, 그래프 시각화만 수행하며 값을 반환하지 않음.
+    """
+    # 2. 상관관계 행렬 계산
+    correlation_matrix = df.corr()
+
+    # 3. 상관관계 히트맵 시각화
+    plt.figure(figsize=(20, 16))
+    sns.heatmap(correlation_matrix,
+                annot=False,          # 셀 안에 숫자 표시 여부
+                cmap='coolwarm',      # 색상 테마
+                center=0,             # 0을 기준으로 색상 분할
+                vmin=-1, vmax=1,      # 상관계수 범위
+                square=True,          # 셀을 정사각형으로 표시
+                linewidths=0.5,       # 셀 구분선 두께
+                cbar_kws={"shrink": 0.8})  # 컬러바 크기 조정
+    plt.title(title, fontsize=16, pad=20)
+    plt.tight_layout()
+    # 히트맵을 이미지 파일로 저장 (날짜 포함)
+    plt.savefig(f'../images/CorrMatrixAllFeataures_{datetime.datetime.today().strftime("%Y_%m%d")}.png')
+    plt.show()
+
+    # 4. 상관관계 통계 요약 출력
+    print("=" * 60)
+    print("상관관계 통계 요약")
+    print("=" * 60)
+
+    # 대각선 제외한 상관계수 값 추출
+    corr_values = correlation_matrix.values[np.triu_indices_from(correlation_matrix.values, k=1)]
+    print(f"평균 상관계수: {corr_values.mean():.4f}")
+    print(f"최대 상관계수: {corr_values.max():.4f}")
+    print(f"최소 상관계수: {corr_values.min():.4f}")
+    print(f"표준편차: {corr_values.std():.4f}")
+
+    # 5. 높은 상관관계 쌍 찾기
+    print("\n" + "=" * 60)
+    print(f"높은 상관관계 변수 쌍 (|correlation| > {threshold})")
+    print("=" * 60)
+
+    # 상위 삼각행렬만 추출 (중복 제거)
+    upper_tri = correlation_matrix.where(
+        np.triu(np.ones(correlation_matrix.shape), k=1).astype(bool)
+    )
+
+    # 높은 상관관계 쌍을 리스트에 저장
+    high_corr = []
+    for column in upper_tri.columns:
+        for index in upper_tri.index:
+            corr_val = upper_tri.loc[index, column]
+            if pd.notna(corr_val) and abs(corr_val) > threshold:
+                high_corr.append({
+                    'Variable 1': index,
+                    'Variable 2': column,
+                    'Correlation': corr_val
+                })
+
+    # DataFrame으로 변환 후 출력
+    high_corr_df = pd.DataFrame(high_corr)
+    if not high_corr_df.empty:
+        high_corr_df = high_corr_df.sort_values('Correlation', key=lambda x: x.abs(), ascending=False)
+        print(high_corr_df.to_string(index=False))
+        print(f"\n총 {len(high_corr_df)}개의 높은 상관관계 쌍 발견")
+    else:
+        print("높은 상관관계 쌍이 발견되지 않았습니다.")
+
+    # 6. 특정 변수(compCol)와의 상관관계 출력 및 저장
+    if compCol in df.columns:
+        header = "\n" + "=" * 60 + "\n"
+        header += f"'{compCol}'와 상관관계가 높은 변수들 (상위 10개)\n"
+        header += "=" * 60 + "\n"
+
+        # compCol과 다른 변수들의 상관관계 절댓값 기준 정렬
+        var_corr = correlation_matrix[compCol].abs().sort_values(ascending=False)
+        result_text = var_corr.head(11)[1:].to_string()  # 자기 자신 제외
+
+        # 화면 출력
+        print(header)
+        print(result_text)
+
+        # 날짜 yyyy_mmdd 형식
+        today = datetime.datetime.today().strftime("%Y_%m%d")
+
+        # 결과 저장할 폴더 및 파일명 지정
+        save_dir = "../results"
+        os.makedirs(save_dir, exist_ok=True)  # 폴더 없으면 생성
+        filename = f"{save_dir}/CorrWith{compCol}_{today}.txt"
+
+        # 결과를 txt 파일로 저장
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(header)
+            f.write(result_text)
+
+        print(f"\n결과가 파일로 저장되었습니다: {filename}")
+
+    # 7. 상관관계 분포 히스토그램 시각화
+    plt.figure(figsize=(10, 6))
+    plt.hist(corr_values, bins=50, edgecolor='black', alpha=0.7)
+    plt.xlabel('Correlation Coefficient', fontsize=12)
+    plt.ylabel('Frequency', fontsize=12)
+    plt.title('Distribution of Correlation Coefficients', fontsize=14)
+    # 기준선 표시
+    plt.axvline(x=0, color='red', linestyle='--', linewidth=2, label='Zero correlation')
+    plt.axvline(x=threshold, color='green', linestyle='--', linewidth=1, label=f'High positive ({threshold})')
+    plt.axvline(x=-threshold, color='green', linestyle='--', linewidth=1, label=f'High negative (-{threshold})')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    # 히스토그램을 이미지 파일로 저장 (날짜 포함)
+    plt.savefig(f'../images/Distr_CorreCoeff_{today}.png')
+    plt.show()
+# eof ----------------------------------------------------------------------------------------------------------    
+
+
+# Outlier가 어디에 있는지 추출하는 함수 - 신용카드사기용
+def get_outlier_index(df, column, weight=1.5, class_filter=None):
+    """
+    특정 컬럼에서 IQR(Interquartile Range) 방식을 사용하여 이상치(outlier)의 인덱스를 반환하는 함수.
+    기본적으로 전체 데이터에서 이상치를 탐지하며, 필요 시 특정 Class 값으로 필터링할 수 있습니다.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        분석할 데이터프레임. 'Class' 컬럼을 포함해야 합니다.
+    column : str
+        이상치를 탐지할 대상 컬럼명 (예: 'V14').
+    weight : float, optional (default=1.5)
+        IQR 범위를 확장하는 가중치. 일반적으로 1.5를 사용하며,
+        값이 클수록 이상치 판정 범위가 넓어집니다.
+    class_filter : int or None, optional (default=None)
+        특정 Class 값으로 필터링할 때 사용.
+        - None : 전체 데이터에서 이상치 탐지
+        - 0    : 정상 거래(Class==0)만 대상으로 탐지
+        - 1    : 사기 거래(Class==1)만 대상으로 탐지
+
+    Returns
+    -------
+    pandas.Index
+        이상치로 판정된 행(row)의 인덱스 집합.
+
+    Notes
+    -----
+    - IQR 방식: Q1(25%)와 Q3(75%)를 기준으로 IQR = Q3 - Q1을 계산.
+      이상치 기준은 [Q1 - weight*IQR, Q3 + weight*IQR] 범위를 벗어난 값.
+    - class_filter를 지정하지 않으면 전체 데이터에서 이상치를 탐지합니다.
+
+    Examples
+    --------
+    >>> # 사기 거래(Class==1)에서 V14 이상치 탐지
+    >>> fraud_outliers = get_outlier_index(df, column='V14', weight=1.5, class_filter=1)
+
+    >>> # 정상 거래(Class==0)에서 V14 이상치 탐지
+    >>> normal_outliers = get_outlier_index(df, column='V14', weight=1.5, class_filter=0)
+
+    >>> # 전체 데이터에서 V14 이상치 탐지
+    >>> all_outliers = get_outlier_index(df, column='V14', weight=1.5)
+    """
+    # class_filter 적용
+    if class_filter is not None:
+        data = df[df['Class'] == class_filter][column]
+    else:
+        data = df[column]
+
+    # 사분위수 계산
+    q_25 = np.percentile(data.values, 25)
+    q_75 = np.percentile(data.values, 75)
+    iqr = q_75 - q_25
+    iqr_weight = iqr * weight
+
+    # 이상치 기준
+    lowest_val = q_25 - iqr_weight
+    highest_val = q_75 + iqr_weight
+
+    # 이상치 인덱스 반환
+    outlier_index = data[(data < lowest_val) | (data > highest_val)].index
+    return outlier_index
+# eof ----------------------------------------------------------------------------------------------------------    

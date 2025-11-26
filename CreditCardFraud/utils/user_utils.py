@@ -306,10 +306,12 @@ def get_outlier(df, columns=None, weight=1.5):
         
         # 7. 결과 데이터프레임 생성
         outlier_bounds = pd.DataFrame({
+            "min": stats_df.loc["min"],
+            "LowerBound": lower_bound,
             "Q1": Q1,
             "Q3": Q3,
             "IQR": iqr,
-            "LowerBound": lower_bound,
+            "max": stats_df.loc["max"],
             "UpperBound": upper_bound,
             "OutlierCount": outlier_count
         })
