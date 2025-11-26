@@ -180,7 +180,7 @@ def get_train_test_dataset(
     X_train, X_test, y_train, y_test = train_test_split(
         X_features,
         y_target,
-        test_size=0.3,
+        test_size=0.2,
         random_state=0,
         stratify=y_target,  # 불균형 데이터일 때 반드시 처리 필요!!! 중요해~
     )
