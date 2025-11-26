@@ -105,3 +105,57 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
   - GB(GradientBoosting) : ALL
   - SVM : ALL
   - MLPClassifier : All
+
+  ``` python
+      from sklearn.neural_network import MLPClassifier
+
+      mlp = MLPClassifier(
+        hidden_layer_sizes=(64, 32),
+        activation="relu",
+        solver="adam",
+        alpha=1e-4,
+        batch_size=256,
+        learning_rate="adaptive",
+        max_iter=50,           # increase with early stopping if desired
+        random_state=23
+    )
+  ```
+
+### copliot 추천 stacking model
+``` pythoon
+    # Stacking ensemble (logistic meta-learner)
+    from sklearn.ensemble import StackingClassifier
+
+    # Base learners should expose predict_proba for better stacking
+    estimators = [
+        ("log", LogisticRegression(
+            random_state=23, max_iter=1000, C=0.2, penalty="l2",
+            solver="lbfgs", class_weight="balanced"
+        )),
+        ("rf", RandomForestClassifier(
+            n_estimators=300, random_state=23, n_jobs=-1, class_weight="balanced_subsample"
+        )),
+        ("xgb", XGBClassifier(
+            random_state=23, n_estimators=300, max_depth=4, learning_rate=0.08,
+            subsample=0.9, colsample_bytree=0.9, n_jobs=-1, objective="binary:logistic",
+            eval_metric="auc", scale_pos_weight=scale_pos_weight
+        )),
+    ]
+
+    # Important: preprocess once at the top, then fit stacking on processed features
+    # We'll wrap stacking inside a pipeline so preprocess applies to all base learners consistently.
+    stack = StackingClassifier(
+        estimators=estimators,
+        final_estimator=LogisticRegression(
+            random_state=23, max_iter=1000, C=0.5, penalty="l2", solver="lbfgs"
+        ),
+        stack_method="predict_proba",
+        passthrough=False,            # set True to include original features with meta-features
+        cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=23)
+    )
+
+    pipe_stack = make_pipeline(stack)
+    pipe_stack.fit(X_train, y_train)
+    evaluate_model("Stacking Ensemble", pipe_stack, X_test, y_test)
+```
+
