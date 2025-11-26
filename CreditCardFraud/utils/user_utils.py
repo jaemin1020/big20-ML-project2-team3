@@ -187,47 +187,166 @@ def get_train_test_dataset(
     return X_train, X_test, y_train, y_test
 
 
-def get_outlier(
-    df, columns=None, weight=1.5
-):  # weight=1.5 고정은 아니다! 존 튜키(John Tukey)
-
-    # 25%, 75% 위치에 있는 값 구한다
-    if columns:
-        Q1 = df[df[columns]].loc["25%"]
-        Q3 = df[df[columns]].loc["75%"]
-    else:
-        Q1 = df.loc["25%"]
-        Q3 = df.loc["75%"]
-    iqr = Q3 - Q1
-    iqr_weight = iqr * weight
-    lower_bound = Q1 - iqr_weight
-    upper_bound = Q3 + iqr_weight
-
-    # 이상치 마스킹 (컬럼별로)
-    outlier_mask = pd.DataFrame(False, index=df.index, columns=df.columns)
-
-    for col in df.select_dtypes(include="number").columns:
-        if col in lower_bound.index:
-            lb = lower_bound[col]
-            ub = upper_bound[col]
-            outlier_mask[col] = (df[col] < lb) | (df[col] > ub)
-
-    # 5. 이상치 기준 + 마스크를 outlier_bounds에 통합
-    outlier_bounds = pd.DataFrame(
-        {
+def get_outlier(df, columns=None, weight=1.5):
+    """
+    IQR(Interquartile Range) 방법을 사용하여 이상치 탐지
+    
+    존 튜키(John Tukey)의 방법론을 기반으로 Q1, Q3를 이용해
+    이상치 경계를 계산하고, 각 컬럼별 이상치 개수를 반환합니다.
+    
+    Parameters:
+    -----------
+    df : DataFrame
+        분석할 데이터프레임 (df.describe() 결과 또는 원본 데이터)
+    columns : str, list, or None
+        분석할 컬럼 지정
+        - None: 모든 수치형 컬럼
+        - str: 단일 컬럼
+        - list: 여러 컬럼
+    weight : float, default=1.5
+        IQR 가중치 (일반적으로 1.5 사용)
+        - 1.5: 일반적 이상치 (mild outliers)
+        - 3.0: 극단 이상치 (extreme outliers)
+        - 값이 작을수록 더 많은 데이터를 이상치로 판단
+    
+    Returns:
+    --------
+    DataFrame
+        각 컬럼별 이상치 정보를 담은 데이터프레임
+        - Q1: 1사분위수 (25%)
+        - Q3: 3사분위수 (75%)
+        - IQR: 사분위 범위 (Q3 - Q1)
+        - LowerBound: 하한선 (Q1 - weight*IQR)
+        - UpperBound: 상한선 (Q3 + weight*IQR)
+        - OutlierCount: 이상치 개수
+    
+    공식:
+    -----
+    - IQR = Q3 - Q1
+    - LowerBound = Q1 - (weight × IQR)
+    - UpperBound = Q3 + (weight × IQR)
+    - Outlier: value < LowerBound or value > UpperBound
+    
+    사용 예시:
+    ----------
+    >>> # df.describe() 결과로 분석
+    >>> desc = df.describe()
+    >>> outliers = get_outlier(desc)
+    
+    >>> # 원본 데이터로 분석
+    >>> outliers = get_outlier(df)
+    
+    >>> # 특정 컬럼만 분석
+    >>> outliers = get_outlier(desc, columns='Amount')
+    >>> outliers = get_outlier(desc, columns=['Amount', 'Time'])
+    
+    >>> # 더 엄격한 기준 적용
+    >>> outliers = get_outlier(desc, weight=3.0)
+    """
+    try:
+        # 1. DataFrame validation
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError(f"df는 DataFrame이어야 합니다. 현재: {type(df).__name__}")
+        
+        if df.empty:
+            raise ValueError("빈 데이터프레임입니다.")
+        
+        # 2. weight validation
+        if not isinstance(weight, (int, float)) or weight <= 0:
+            raise ValueError(f"weight는 양수여야 합니다. 현재: {weight}")
+        
+        # 3. df가 describe() 결과인지 원본 데이터인지 확인
+        is_describe_result = ('25%' in df.index and '75%' in df.index)
+        
+        if is_describe_result:
+            # describe() 결과를 직접 받은 경우
+            stats_df = df
+        else:
+            # 원본 데이터인 경우 describe() 수행
+            stats_df = df.describe()
+        
+        # 4. Q1, Q3 추출
+        if columns is not None:
+            # 컬럼 지정된 경우
+            if isinstance(columns, str):
+                columns = [columns]
+            
+            # 컬럼 존재 확인
+            missing_cols = [col for col in columns if col not in stats_df.columns]
+            if missing_cols:
+                raise KeyError(f"존재하지 않는 컬럼: {missing_cols}")
+            
+            Q1 = stats_df.loc["25%", columns]
+            Q3 = stats_df.loc["75%", columns]
+        else:
+            # 모든 수치형 컬럼
+            Q1 = stats_df.loc["25%"]
+            Q3 = stats_df.loc["75%"]
+        
+        # 5. IQR 및 경계 계산
+        iqr = Q3 - Q1
+        iqr_weight = iqr * weight
+        lower_bound = Q1 - iqr_weight
+        upper_bound = Q3 + iqr_weight
+        
+        # 6. 이상치 개수 계산 (원본 데이터 필요)
+        if is_describe_result:
+            # describe() 결과만 있는 경우 - 개수 계산 불가
+            outlier_count = pd.Series(np.nan, index=Q1.index)
+            print("⚠️ 경고: describe() 결과로는 이상치 개수를 계산할 수 없습니다.")
+            print("   원본 데이터를 입력하면 정확한 개수를 계산할 수 있습니다.")
+        else:
+            # 원본 데이터가 있는 경우 - 실제 이상치 개수 계산
+            outlier_count = pd.Series(0, index=Q1.index)
+            
+            for col in Q1.index:
+                if col in df.columns:
+                    mask = (df[col] < lower_bound[col]) | (df[col] > upper_bound[col])
+                    outlier_count[col] = mask.sum()
+        
+        # 7. 결과 데이터프레임 생성
+        outlier_bounds = pd.DataFrame({
+            "min": stats_df.loc["min"],
+            "LowerBound": lower_bound,
             "Q1": Q1,
             "Q3": Q3,
             "IQR": iqr,
-            "LowerBound": lower_bound,
+            "max": stats_df.loc["max"],
             "UpperBound": upper_bound,
-            "OutlierCount": outlier_mask.sum(),
-        }
-    )
+            "OutlierCount": outlier_count
+        })
+        
+        # 8. 결과 요약 출력
+        print(f"\n{'='*70}")
+        print(f"이상치 탐지 결과 (IQR weight: {weight})")
+        print(f"{'='*70}")
+        
+        if not outlier_count.isna().all():
+            total_outliers = int(outlier_count.sum())
+            print(f"총 이상치 개수: {total_outliers:,}개")
+            
+            if total_outliers > 0:
+                print(f"\n이상치가 많은 상위 5개 컬럼:")
+                top_outliers = outlier_count.nlargest(5)
+                for col, count in top_outliers.items():
+                    if count > 0:
+                        percentage = (count / len(df)) * 100 if not is_describe_result else 0
+                        print(f"  - {col}: {int(count):,}개 ({percentage:.2f}%)")
+        
+        print(f"{'='*70}\n")
+        
+        return outlier_bounds
+    
+    except KeyError as e:
+        print(f"❌ 컬럼 접근 오류: {e}")
+        print(f"   사용 가능한 컬럼: {list(df.columns)}")
+        raise
+    except Exception as e:
+        print(f"❌ get_outlier 함수 실행 중 오류: {e}")
+        raise
 
-    return outlier_bounds
+# eof ----------------------------------------------------------- #
 
-
-# -- eof -----
 
 
 class HyperOptTuner:
