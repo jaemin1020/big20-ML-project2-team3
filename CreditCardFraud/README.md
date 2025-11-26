@@ -22,6 +22,7 @@
   - **언더샘플링**: 정상 거래 줄이기 → 데이터 손실 위험
   - **오버샘플링 (SMOTE)**: 사기 거래 증식 → 과적합 주의
   - **Class weight 조정**: 모델 학습 시 가중치 부여
+  - V14 컬럼의 class 가 1인 이상치 를 삭제 시 극적인 모델의 성능향상을 보임
 
 ### 3. 모델 선택
 
@@ -90,23 +91,21 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
 앙상블 모델이 일반적으로 성능이 좋음
 교차 검증 사용 (StratifiedKFold)
 
-
-
 ---
 
 ## 담당 모델
 
-  - catboost : ejm
-  - LinearRegression : kjh
-  - RandomForest : lsj
-  - Xgboost : lkj
-  - LightGBM : yjh
-  - DecistionTree : ALL
-  - GB(GradientBoosting) : ALL
-  - SVM : ALL
-  - MLPClassifier : All
+- catboost : ejm
+- LinearRegression : kjh
+- RandomForest : lsj
+- Xgboost : lkj
+- LightGBM : yjh
+- DecistionTree : ALL
+- GB(GradientBoosting) : ALL
+- SVM : ALL
+- MLPClassifier : All
 
-  ``` python
+```python
       from sklearn.neural_network import MLPClassifier
 
       mlp = MLPClassifier(
@@ -119,10 +118,11 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
         max_iter=50,           # increase with early stopping if desired
         random_state=23
     )
-  ```
+```
 
 ### copliot 추천 stacking model
-``` pythoon
+
+```pythoon
     # Stacking ensemble (logistic meta-learner)
     from sklearn.ensemble import StackingClassifier
 
@@ -158,4 +158,3 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
     pipe_stack.fit(X_train, y_train)
     evaluate_model("Stacking Ensemble", pipe_stack, X_test, y_test)
 ```
-
