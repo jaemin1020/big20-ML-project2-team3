@@ -104,3 +104,4 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
   - DecistionTree : ALL
   - GB(GradientBoosting) : ALL
   - SVM : ALL
+  - MLPClassifier : All
