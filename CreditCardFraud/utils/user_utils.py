@@ -282,7 +282,10 @@ class HyperOptTuner:
     }
 
     def __init__(
-        self, max_evals: int = 100, metric: str = "roc_auc", random_state: int = 42
+        self,
+        max_evals: int = 100,
+        metric: str = "recall",
+        random_state: int = 42,
     ):
         """
         Args:
@@ -306,12 +309,15 @@ class HyperOptTuner:
         return converted
 
     def _get_metric_score(self, y_true, y_pred_proba):
+        scores = {}
+        y_pred = (y_pred_proba[:, 1] >= 0.5).astype(int)
         """평가 지표 계산"""
-        if self.metric == "roc_auc":
-            return roc_auc_score(y_true, y_pred_proba[:, 1])
-        # 다른 메트릭 추가 가능
-        else:
-            raise ValueError(f"Unsupported metric: {self.metric}")
+        scores["roc_auc"] = roc_auc_score(y_true, y_pred_proba[:, 1])
+        scores["f1"] = f1_score(y_true, y_pred)
+        scores["precision"] = precision_score(y_true, y_pred)
+        scores["recall"] = recall_score(y_true, y_pred)
+        scores["accuracy"] = accuracy_score(y_true, y_pred)
+        return scores
 
     def _objective(
         self, params: Dict[str, Any], model_class: type, X_train, y_train, X_val, y_val
@@ -334,9 +340,13 @@ class HyperOptTuner:
 
             # 평가
             y_pred_proba = model.predict_proba(X_val)
-            score = self._get_metric_score(y_val, y_pred_proba)
+            scores = self._get_metric_score(y_val, y_pred_proba)
 
-            return {"loss": -score, "status": STATUS_OK}
+            # hyperopt는 loss를 최소화하는 방향으로 최적화합니다.
+            loss = -scores[self.metric]
+
+            # fmin은 loss, status 외의 다른 값들도 trials 객체에 저장합니다.
+            return {"loss": loss, "status": STATUS_OK, "scores": scores}
 
         except Exception as e:
             print(f"Error in objective function: {str(e)}")
@@ -417,7 +427,13 @@ class HyperOptTuner:
         if verbose:
             print(f"\n튜닝 시간: {exec_time:.2f}초")
             print(f"최적 {self.metric}: {-trials.best_trial['result']['loss']:.4f}")
-            print(f"최적 하이퍼파라미터:")
+
+            best_scores = trials.best_trial["result"]["scores"]
+            print("\n최적 모델의 전체 평가 점수:")
+            for metric_name, score_value in best_scores.items():
+                print(f"- {metric_name}: {score_value:.4f}")
+
+            print("\n최적 하이퍼파라미터:")
             for key, value in best_params.items():
                 print(f"-{key}: {value}")
 
