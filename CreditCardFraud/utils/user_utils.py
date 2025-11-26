@@ -29,6 +29,7 @@ from hyperopt import space_eval
 
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
+from catboost import CatBoostClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 
@@ -153,7 +154,7 @@ def get_model_train_eval(
 # -- eof ----------------------------------
 
 
-def get_preprocssed_df(df, columns):
+def get_preprocssed_df(df, columns=None):
     df_copy = df.copy()
     # 로그 변환
     amount_n = np.log1p(df_copy["Amount"])
@@ -265,6 +266,7 @@ class HyperOptTuner:
             "min_child_weight",
             "num_leaves",
         ],
+        "CatBoostClassifier": ["iterations", "depth", "min_data_in_leaf", "max_bin"],
     }
 
     # 모델별 고정 파라미터
@@ -272,6 +274,11 @@ class HyperOptTuner:
         "RandomForestClassifier": {"random_state": 42, "n_jobs": -1},
         "XGBClassifier": {"random_state": 42},
         "LGBMClassifier": {"random_state": 42, "n_jobs": -1},
+        "CatBoostClassifier": {
+            "random_state": 42,
+            "verbose": 0,
+            "allow_writing_files": False,
+        },
     }
 
     def __init__(
