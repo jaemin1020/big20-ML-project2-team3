@@ -22,6 +22,7 @@
   - **언더샘플링**: 정상 거래 줄이기 → 데이터 손실 위험
   - **오버샘플링 (SMOTE)**: 사기 거래 증식 → 과적합 주의
   - **Class weight 조정**: 모델 학습 시 가중치 부여
+  - V14 컬럼의 class 가 1인 이상치 를 삭제 시 극적인 모델의 성능향상을 보임
 
 ### 3. 모델 선택
 
@@ -90,18 +91,70 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
 앙상블 모델이 일반적으로 성능이 좋음
 교차 검증 사용 (StratifiedKFold)
 
-
-
 ---
 
 ## 담당 모델
 
-catboost : ejm
+- catboost : ejm
+- LinearRegression : kjh
+- RandomForest : lsj
+- Xgboost : lkj
+- LightGBM : yjh
+- DecistionTree : ALL
+- GB(GradientBoosting) : ALL
+- SVM : ALL
+- MLPClassifier : All
 
-LinearRegression : kjh
+```python
+      from sklearn.neural_network import MLPClassifier
 
-RandomForest : lsj
+      mlp = MLPClassifier(
+        hidden_layer_sizes=(64, 32),
+        activation="relu",
+        solver="adam",
+        alpha=1e-4,
+        batch_size=256,
+        learning_rate="adaptive",
+        max_iter=50,           # increase with early stopping if desired
+        random_state=23
+    )
+```
 
-Xgboost : lkj
+### copliot 추천 stacking model
 
-LightGBM : yjh
+```pythoon
+    # Stacking ensemble (logistic meta-learner)
+    from sklearn.ensemble import StackingClassifier
+
+    # Base learners should expose predict_proba for better stacking
+    estimators = [
+        ("log", LogisticRegression(
+            random_state=23, max_iter=1000, C=0.2, penalty="l2",
+            solver="lbfgs", class_weight="balanced"
+        )),
+        ("rf", RandomForestClassifier(
+            n_estimators=300, random_state=23, n_jobs=-1, class_weight="balanced_subsample"
+        )),
+        ("xgb", XGBClassifier(
+            random_state=23, n_estimators=300, max_depth=4, learning_rate=0.08,
+            subsample=0.9, colsample_bytree=0.9, n_jobs=-1, objective="binary:logistic",
+            eval_metric="auc", scale_pos_weight=scale_pos_weight
+        )),
+    ]
+
+    # Important: preprocess once at the top, then fit stacking on processed features
+    # We'll wrap stacking inside a pipeline so preprocess applies to all base learners consistently.
+    stack = StackingClassifier(
+        estimators=estimators,
+        final_estimator=LogisticRegression(
+            random_state=23, max_iter=1000, C=0.5, penalty="l2", solver="lbfgs"
+        ),
+        stack_method="predict_proba",
+        passthrough=False,            # set True to include original features with meta-features
+        cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=23)
+    )
+
+    pipe_stack = make_pipeline(stack)
+    pipe_stack.fit(X_train, y_train)
+    evaluate_model("Stacking Ensemble", pipe_stack, X_test, y_test)
+```

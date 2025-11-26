@@ -234,7 +234,7 @@ class HyperOptTuner:
     """HyperOpt을 사용한 하이퍼파라미터 튜닝 클래스
     사용법
     # 튜너 초기화
-    tuner = HyperOptTuner(max_evals=100, metric='roc_auc', random_state=42)
+    tuner = HyperOptTuner(max_evals=100, random_state=23)
 
     # RandomForest 예시
     rf_search_space = {
@@ -271,11 +271,11 @@ class HyperOptTuner:
 
     # 모델별 고정 파라미터
     FIXED_PARAMS = {
-        "RandomForestClassifier": {"random_state": 42, "n_jobs": -1},
-        "XGBClassifier": {"random_state": 42},
-        "LGBMClassifier": {"random_state": 42, "n_jobs": -1},
+        "RandomForestClassifier": {"random_state": 23, "n_jobs": -1},
+        "XGBClassifier": {"random_state": 23},
+        "LGBMClassifier": {"random_state": 23, "n_jobs": -1},
         "CatBoostClassifier": {
-            "random_state": 42,
+            "random_state": 23,
             "verbose": 0,
             "allow_writing_files": False,
         },
@@ -285,7 +285,7 @@ class HyperOptTuner:
         self,
         max_evals: int = 100,
         metric: str = "recall",
-        random_state: int = 42,
+        random_state: int = 23,
     ):
         """
         Args:

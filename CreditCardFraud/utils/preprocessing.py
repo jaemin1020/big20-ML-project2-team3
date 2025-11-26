@@ -1,10 +1,10 @@
 import os
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-
-
-# sof ----------------------------------------------------------- #
+# sof : Start of function ------------------------------------------------------ #
 def ccf_load_data(train_path="../data/creditcard.csv"):
     try:
         # 파일 존재 확인 
@@ -30,7 +30,115 @@ def ccf_load_data(train_path="../data/creditcard.csv"):
     except Exception as e:
         print(f"❌ 예상치 못한 오류: {e}")
         return None
+# eof : End of Function --------------------------------------------------------- #
+
+# soF --------------------------------------------------------------------------
+def checkBasicInfo(df, target_cols='Class', isInfo=True, isNullShow=True, isGraph=True):
+    """
+    데이터프레임의 기본 정보와 타겟 분포 확인
+    
+    Args:
+        df: 데이터프레임
+        target_cols: 타겟 컬럼명 (str 또는 list)
+        isInfo: .info() 출력 여부
+        isNullShow: 결측치 정보 출력 여부
+        
+    사용예시 : 
+    # 기본 사용
+    checkBasicInfo(df)
+
+    # 선택적 사용
+    checkBasicInfo(df, isInfo=False)  # info 제외
+    checkBasicInfo(df, isNullShow=False)  # 결측치 확인 제외
+    checkBasicInfo(df, target_cols=None)  # 타겟 분포 제외
+
+    # 다른 타겟 컬럼
+    checkBasicInfo(df, target_cols='Fraud')
+
+    # 여러 타겟 컬럼
+    checkBasicInfo(df, target_cols=['Class', 'Type', 'Category'])
+
+    # 모든 기능 끄기
+    checkBasicInfo(df, isInfo=False, isNullShow=False, target_cols=None)        
+    """
+    try:
+        # DataFrame validation
+        if df is None:
+            print("❌ 오류: df가 None입니다.")
+            return
+        
+        if not isinstance(df, pd.DataFrame):
+            print(f"❌ 오류: df는 pandas DataFrame이어야 합니다. 현재 타입: {type(df).__name__}")
+            return
+        
+        if df.empty:
+            print("⚠️ 경고: 빈 데이터프레임입니다.")
+            return
+        
+        if len(df.columns) == 0:
+            print("⚠️ 경고: 컬럼이 없는 데이터프레임입니다.")
+            return
+        
+        # 1. 기본 정보
+        if isInfo:
+            print(f"== 기본 정보 {'='*70}")
+            df.info()            
+            print(f"\nShape: {df.shape}")
+        
+        # 2. 결측치
+        if isNullShow:
+            print(f" 결측치 정보 {'='*70}")
+            null_sum = df.isnull().sum()
+            if null_sum.sum() > 0:
+                print(null_sum[null_sum > 0])
+            else:
+                print("✅ 결측치 없음")
+        
+        # 3. 타겟 분포
+        if target_cols:
+            print(f"\n== 타겟 분포 {'='*70}")
+            
+            cols = [target_cols] if isinstance(target_cols, str) else target_cols
+            
+            for col in cols:
+                if col not in df.columns:
+                    print(f"⚠️ '{col}' 컬럼이 없습니다.")
+                    continue
+                
+                print(f"\n[{col}] 개수:")
+                print(df[col].value_counts().sort_index())
+                
+                print(f"\n[{col}] 비율(%):")
+                proportions = df[col].value_counts(normalize=True).sort_index() * 100
+                for idx, val in proportions.items():
+                    print(f"  Class {idx}: {val:.2f}%")
+                
+                # 불균형 체크
+                if len(df[col].value_counts()) == 2:
+                    counts = df[col].value_counts()
+                    ratio = counts.min() / counts.max() * 100
+                    if ratio < 10:
+                        print(f"  ⚠️ 심각한 불균형 ({ratio:.2f}%)")
+        
+
+        # 4. 시각화
+        if isGraph:  
+            plt.figure(figsize=(8, 4))
+            df[target_cols].value_counts().plot(kind='bar')
+            ax = df[target_cols].value_counts().plot(kind='bar')
+            plt.title(f'Label({target_cols}) Distribution')
+
+            # 막대 위에 값 표시
+            for container in ax.containers:
+                ax.bar_label(container, fmt='%d')
+            plt.show()
+
+        print(f"\n{'='*70}\n")        
+        
+    except Exception as e:
+        print(f"❌ 오류 발생: {e}")
 # eof ----------------------------------------------------------- #
+
 
 
 def remove_zero_columns(df, threshold_rate=0.99, save_report=True, isPrint=True):
