@@ -53,3 +53,30 @@ meta_best_params = {
     'class_weight': 'balanced', 
     "n_jobs": -1     
 }
+
+# GradientBoostingClassifier 기본 파라미터
+gb_basic_params = {
+    'n_estimators': 100,      # 트리 개수 (더 많을수록 성능↑, 시간↑)
+    'learning_rate': 0.1,     # 학습률 (0.01~0.3, 작을수록 안정적)
+    'max_depth': 3,           # 개별 트리 깊이 (3~5 권장, 과적합 방지)
+    'random_state': 23
+}
+
+# DecisionTreeClassifier 기본 파라미터
+dt_basic_params = {
+    'criterion': 'gini',      # 분할 기준 ('gini' 또는 'entropy')
+    'max_depth': None,        # 트리 최대 깊이 (None=제한없음, 과적합 위험)
+    'random_state': 23
+}
+
+# MLPClassifier 기본 파라미터
+mlp_basic_params = {
+    'hidden_layer_sizes': (64, 32),  # 은닉층 구조 (64개 노드 → 32개 노드)
+    'activation': 'relu',             # 활성화 함수 (relu, tanh, logistic)
+    'solver': 'adam',                 # 최적화 알고리즘 (adam, sgd, lbfgs)
+    'alpha': 1e-4,                    # L2 정규화 파라미터 (과적합 방지)
+    'batch_size': 256,                # 배치 크기 (메모리 허용 범위 내 크게)
+    'learning_rate': 'adaptive',      # 학습률 스케줄 (adaptive, constant, invscaling)
+    'max_iter': 50,                   # 최대 반복 횟수 (early stopping 권장)
+    'random_state': 23
+}
