@@ -398,6 +398,18 @@ class HyperOptTuner:
         ],
         "CatBoostClassifier": ["iterations", "depth", "min_data_in_leaf", "max_bin"],
         "LogisticRegression": ["max_iter"],
+        "MLPClassifier": ["max_iter"],
+        "GradientBoostingClassifier": [
+            "n_estimators",
+            "max_depth",
+            "min_samples_leaf",
+            "min_samples_split",
+        ],
+        "DecisionTreeClassifier": [
+            "max_depth",
+            "min_samples_leaf",
+            "min_samples_split",
+        ],
     }
 
     # 모델별 고정 파라미터
@@ -411,6 +423,9 @@ class HyperOptTuner:
             "allow_writing_files": False,
         },
         "LogisticRegression": {"random_state": 23, "n_jobs": -1},
+        "MLPClassifier": {"random_state": 23},
+        "GradientBoostingClassifier": {"random_state": 23},
+        "DecisionTreeClassifier": {"random_state": 23},
     }
 
     def __init__(
