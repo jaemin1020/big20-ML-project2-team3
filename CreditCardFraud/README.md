@@ -105,10 +105,10 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
 - RandomForest : lsj
 - Xgboost : lkj
 - LightGBM : yjh
-- DecistionTree : ALL
-- GB(GradientBoosting) : ALL
-- SVM : ALL
-- MLPClassifier : All
+- DecistionTree : ejm
+- GB(GradientBoosting) : kjh
+- MLPClassifier : lsj
+- SVM : ALL=> HyperOpt에서 제외 
 
 ```python
       from sklearn.neural_network import MLPClassifier
