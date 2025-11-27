@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 from pathlib import Path
 
-def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 지표 비교"):
+def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 지표 비교", figsize = (10,6)):
     """
     샘플링 결과 비교 그래프 생성 함수
     
@@ -27,7 +27,7 @@ def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 �
     x = np.arange(len(models))
     width = 0.2
 
-    plt.figure(figsize=(10,6))
+    plt.figure(figsize=figsize)
 
     # 차트 생성
     for i, key in enumerate(keys_to_plot):
@@ -48,7 +48,7 @@ def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 �
     plt.legend(title="평가 지표")
     
     save_path = Path(f'../images/{title}_{datetime.datetime.today().strftime("%Y_%m%d")}.png')
-    save_path.mkdir(parents=True, exist_ok=True)
+    # save_path.mkdir(parents=True, exist_ok=True)
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     print(f"📁 그래프 저장 완료: {save_path}")
     

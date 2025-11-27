@@ -4,7 +4,7 @@ import sys
 # 현재 작업 디렉토리 기준으로 상위 1단계 폴더를 루트로 설정
 # current_dir  = os.getcwd()
 # project_root = os.path.abspath(os.path.join(current_dir, '..'))
-project_root = "c:/big20/git/big20-ML-project2-team3/SantanderCS"
+project_root = "c:/big20/git/big20-ML-project2-team3/CreditCardFraud"
 
 # sys.path에 추가 (모듈 import용)
 if project_root not in sys.path:
@@ -85,9 +85,9 @@ def get_clf_eval(
     roc_auc = roc_auc_score(y_test, pred_proba)
 
     result_text = (
-        f"AUC: {roc_auc:.4f}, 정확도: {accuracy:.4f}, "
-        f"정밀도: {precision:.4f}, 재현율: {recall:.4f}, F1: {f1:.4f}\n"
-        f"오차행렬:\n{confusion}"
+        f"{{'AUC': {roc_auc:.4f}, '정확도': {accuracy:.4f}, "
+        f"'정밀도': {precision:.4f}, '재현율': {recall:.4f}, 'F1': {f1:.4f} }}\n"
+        f"{{'오차행렬':\n{confusion} }}"
     )
     if exec_time is not None:
         result_text += f"\n실행 시간: {exec_time}"
@@ -110,6 +110,8 @@ def get_clf_eval(
     print(result_text)
     with open(save_path, "w", encoding="utf-8") as f:
         f.write(result_text)
+        
+        
 # --- eof ------------------
 
 
@@ -150,10 +152,10 @@ def get_model_train_eval(
         )
 
     return {
-    "AUC": round(roc_auc_score(y_test, pred_proba),4),
-    "정밀도": round(precision_score(y_test, pred),4),
-    "재현율": round(recall_score(y_test, pred),4),
-    "F1": round(f1_score(y_test, pred),4),
+        "AUC": round(roc_auc_score(y_test, pred_proba),4),
+        "정밀도": round(precision_score(y_test, pred),4),
+        "재현율": round(recall_score(y_test, pred),4),
+        "F1": round(f1_score(y_test, pred),4)
     }
 
 # -- eof ----------------------------------
