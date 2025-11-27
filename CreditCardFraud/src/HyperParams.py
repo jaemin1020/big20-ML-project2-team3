@@ -80,3 +80,18 @@ mlp_basic_params = {
     'max_iter': 50,                   # 최대 반복 횟수 (early stopping 권장)
     'random_state': 23
 }
+
+# SVM liner basic params
+svc_liner_basic_params = {
+  'C' : 1.0, 
+  'kernel' : "linear", 
+  'class_weight' : "balanced"
+}
+
+# RBF SVM basic params
+svc_rbf_basic_params = {
+  'C' : 1.0, 
+  'kernel' : "rbf", 
+  'gamma' : "scale",
+  'class_weight' : "balanced"  
+}
