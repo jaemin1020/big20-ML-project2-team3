@@ -9,6 +9,7 @@ import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import train_test_split
+from imblearn.over_sampling import SMOTE
 
 
 # sof : Start of function ------------------------------------------------------ #
@@ -968,6 +969,26 @@ def cap_outliers(df, columns=None, weight=1.5):
         df_capped[col] = df_capped[col].clip(lower=lower_bound, upper=upper_bound)
 
     return df_capped
+
+
+# eof ----------------------------------------------------------------------------------------------------------
+def Smoting_Data(X_feature=None, y_label=None):
+    """
+    SMOTE를 이용한 오버샘플링 함수
+
+    X_feature: target값을 제외한 피처
+    y_label: target값
+
+    사용 예시:
+    X_resampled, y_resampled = SmoteData(X_features, y_target)
+    """
+    smote = SMOTE(random_state=42)
+    X_resampled, y_resampled = smote.fit_resample(X_feature, y_label)
+
+    print("\n--- SMOTE 오버샘플링 후 ---")
+    print(y_resampled.value_counts())
+
+    return X_resampled, y_resampled
 
 
 # eof ----------------------------------------------------------------------------------------------------------
