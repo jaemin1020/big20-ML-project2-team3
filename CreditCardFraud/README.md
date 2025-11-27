@@ -22,7 +22,7 @@
   - **언더샘플링**: 정상 거래 줄이기 → 데이터 손실 위험
   - **오버샘플링 (SMOTE)**: 사기 거래 증식 → 과적합 주의
   - **Class weight 조정**: 모델 학습 시 가중치 부여
-  - V14 컬럼의 class 가 1인 이상치 를 삭제 시 극적인 모델의 성능향상을 보임
+  - V14 컬럼의 class 가 1(사기)인 이상치 를가진 데이터를 삭제 시 극적인 모델의 성능향상을 보임
 
 ### 3. 모델 선택
 
@@ -92,6 +92,11 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
 교차 검증 사용 (StratifiedKFold)
 
 ---
+## 목표 수치 (수업시간)
+| Model           | 정확도 | 정밀도 | 재현율 | F1-Score | AUC    |
+|-----------------|--------|--------|--------|----------|--------|
+|LR(OverSampling) | 0.9722 | 0.0541 | 0.9247 | 0.1022   | 0.9736 |
+|LGBM(OverSampling)| 0.9996| 0.9118 | 0.8493 | 0.8794   | 0.9814 |
 
 ## 담당 모델
 
@@ -118,6 +123,34 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
         max_iter=50,           # increase with early stopping if desired
         random_state=23
     )
+```
+### Sampling 사용법 
+``` python
+    import utils.data_sampling as ds 
+
+    # data loading
+    df = pp.ccf_load_data()
+
+    # 2. Data전처리
+    # Amount와 Time 스케일링 (V1-V28은 이미 PCA 처리됨)
+    df_robust_scaled = pp.robustScaler(df)
+
+    ## 데이터 분할 df_robust_scaled 사용시 
+    X_features, y_target = pp.split_features_target(df_robust_scaled)
+    X_train, X_test, y_train, y_test = pp.data_split(X_features, y_target)
+
+    # Over Sampling
+    X_over, y_over = ds.oversampling_smote(X_train, y_train)
+
+    # Under Sampling
+    X_under, y_under = ds.undersampling_RUS(X_train, y_train)
+
+    # Combined Sampling
+    X_combined, y_combined = ds.combined_sampling(X_train, y_train)
+
+    
+
+
 ```
 
 ### copliot 추천 stacking model
