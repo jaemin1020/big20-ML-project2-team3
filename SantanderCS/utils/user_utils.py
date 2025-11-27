@@ -72,9 +72,9 @@ def get_clf_eval(
     roc_auc = roc_auc_score(y_test, pred_proba)
 
     result_text = (
-        f"AUC: {roc_auc:.4f}, 정확도: {accuracy:.4f}, "
-        f"정밀도: {precision:.4f}, 재현율: {recall:.4f}, F1: {f1:.4f}\n"
-        f"오차행렬:\n{confusion}"
+        f"\{'AUC': {roc_auc:.4f}, '정확도': {accuracy:.4f}, "
+        f"'정밀도': {precision:.4f}, '재현율': {recall:.4f}, 'F1-SCORE': {f1:.4f} \}\n"
+        f"'오차행렬':\n{confusion}"
     )
     if exec_time is not None:
         result_text += f"\n실행 시간: {exec_time}"
