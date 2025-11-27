@@ -9,6 +9,7 @@ import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import train_test_split
+from imblearn.over_sampling import SMOTE
 
 
 # sof : Start of function ------------------------------------------------------ #
@@ -934,6 +935,60 @@ def get_outlier_index(df, column, weight=1.5, class_filter=None):
     # 이상치 인덱스 반환
     outlier_index = data[(data < lowest_val) | (data > highest_val)].index
     return outlier_index
+
+
+# eof ----------------------------------------------------------------------------------------------------------
+def cap_outliers(df, columns=None, weight=1.5):
+    """
+    IQR 기반으로 이상치를 탐지하고 상한/하한 값으로 대체(Capping)하는 함수.
+
+    df: DataFrame
+    columns: 특정 컬럼 리스트 (None이면 전체 수치형 컬럼)
+    weight: IQR 배수 (기본 1.5)
+
+    사용 예시:
+    df_capped = cap_outliers(X_features)
+    """
+    df_capped = df.copy()
+
+    # 처리할 컬럼 선택
+    if columns is None:
+        columns = df_capped.select_dtypes(include=np.number).columns
+
+    for col in columns:
+        # 사분위수 및 IQR 계산
+        Q1 = df_capped[col].quantile(0.25)
+        Q3 = df_capped[col].quantile(0.75)
+        IQR = Q3 - Q1
+
+        # 이상치 경계 계산
+        lower_bound = Q1 - weight * IQR
+        upper_bound = Q3 + weight * IQR
+
+        # Capping 적용
+        df_capped[col] = df_capped[col].clip(lower=lower_bound, upper=upper_bound)
+
+    return df_capped
+
+
+# eof ----------------------------------------------------------------------------------------------------------
+def Smoting_Data(X_feature=None, y_label=None):
+    """
+    SMOTE를 이용한 오버샘플링 함수
+
+    X_feature: target값을 제외한 피처
+    y_label: target값
+
+    사용 예시:
+    X_resampled, y_resampled = SmoteData(X_features, y_target)
+    """
+    smote = SMOTE(random_state=42)
+    X_resampled, y_resampled = smote.fit_resample(X_feature, y_label)
+
+    print("\n--- SMOTE 오버샘플링 후 ---")
+    print(y_resampled.value_counts())
+
+    return X_resampled, y_resampled
 
 
 # eof ----------------------------------------------------------------------------------------------------------
