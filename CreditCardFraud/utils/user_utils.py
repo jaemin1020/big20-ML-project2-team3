@@ -397,6 +397,7 @@ class HyperOptTuner:
             "num_leaves",
         ],
         "CatBoostClassifier": ["iterations", "depth", "min_data_in_leaf", "max_bin"],
+        "LogisticRegression": ["max_iter"],
     }
 
     # 모델별 고정 파라미터
@@ -409,6 +410,7 @@ class HyperOptTuner:
             "verbose": 0,
             "allow_writing_files": False,
         },
+        "LogisticRegression": {"random_state": 23, "n_jobs": -1},
     }
 
     def __init__(
