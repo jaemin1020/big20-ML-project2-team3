@@ -110,8 +110,6 @@ def get_clf_eval(
     print(result_text)
     with open(save_path, "w", encoding="utf-8") as f:
         f.write(result_text)
-
-
 # --- eof ------------------
 
 
@@ -151,6 +149,12 @@ def get_model_train_eval(
             y_test, pred, pred_proba, model_name=model_name, exec_time=exec_time
         )
 
+    return {
+    "AUC": round(roc_auc_score(y_test, pred_proba),4),
+    "정밀도": round(precision_score(y_test, pred),4),
+    "재현율": round(recall_score(y_test, pred),4),
+    "F1": round(f1_score(y_test, pred),4),
+    }
 
 # -- eof ----------------------------------
 
