@@ -1,5 +1,8 @@
 import numpy as np
+import datetime
 import matplotlib.pyplot as plt
+from matplotlib import rc
+from pathlib import Path
 
 def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 지표 비교"):
     """
@@ -14,6 +17,8 @@ def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 �
     title : str
         그래프 제목
     """
+    rc('font', family='Malgun Gothic')  # Windows 기본 한글 폰트
+    plt.rcParams['axes.unicode_minus'] = False
     
     if keys_to_plot is None:
         keys_to_plot = ['AUC', '정밀도', '재현율', 'F1']
@@ -42,4 +47,10 @@ def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 �
     plt.ylabel("Score")
     plt.legend(title="평가 지표")
     
+    save_path = Path(f'../images/{title}_{datetime.datetime.today().strftime("%Y_%m%d")}.png')
+    save_path.mkdir(parents=True, exist_ok=True)
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    print(f"📁 그래프 저장 완료: {save_path}")
+    
     plt.show()
+    
