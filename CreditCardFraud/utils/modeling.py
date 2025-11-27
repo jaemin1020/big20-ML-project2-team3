@@ -38,7 +38,7 @@ def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 �
         for bar in bars:
             height = bar.get_height()
             plt.text(bar.get_x() + bar.get_width()/2, height + 0.005, 
-                     f"{height:.3f}", ha='center', fontsize=8)
+                     f"{height:.2f}", ha='center', fontsize=8)
 
     # x축, 제목, 범례 설정
     plt.xticks(x + width * (len(keys_to_plot)/2 - 0.5), models)
