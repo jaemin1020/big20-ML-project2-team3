@@ -48,7 +48,12 @@ def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 �
     plt.legend(title="평가 지표")
     
     save_path = Path(f'../images/{title}_{datetime.datetime.today().strftime("%Y_%m%d")}.png')
-    # save_path.mkdir(parents=True, exist_ok=True)
+    version = 1
+    while save_path.exists():
+        save_path = Path(f'../images/{title}_{datetime.datetime.today().strftime("%Y_%m%d")}_{version:03d}.png')
+        version += 1
+
+    
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     print(f"📁 그래프 저장 완료: {save_path}")
     
