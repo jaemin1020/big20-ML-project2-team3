@@ -19,7 +19,7 @@ build/
 # 환경 설정
 .env
 .env.local
-# *.yml
+*.yml
 .vscode/
 
 # 데이터 파일 제외
