@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import rc
 
 def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 지표 비교"):
     """
@@ -14,6 +15,8 @@ def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 �
     title : str
         그래프 제목
     """
+    rc('font', family='Malgun Gothic')  # Windows 기본 한글 폰트
+    plt.rcParams['axes.unicode_minus'] = False
     
     if keys_to_plot is None:
         keys_to_plot = ['AUC', '정밀도', '재현율', 'F1']
