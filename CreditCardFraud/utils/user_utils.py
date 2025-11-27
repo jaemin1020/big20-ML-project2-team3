@@ -20,6 +20,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import precision_score, recall_score
 from sklearn.metrics import f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 from functools import partial
 from typing import Dict, Any, Callable
@@ -181,7 +182,7 @@ def get_train_test_dataset(
         X_features,
         y_target,
         test_size=0.2,
-        random_state=0,
+        random_state=23,
         stratify=y_target,  # 불균형 데이터일 때 반드시 처리 필요!!! 중요해~
     )
     return X_train, X_test, y_train, y_test
@@ -190,10 +191,10 @@ def get_train_test_dataset(
 def get_outlier(df, columns=None, weight=1.5):
     """
     IQR(Interquartile Range) 방법을 사용하여 이상치 탐지
-    
+
     존 튜키(John Tukey)의 방법론을 기반으로 Q1, Q3를 이용해
     이상치 경계를 계산하고, 각 컬럼별 이상치 개수를 반환합니다.
-    
+
     Parameters:
     -----------
     df : DataFrame
@@ -208,7 +209,7 @@ def get_outlier(df, columns=None, weight=1.5):
         - 1.5: 일반적 이상치 (mild outliers)
         - 3.0: 극단 이상치 (extreme outliers)
         - 값이 작을수록 더 많은 데이터를 이상치로 판단
-    
+
     Returns:
     --------
     DataFrame
@@ -219,27 +220,27 @@ def get_outlier(df, columns=None, weight=1.5):
         - LowerBound: 하한선 (Q1 - weight*IQR)
         - UpperBound: 상한선 (Q3 + weight*IQR)
         - OutlierCount: 이상치 개수
-    
+
     공식:
     -----
     - IQR = Q3 - Q1
     - LowerBound = Q1 - (weight × IQR)
     - UpperBound = Q3 + (weight × IQR)
     - Outlier: value < LowerBound or value > UpperBound
-    
+
     사용 예시:
     ----------
     >>> # df.describe() 결과로 분석
     >>> desc = df.describe()
     >>> outliers = get_outlier(desc)
-    
+
     >>> # 원본 데이터로 분석
     >>> outliers = get_outlier(df)
-    
+
     >>> # 특정 컬럼만 분석
     >>> outliers = get_outlier(desc, columns='Amount')
     >>> outliers = get_outlier(desc, columns=['Amount', 'Time'])
-    
+
     >>> # 더 엄격한 기준 적용
     >>> outliers = get_outlier(desc, weight=3.0)
     """
@@ -247,48 +248,48 @@ def get_outlier(df, columns=None, weight=1.5):
         # 1. DataFrame validation
         if not isinstance(df, pd.DataFrame):
             raise TypeError(f"df는 DataFrame이어야 합니다. 현재: {type(df).__name__}")
-        
+
         if df.empty:
             raise ValueError("빈 데이터프레임입니다.")
-        
+
         # 2. weight validation
         if not isinstance(weight, (int, float)) or weight <= 0:
             raise ValueError(f"weight는 양수여야 합니다. 현재: {weight}")
-        
+
         # 3. df가 describe() 결과인지 원본 데이터인지 확인
-        is_describe_result = ('25%' in df.index and '75%' in df.index)
-        
+        is_describe_result = "25%" in df.index and "75%" in df.index
+
         if is_describe_result:
             # describe() 결과를 직접 받은 경우
             stats_df = df
         else:
             # 원본 데이터인 경우 describe() 수행
             stats_df = df.describe()
-        
+
         # 4. Q1, Q3 추출
         if columns is not None:
             # 컬럼 지정된 경우
             if isinstance(columns, str):
                 columns = [columns]
-            
+
             # 컬럼 존재 확인
             missing_cols = [col for col in columns if col not in stats_df.columns]
             if missing_cols:
                 raise KeyError(f"존재하지 않는 컬럼: {missing_cols}")
-            
+
             Q1 = stats_df.loc["25%", columns]
             Q3 = stats_df.loc["75%", columns]
         else:
             # 모든 수치형 컬럼
             Q1 = stats_df.loc["25%"]
             Q3 = stats_df.loc["75%"]
-        
+
         # 5. IQR 및 경계 계산
         iqr = Q3 - Q1
         iqr_weight = iqr * weight
         lower_bound = Q1 - iqr_weight
         upper_bound = Q3 + iqr_weight
-        
+
         # 6. 이상치 개수 계산 (원본 데이터 필요)
         if is_describe_result:
             # describe() 결과만 있는 경우 - 개수 계산 불가
@@ -298,45 +299,49 @@ def get_outlier(df, columns=None, weight=1.5):
         else:
             # 원본 데이터가 있는 경우 - 실제 이상치 개수 계산
             outlier_count = pd.Series(0, index=Q1.index)
-            
+
             for col in Q1.index:
                 if col in df.columns:
                     mask = (df[col] < lower_bound[col]) | (df[col] > upper_bound[col])
                     outlier_count[col] = mask.sum()
-        
+
         # 7. 결과 데이터프레임 생성
-        outlier_bounds = pd.DataFrame({
-            "min": stats_df.loc["min"],
-            "LowerBound": lower_bound,
-            "Q1": Q1,
-            "Q3": Q3,
-            "IQR": iqr,
-            "max": stats_df.loc["max"],
-            "UpperBound": upper_bound,
-            "OutlierCount": outlier_count
-        })
-        
+        outlier_bounds = pd.DataFrame(
+            {
+                "min": stats_df.loc["min"],
+                "LowerBound": lower_bound,
+                "Q1": Q1,
+                "Q3": Q3,
+                "IQR": iqr,
+                "max": stats_df.loc["max"],
+                "UpperBound": upper_bound,
+                "OutlierCount": outlier_count,
+            }
+        )
+
         # 8. 결과 요약 출력
         print(f"\n{'='*70}")
         print(f"이상치 탐지 결과 (IQR weight: {weight})")
         print(f"{'='*70}")
-        
+
         if not outlier_count.isna().all():
             total_outliers = int(outlier_count.sum())
             print(f"총 이상치 개수: {total_outliers:,}개")
-            
+
             if total_outliers > 0:
                 print(f"\n이상치가 많은 상위 5개 컬럼:")
                 top_outliers = outlier_count.nlargest(5)
                 for col, count in top_outliers.items():
                     if count > 0:
-                        percentage = (count / len(df)) * 100 if not is_describe_result else 0
+                        percentage = (
+                            (count / len(df)) * 100 if not is_describe_result else 0
+                        )
                         print(f"  - {col}: {int(count):,}개 ({percentage:.2f}%)")
-        
+
         print(f"{'='*70}\n")
-        
+
         return outlier_bounds
-    
+
     except KeyError as e:
         print(f"❌ 컬럼 접근 오류: {e}")
         print(f"   사용 가능한 컬럼: {list(df.columns)}")
@@ -345,8 +350,8 @@ def get_outlier(df, columns=None, weight=1.5):
         print(f"❌ get_outlier 함수 실행 중 오류: {e}")
         raise
 
-# eof ----------------------------------------------------------- #
 
+# eof ----------------------------------------------------------- #
 
 
 class HyperOptTuner:
@@ -557,6 +562,46 @@ class HyperOptTuner:
                 print(f"-{key}: {value}")
 
         return best_params, best_model, trials, exec_time
+
+
+# -- eof -----
+def preprocess_and_train_logreg(df, model_name="LogisticRegression"):
+    """
+    df: 원본 데이터셋
+    model_name: 모델 이름 (기본값 LogisticRegression)
+    """
+    # -----------------------------
+    # 1. Time 컬럼 제거
+    # -----------------------------
+    df_processed = df.drop(["Time"], axis=1)
+
+    # -----------------------------
+    # 2. Amount 로그 변환 + StandardScaler 적용
+    # -----------------------------
+    df_processed["Amount_log"] = np.log1p(df_processed["Amount"])  # log(Amount+1)
+    scaler = StandardScaler()
+    df_processed["Amount_scaled"] = scaler.fit_transform(
+        df_processed["Amount_log"].values.reshape(-1, 1)
+    )
+
+    # 원본 Amount, Amount_log 제거
+    df_processed = df_processed.drop(["Amount", "Amount_log"], axis=1)
+
+    # -----------------------------
+    # 3. 특성과 타겟 분리, 학습/테스트 분할
+    # -----------------------------
+
+    X_train, X_test, y_train, y_test = get_train_test_dataset(df_processed)
+
+    # -----------------------------
+    # 5. Logistic Regression 학습
+    # -----------------------------
+    log_reg = LogisticRegression(max_iter=1000, random_state=23)
+
+    # -----------------------------
+    # 6. 평가 (사용자 정의 함수 호출)
+    # -----------------------------
+    get_model_train_eval(log_reg, model_name, X_train, X_test, y_train, y_test)
 
 
 # -- eof -----

@@ -1,56 +1,59 @@
-# preprocessing.py 데이터 전처리 함수 
+# preprocessing.py 데이터 전처리 함수
 import os
 import pandas as pd
-import numpy  as np 
+import numpy as np
 import datetime
 import matplotlib.pyplot as plt
-import seaborn           as sns
+import seaborn as sns
 
-from sklearn.preprocessing   import StandardScaler
-from sklearn.preprocessing   import RobustScaler
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import train_test_split
 
 
 # sof : Start of function ------------------------------------------------------ #
 def ccf_load_data(train_path="../data/creditcard.csv"):
     try:
-        # 파일 존재 확인 
+        # 파일 존재 확인
         if not os.path.exists(train_path):
             raise FileNotFoundError(f"파일을 찾을 수 없습니다: {train_path}")
-        
+
         train = pd.read_csv(train_path)
         print(f"데이터 로드 성공: {train.shape}")
         return train
-    
+
     except FileNotFoundError as e:
         print(f"❌ 파일 오류: {e}")
         return None
-    
+
     except pd.errors.EmptyDataError:
         print(f"❌ 빈 파일입니다: {train_path}")
         return None
-    
+
     except pd.errors.ParserError as e:
         print(f"❌ CSV 파싱 오류: {e}")
         return None
-    
+
     except Exception as e:
         print(f"❌ 예상치 못한 오류: {e}")
         return None
+
+
 # eof : End of Function --------------------------------------------------------- #
 
+
 # soF --------------------------------------------------------------------------
-def checkBasicInfo(df, target_cols='Class', isInfo=True, isNullShow=True, isGraph=True):
+def checkBasicInfo(df, target_cols="Class", isInfo=True, isNullShow=True, isGraph=True):
     """
     데이터프레임의 기본 정보와 타겟 분포 확인
-    
+
     Args:
         df: 데이터프레임
         target_cols: 타겟 컬럼명 (str 또는 list)
         isInfo: .info() 출력 여부
         isNullShow: 결측치 정보 출력 여부
-        
-    사용예시 : 
+
+    사용예시 :
     # 기본 사용
     checkBasicInfo(df)
 
@@ -66,32 +69,34 @@ def checkBasicInfo(df, target_cols='Class', isInfo=True, isNullShow=True, isGrap
     checkBasicInfo(df, target_cols=['Class', 'Type', 'Category'])
 
     # 모든 기능 끄기
-    checkBasicInfo(df, isInfo=False, isNullShow=False, target_cols=None)        
+    checkBasicInfo(df, isInfo=False, isNullShow=False, target_cols=None)
     """
     try:
         # DataFrame validation
         if df is None:
             print("❌ 오류: df가 None입니다.")
             return
-        
+
         if not isinstance(df, pd.DataFrame):
-            print(f"❌ 오류: df는 pandas DataFrame이어야 합니다. 현재 타입: {type(df).__name__}")
+            print(
+                f"❌ 오류: df는 pandas DataFrame이어야 합니다. 현재 타입: {type(df).__name__}"
+            )
             return
-        
+
         if df.empty:
             print("⚠️ 경고: 빈 데이터프레임입니다.")
             return
-        
+
         if len(df.columns) == 0:
             print("⚠️ 경고: 컬럼이 없는 데이터프레임입니다.")
             return
-        
+
         # 1. 기본 정보
         if isInfo:
             print(f"== 기본 정보 {'='*70}")
-            df.info()            
+            df.info()
             print(f"\nShape: {df.shape}")
-        
+
         # 2. 결측치
         if isNullShow:
             print(f" 결측치 정보 {'='*70}")
@@ -100,52 +105,52 @@ def checkBasicInfo(df, target_cols='Class', isInfo=True, isNullShow=True, isGrap
                 print(null_sum[null_sum > 0])
             else:
                 print("✅ 결측치 없음")
-        
+
         # 3. 타겟 분포
         if target_cols:
             print(f"\n== 타겟 분포 {'='*70}")
-            
+
             cols = [target_cols] if isinstance(target_cols, str) else target_cols
-            
+
             for col in cols:
                 if col not in df.columns:
                     print(f"⚠️ '{col}' 컬럼이 없습니다.")
                     continue
-                
+
                 print(f"\n[{col}] 개수:")
                 print(df[col].value_counts().sort_index())
-                
+
                 print(f"\n[{col}] 비율(%):")
                 proportions = df[col].value_counts(normalize=True).sort_index() * 100
                 for idx, val in proportions.items():
                     print(f"  Class {idx}: {val:.2f}%")
-                
+
                 # 불균형 체크
                 if len(df[col].value_counts()) == 2:
                     counts = df[col].value_counts()
                     ratio = counts.min() / counts.max() * 100
                     if ratio < 10:
                         print(f"  ⚠️ 심각한 불균형 ({ratio:.2f}%)")
-        
 
         # 4. 시각화
-        if isGraph:  
+        if isGraph:
             plt.figure(figsize=(8, 4))
-            df[target_cols].value_counts().plot(kind='bar')
-            ax = df[target_cols].value_counts().plot(kind='bar')
-            plt.title(f'Label({target_cols}) Distribution')
+            df[target_cols].value_counts().plot(kind="bar")
+            ax = df[target_cols].value_counts().plot(kind="bar")
+            plt.title(f"Label({target_cols}) Distribution")
 
             # 막대 위에 값 표시
             for container in ax.containers:
-                ax.bar_label(container, fmt='%d')
+                ax.bar_label(container, fmt="%d")
             plt.show()
 
-        print(f"\n{'='*70}\n")        
-        
+        print(f"\n{'='*70}\n")
+
     except Exception as e:
         print(f"❌ 오류 발생: {e}")
-# eof ----------------------------------------------------------- #
 
+
+# eof ----------------------------------------------------------- #
 
 
 def remove_zero_columns(df, threshold_rate=0.99, save_report=True, isPrint=True):
@@ -161,7 +166,7 @@ def remove_zero_columns(df, threshold_rate=0.99, save_report=True, isPrint=True)
     save_report : bool, default=True
         제거된 컬럼 정보를 텍스트 파일로 저장할지 여부
     isPrint : bool, default=True
-        제거된 컬럼 정보를 화면에 출력할지 여부     
+        제거된 컬럼 정보를 화면에 출력할지 여부
 
     Returns:
     --------
@@ -270,9 +275,14 @@ def remove_zero_columns(df, threshold_rate=0.99, save_report=True, isPrint=True)
         clean_df = df.copy()
 
     return clean_df
+
+
 # EOF ---------------------------------------------------------------------------------------
 
-def remove_zero_columns2(train_df, test_df, threshold_rate=0.99, save_report=True, isPrint=True):
+
+def remove_zero_columns2(
+    train_df, test_df, threshold_rate=0.99, save_report=True, isPrint=True
+):
     """
     0값이 threshold_rate 이상인 컬럼들을 train_df 기준으로 train_df와 test_df에서 모두 제거
 
@@ -287,8 +297,8 @@ def remove_zero_columns2(train_df, test_df, threshold_rate=0.99, save_report=Tru
     save_report : bool, default=True
         제거된 컬럼 정보를 텍스트 파일로 저장할지 여부
     isPrint : bool, default=True
-        제거된 컬럼 정보를 화면에 출력할지 여부            
-        
+        제거된 컬럼 정보를 화면에 출력할지 여부
+
 
     Returns:
     --------
@@ -358,7 +368,7 @@ def remove_zero_columns2(train_df, test_df, threshold_rate=0.99, save_report=Tru
         "zero_count",
         "zero_count_rate_display",
     ]
-    
+
     if isPrint:
         print(f'\n{"Train Summary (zero_count 내림차순)":^102}')
         print("=" * 102)
@@ -409,14 +419,16 @@ def remove_zero_columns2(train_df, test_df, threshold_rate=0.99, save_report=Tru
         clean_test_df = test_df.copy()
 
     return clean_train_df, clean_test_df
+
+
 # -- EOF ----------------------------------------------------------------------------------------------
 
 
-def split_features_target(train_df, cols=None, target_col='Class'):
+def split_features_target(train_df, cols=None, target_col="Class"):
     """
     train_df를 X, y로 분리
     target_col이 None이면 y는 None 반환
-    
+
     # 사용방법
     # 케이스 1: cols 없음 (타겟만 제거)
     X, y = split_features_target(train_df)
@@ -428,31 +440,33 @@ def split_features_target(train_df, cols=None, target_col='Class'):
     X, y = split_features_target(train_df, cols=['ID', 'Time'])
 
     # 케이스 4: 타겟 컬럼명 변경
-    X, y = split_features_target(train_df, cols='ID', target_col='Fraud')    
+    X, y = split_features_target(train_df, cols='ID', target_col='Fraud')
     """
     drop_cols = []
-    
+
     # cols 처리
     if cols is not None:
         if isinstance(cols, str):
             drop_cols.append(cols)
         else:  # list
             drop_cols.extend(cols)
-    
+
     # target_col 처리
     if target_col is not None:
         drop_cols.append(target_col)
-    
+
     # X 생성
     if drop_cols:
         X = train_df.drop(drop_cols, axis=1)
     else:
         X = train_df.copy()
-    
+
     # y 생성
     y = train_df[target_col] if target_col is not None else None
-    
+
     return X, y
+
+
 # eof ----------------------------------------------------------- #
 
 
@@ -462,12 +476,15 @@ def scale_data(X_train, X_test):
     X_test_scaled = scaler.transform(X_test)
 
     return X_train_scaled, X_test_scaled, scaler
+
+
 # eof ----------------------------------------------------------- #
+
 
 def scale_selected_columns(X_train, X_test=None, columns=None):
     """
     특정 컬럼만 StandardScaler로 스케일링하는 함수
-    
+
     Parameters
     ----------
     X_train : pd.DataFrame
@@ -476,7 +493,7 @@ def scale_selected_columns(X_train, X_test=None, columns=None):
         테스트용 데이터 (없으면 None)
     columns : list
         스케일링할 컬럼명 리스트
-    
+
     Returns
     -------
     X_train_scaled : pd.DataFrame
@@ -489,36 +506,38 @@ def scale_selected_columns(X_train, X_test=None, columns=None):
     # ✅ 유효성 검사
     if not isinstance(X_train, pd.DataFrame):
         raise TypeError("X_train은 반드시 pandas DataFrame이어야 합니다.")
-    
+
     if X_test is not None and not isinstance(X_test, pd.DataFrame):
         raise TypeError("X_test는 None 또는 pandas DataFrame이어야 합니다.")
-    
+
     if not isinstance(columns, (list, tuple)):
         raise TypeError("columns는 리스트나 튜플이어야 합니다.")
-    
+
     missing_cols_train = [col for col in columns if col not in X_train.columns]
     if missing_cols_train:
         raise ValueError(f"X_train에 없는 컬럼: {missing_cols_train}")
-    
+
     if X_test is not None:
         missing_cols_test = [col for col in columns if col not in X_test.columns]
         if missing_cols_test:
             raise ValueError(f"X_test에 없는 컬럼: {missing_cols_test}")
-    
+
     # ✅ 스케일링
     scaler = StandardScaler()
     X_train_scaled = X_train.copy()
     X_train_scaled[columns] = scaler.fit_transform(X_train[columns])
-    
+
     if X_test is not None:
         X_test_scaled = X_test.copy()
         X_test_scaled[columns] = scaler.transform(X_test[columns])
     else:
         X_test_scaled = None
-    
+
     return X_train_scaled, X_test_scaled, scaler
 
+
 # eof ----------------------------------------------------------- #
+
 
 def undersample(train_df, target_col="TARGET", n_majority=20000, random_state=42):
     majority = train_df[train_df[target_col] == 0].sample(
@@ -527,6 +546,8 @@ def undersample(train_df, target_col="TARGET", n_majority=20000, random_state=42
     minority = train_df[train_df[target_col] == 1]
     balanced = pd.concat([majority, minority])
     return balanced
+
+
 # eof ----------------------------------------------------------- #
 
 # learn/test data sperate
@@ -556,15 +577,18 @@ def data_split(X_features, y_target, size=0.2, rs=23):
         print("데이터를 입력하세요")
 
     return X_train, X_test, y_train, y_test
+
+
 # eof ----------------------------------------------------------- #
 
-def robustScaler(df, cols=['Amount', 'Time'], isDropCols=True):
+
+def robustScaler(df, cols=["Amount", "Time"], isDropCols=True):
     """
     RobustScaler를 사용하여 지정된 컬럼들을 스케일링
-    
+
     RobustScaler는 중앙값(median)과 IQR(Interquartile Range)을 사용하여
     이상치(outlier)에 강건한 스케일링을 수행합니다.
-    
+
     Parameters:
     -----------
     df : DataFrame
@@ -575,29 +599,29 @@ def robustScaler(df, cols=['Amount', 'Time'], isDropCols=True):
         원본 컬럼 제거 여부
         - True: 원본 컬럼 제거, '_scaled' 컬럼만 유지
         - False: 원본 컬럼 유지, '_scaled' 컬럼 추가
-    
+
     Returns:
     --------
     DataFrame
         스케일링이 완료된 데이터프레임 복사본
-    
+
     주의사항:
     ---------
     - 원본 df는 변경되지 않고, 복사본을 반환
     - 각 컬럼마다 별도의 scaler를 fit (독립적 스케일링)
     - 수치형 컬럼에만 사용 가능
-    
+
     사용 예시:
     ----------
     >>> # 기본 사용 (원본 컬럼 제거)
     >>> df_scaled = robustScaler(df)
-    
+
     >>> # 원본 컬럼 유지
     >>> df_scaled = robustScaler(df, isDropCols=False)
-    
+
     >>> # 특정 컬럼만 스케일링
     >>> df_scaled = robustScaler(df, cols=['Amount'])
-    
+
     >>> # 여러 컬럼 스케일링
     >>> df_scaled = robustScaler(df, cols=['Amount', 'Time', 'V1', 'V2'])
     """
@@ -605,76 +629,88 @@ def robustScaler(df, cols=['Amount', 'Time'], isDropCols=True):
         # 1. DataFrame validation
         if df is None:
             raise ValueError("df가 None입니다.")
-        
+
         if not isinstance(df, pd.DataFrame):
-            raise TypeError(f"df는 pandas DataFrame이어야 합니다. 현재 타입: {type(df).__name__}")
-        
+            raise TypeError(
+                f"df는 pandas DataFrame이어야 합니다. 현재 타입: {type(df).__name__}"
+            )
+
         if df.empty:
             raise ValueError("빈 데이터프레임입니다.")
-        
+
         # 2. cols validation
         if not cols:
             raise ValueError("스케일링할 컬럼이 지정되지 않았습니다.")
-        
+
         if not isinstance(cols, list):
-            raise TypeError(f"cols는 list 타입이어야 합니다. 현재 타입: {type(cols).__name__}")
-        
+            raise TypeError(
+                f"cols는 list 타입이어야 합니다. 현재 타입: {type(cols).__name__}"
+            )
+
         # 3. 원본 보호를 위한 복사본 생성
         df_scaled = df.copy()
-        
+
         # 4. 존재하지 않는 컬럼 확인
         missing_cols = [col for col in cols if col not in df_scaled.columns]
         if missing_cols:
             raise KeyError(f"다음 컬럼이 데이터프레임에 없습니다: {missing_cols}")
-        
+
         # 5. 각 컬럼 스케일링
         scaled_cols = []
         for col in cols:
             try:
                 # 수치형 확인
                 if not pd.api.types.is_numeric_dtype(df_scaled[col]):
-                    print(f"⚠️ 경고: '{col}'은 수치형이 아닙니다. 스킵합니다. (dtype: {df_scaled[col].dtype})")
+                    print(
+                        f"⚠️ 경고: '{col}'은 수치형이 아닙니다. 스킵합니다. (dtype: {df_scaled[col].dtype})"
+                    )
                     continue
-                
+
                 # 결측치 확인
                 if df_scaled[col].isnull().any():
-                    print(f"⚠️ 경고: '{col}'에 결측치가 있습니다. (개수: {df_scaled[col].isnull().sum()})")
+                    print(
+                        f"⚠️ 경고: '{col}'에 결측치가 있습니다. (개수: {df_scaled[col].isnull().sum()})"
+                    )
                     # 결측치가 있어도 스케일링은 진행 (RobustScaler가 처리)
-                
+
                 # 스케일링 수행 (각 컬럼마다 별도 scaler 사용)
                 scaler = RobustScaler()
-                df_scaled[f'{col}_scaled'] = scaler.fit_transform(
+                df_scaled[f"{col}_scaled"] = scaler.fit_transform(
                     df_scaled[col].values.reshape(-1, 1)
                 )
                 scaled_cols.append(col)
-                
+
                 print(f"✅ '{col}' 스케일링 완료 → '{col}_scaled'")
-                
+
             except Exception as e:
                 print(f"❌ '{col}' 스케일링 중 오류: {e}")
                 continue
-        
+
         # 6. 스케일링 성공 확인
         if not scaled_cols:
             raise ValueError("스케일링된 컬럼이 하나도 없습니다.")
-        
+
         # 7. 원본 컬럼 제거
         if isDropCols:
             df_scaled = df_scaled.drop(scaled_cols, axis=1)
             print(f"\n🗑️  원본 컬럼 제거: {scaled_cols}")
-        
+
         print(f"\n✅ 스케일링 완료: {len(scaled_cols)}개 컬럼")
         print(f"   최종 shape: {df_scaled.shape}")
-        
+
         return df_scaled
-    
+
     except Exception as e:
         print(f"❌ robustScaler 함수 실행 중 오류 발생: {e}")
         raise
 
+
 # eof ----------------------------------------------------------- #
 
-def corrGraph(df, compCol='Time', title='Correlation Matrix of Features', threshold=0.7):
+
+def corrGraph(
+    df, compCol="Time", title="Correlation Matrix of Features", threshold=0.7
+):
     """
     데이터프레임의 상관관계를 분석하고 시각화하는 함수.
 
@@ -710,18 +746,23 @@ def corrGraph(df, compCol='Time', title='Correlation Matrix of Features', thresh
 
     # 3. 상관관계 히트맵 시각화
     plt.figure(figsize=(20, 16))
-    sns.heatmap(correlation_matrix,
-                annot=False,          # 셀 안에 숫자 표시 여부
-                cmap='coolwarm',      # 색상 테마
-                center=0,             # 0을 기준으로 색상 분할
-                vmin=-1, vmax=1,      # 상관계수 범위
-                square=True,          # 셀을 정사각형으로 표시
-                linewidths=0.5,       # 셀 구분선 두께
-                cbar_kws={"shrink": 0.8})  # 컬러바 크기 조정
+    sns.heatmap(
+        correlation_matrix,
+        annot=False,  # 셀 안에 숫자 표시 여부
+        cmap="coolwarm",  # 색상 테마
+        center=0,  # 0을 기준으로 색상 분할
+        vmin=-1,
+        vmax=1,  # 상관계수 범위
+        square=True,  # 셀을 정사각형으로 표시
+        linewidths=0.5,  # 셀 구분선 두께
+        cbar_kws={"shrink": 0.8},
+    )  # 컬러바 크기 조정
     plt.title(title, fontsize=16, pad=20)
     plt.tight_layout()
     # 히트맵을 이미지 파일로 저장 (날짜 포함)
-    plt.savefig(f'../images/CorrMatrixAllFeataures_{datetime.datetime.today().strftime("%Y_%m%d")}.png')
+    plt.savefig(
+        f'../images/CorrMatrixAllFeataures_{datetime.datetime.today().strftime("%Y_%m%d")}.png'
+    )
     plt.show()
 
     # 4. 상관관계 통계 요약 출력
@@ -730,7 +771,9 @@ def corrGraph(df, compCol='Time', title='Correlation Matrix of Features', thresh
     print("=" * 60)
 
     # 대각선 제외한 상관계수 값 추출
-    corr_values = correlation_matrix.values[np.triu_indices_from(correlation_matrix.values, k=1)]
+    corr_values = correlation_matrix.values[
+        np.triu_indices_from(correlation_matrix.values, k=1)
+    ]
     print(f"평균 상관계수: {corr_values.mean():.4f}")
     print(f"최대 상관계수: {corr_values.max():.4f}")
     print(f"최소 상관계수: {corr_values.min():.4f}")
@@ -752,16 +795,16 @@ def corrGraph(df, compCol='Time', title='Correlation Matrix of Features', thresh
         for index in upper_tri.index:
             corr_val = upper_tri.loc[index, column]
             if pd.notna(corr_val) and abs(corr_val) > threshold:
-                high_corr.append({
-                    'Variable 1': index,
-                    'Variable 2': column,
-                    'Correlation': corr_val
-                })
+                high_corr.append(
+                    {"Variable 1": index, "Variable 2": column, "Correlation": corr_val}
+                )
 
     # DataFrame으로 변환 후 출력
     high_corr_df = pd.DataFrame(high_corr)
     if not high_corr_df.empty:
-        high_corr_df = high_corr_df.sort_values('Correlation', key=lambda x: x.abs(), ascending=False)
+        high_corr_df = high_corr_df.sort_values(
+            "Correlation", key=lambda x: x.abs(), ascending=False
+        )
         print(high_corr_df.to_string(index=False))
         print(f"\n총 {len(high_corr_df)}개의 높은 상관관계 쌍 발견")
     else:
@@ -798,21 +841,35 @@ def corrGraph(df, compCol='Time', title='Correlation Matrix of Features', thresh
 
     # 7. 상관관계 분포 히스토그램 시각화
     plt.figure(figsize=(10, 6))
-    plt.hist(corr_values, bins=50, edgecolor='black', alpha=0.7)
-    plt.xlabel('Correlation Coefficient', fontsize=12)
-    plt.ylabel('Frequency', fontsize=12)
-    plt.title('Distribution of Correlation Coefficients', fontsize=14)
+    plt.hist(corr_values, bins=50, edgecolor="black", alpha=0.7)
+    plt.xlabel("Correlation Coefficient", fontsize=12)
+    plt.ylabel("Frequency", fontsize=12)
+    plt.title("Distribution of Correlation Coefficients", fontsize=14)
     # 기준선 표시
-    plt.axvline(x=0, color='red', linestyle='--', linewidth=2, label='Zero correlation')
-    plt.axvline(x=threshold, color='green', linestyle='--', linewidth=1, label=f'High positive ({threshold})')
-    plt.axvline(x=-threshold, color='green', linestyle='--', linewidth=1, label=f'High negative (-{threshold})')
+    plt.axvline(x=0, color="red", linestyle="--", linewidth=2, label="Zero correlation")
+    plt.axvline(
+        x=threshold,
+        color="green",
+        linestyle="--",
+        linewidth=1,
+        label=f"High positive ({threshold})",
+    )
+    plt.axvline(
+        x=-threshold,
+        color="green",
+        linestyle="--",
+        linewidth=1,
+        label=f"High negative (-{threshold})",
+    )
     plt.legend()
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
     # 히스토그램을 이미지 파일로 저장 (날짜 포함)
-    plt.savefig(f'../images/Distr_CorreCoeff_{today}.png')
+    plt.savefig(f"../images/Distr_CorreCoeff_{today}.png")
     plt.show()
-# eof ----------------------------------------------------------------------------------------------------------    
+
+
+# eof ----------------------------------------------------------------------------------------------------------
 
 
 # Outlier가 어디에 있는지 추출하는 함수 - 신용카드사기용
@@ -860,7 +917,7 @@ def get_outlier_index(df, column, weight=1.5, class_filter=None):
     """
     # class_filter 적용
     if class_filter is not None:
-        data = df[df['Class'] == class_filter][column]
+        data = df[df["Class"] == class_filter][column]
     else:
         data = df[column]
 
@@ -877,4 +934,6 @@ def get_outlier_index(df, column, weight=1.5, class_filter=None):
     # 이상치 인덱스 반환
     outlier_index = data[(data < lowest_val) | (data > highest_val)].index
     return outlier_index
-# eof ----------------------------------------------------------------------------------------------------------    
+
+
+# eof ----------------------------------------------------------------------------------------------------------
