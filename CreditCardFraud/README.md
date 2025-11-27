@@ -101,7 +101,8 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
 ## 담당 모델
 
 - catboost : ejm
-- LinearRegression : kjh
+- LogisticRegression : kjh
+- LinearRegration : kjhd
 - RandomForest : lsj
 - Xgboost : lkj
 - LightGBM : yjh
