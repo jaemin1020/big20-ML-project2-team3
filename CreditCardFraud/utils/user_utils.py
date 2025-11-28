@@ -576,14 +576,15 @@ class HyperOptTuner:
             print(f"\n튜닝 시간: {exec_time:.2f}초")
             print(f"최적 {self.metric}: {-trials.best_trial['result']['loss']:.4f}")
 
-            best_scores = trials.best_trial["result"]["scores"]
-            print("\n최적 모델의 전체 평가 점수:")
-            for metric_name, score_value in best_scores.items():
-                print(f"- {metric_name}: {score_value:.4f}")
+            result = trials.best_trial["result"]
+            if "scores" in result:
+                best_scores = result["scores"]
+                print("\n최적 모델의 전체 평가 점수:")
+                for metric_name, score_value in best_scores.items():
+                    print(f"- {metric_name}: {score_value:.4f}")
+            else:
+                print("\n⚠️ 최적 trial에 scores가 없습니다. (예외 발생 가능성)")
 
-            print("\n최적 하이퍼파라미터:")
-            for key, value in best_params.items():
-                print(f"-{key}: {value}")
 
         return best_params, best_model, trials, exec_time
 
