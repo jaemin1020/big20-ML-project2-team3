@@ -7,8 +7,8 @@ from matplotlib import rc
 from pathlib import Path
 
 
-# graph_sampling_metrics ------------------------------------------------------------------------------
-def graph_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 지표 비교", figsize = (10,6)):
+# plot_sampling_metrics ------------------------------------------------------------------------------
+def plot_sampling_metrics(results, keys_to_plot=None, title="샘플링 평가 지표 비교", figsize = (10,6)):
     """
     샘플링 결과 비교 그래프 생성 함수
     
