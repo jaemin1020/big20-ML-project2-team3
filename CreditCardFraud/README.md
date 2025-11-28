@@ -108,17 +108,17 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
 
 | 모델 | 데이터 전략 | 주요 HyperOpt 파라미터 |
 |------|-------------|-------------------------|
-| **CatBoost** | 원본 데이터 + `class_weights` | learning_rate (0.01–0.2), depth (3–10), iterations (100–1000), l2_leaf_reg (1–10) |
-| **XGBoost** | 원본 데이터 + `scale_pos_weight` | learning_rate (0.01–0.2), max_depth (3–10), n_estimators (100–1000), subsample (0.5–1.0), colsample_bytree (0.5–1.0) |
-| **LightGBM** | 원본 데이터 + `scale_pos_weight` | learning_rate (0.01–0.2), num_leaves (31–256), max_depth (3–10), n_estimators (100–1000), feature_fraction (0.5–1.0) |
-| **RandomForest** | 원본 데이터 + `class_weight='balanced'` | n_estimators (100–1000), max_depth (3–20), max_features (sqrt, log2, None), min_samples_split (2–20) |
-| **DecisionTree** | 원본 데이터 + `class_weight='balanced'` | max_depth (3–20), min_samples_split (2–20), min_samples_leaf (1–10), criterion (gini, entropy) |
-| **GradientBoosting (GB)** | 원본 데이터 + `class_weight='balanced'` | learning_rate (0.01–0.2), n_estimators (100–1000), max_depth (3–10), subsample (0.5–1.0) |
-| **LogisticRegression** | **SMOTE 데이터** + `class_weight='balanced'` | penalty (l1, l2, elasticnet), C (0.01–100), solver (liblinear, saga) |
-| **LinearRegression** | **SMOTE 데이터** (baseline 용도) | fit_intercept (True/False), normalize (True/False) |
-| **MLPClassifier** | **SMOTE 데이터** + EarlyStopping | hidden_layer_sizes ((64,), (128,64), (256,128,64)), activation (relu, tanh), alpha (0.0001–0.1), learning_rate_init (0.0001–0.01) |
-| **SVM (linear)** | **SMOTE 데이터** + `class_weight='balanced'` | C (0.1–100), kernel=linear |
-| **SVM (rbf)** | **SMOTE 데이터** + `class_weight='balanced'` | C (0.1–100), gamma (1e-4–1), kernel=rbf |
+| **CatBoost** ujm| 원본 데이터 + `class_weights` | learning_rate (0.01–0.2), depth (3–10), iterations (100–1000), l2_leaf_reg (1–10) |
+| **XGBoost** lkj| 원본 데이터 + `scale_pos_weight` | learning_rate (0.01–0.2), max_depth (3–10), n_estimators (100–1000), subsample (0.5–1.0), colsample_bytree (0.5–1.0) |
+| **LightGBM** yjh| 원본 데이터 + `scale_pos_weight` | learning_rate (0.01–0.2), num_leaves (31–256), max_depth (3–10), n_estimators (100–1000), feature_fraction (0.5–1.0) |
+| **RandomForest** lsj| 원본 데이터 + `class_weight='balanced'` | n_estimators (100–1000), max_depth (3–20), max_features (sqrt, log2, None), min_samples_split (2–20) |
+| **DecisionTree** ujm| 원본 데이터 + `class_weight='balanced'` | max_depth (3–20), min_samples_split (2–20), min_samples_leaf (1–10), criterion (gini, entropy) |
+| **GradientBoosting (GB)** yjh| 원본 데이터 + `class_weight='balanced'` | learning_rate (0.01–0.2), n_estimators (100–1000), max_depth (3–10), subsample (0.5–1.0) |
+| **LogisticRegression** kjh| **SMOTE 데이터** + `class_weight='balanced'` | penalty (l1, l2, elasticnet), C (0.01–100), solver (liblinear, saga) |
+| **LinearRegression** kjh| **SMOTE 데이터** (baseline 용도) | fit_intercept (True/False), normalize (True/False) |
+| **MLPClassifier** lsj| **SMOTE 데이터** + EarlyStopping | hidden_layer_sizes ((64,), (128,64), (256,128,64)), activation (relu, tanh), alpha (0.0001–0.1), learning_rate_init (0.0001–0.01) |
+| **SVM (linear)** lkj| **SMOTE 데이터** + `class_weight='balanced'` | C (0.1–100), kernel=linear |
+| **SVM (rbf)** ujm| **SMOTE 데이터** + `class_weight='balanced'` | C (0.1–100), gamma (1e-4–1), kernel=rbf |
 
 ---
 
@@ -135,12 +135,12 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
 
 - catboost : ejm
 - LogisticRegression : kjh
-- LinearRegration : kjhd
+- LinearRegration : kjh
 - RandomForest : lsj
 - Xgboost : lkj
 - LightGBM : yjh
 - DecistionTree : ejm
-- GB(GradientBoosting) : kjh
+- GB(GradientBoosting) : yjh
 - MLPClassifier : lsj
 - SVM : ALL=> HyperOpt에서 제외 
 
