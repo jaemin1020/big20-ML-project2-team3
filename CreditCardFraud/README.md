@@ -98,6 +98,39 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
 |LR(OverSampling) | 0.9722 | 0.0541 | 0.9247 | 0.1022   | 0.9736 |
 |LGBM(OverSampling)| 0.9996| 0.9118 | 0.8493 | 0.8794   | 0.9814 |
 
+
+## 모델별 데이터셋 HyperOpt 전략
+좋습니다 🤓. 말씀하신 모델들에 대해 **HyperOpt 튜닝 전략**을 한눈에 볼 수 있도록 표로 정리해드릴게요. 각 모델별로 **데이터 전략(원본/SMOTE/가중치)**과 **주요 하이퍼파라미터 탐색 범위**를 함께 담았습니다.
+
+---
+
+## 📋 HyperOpt 전략 표
+
+| 모델 | 데이터 전략 | 주요 HyperOpt 파라미터 |
+|------|-------------|-------------------------|
+| **CatBoost** | 원본 데이터 + `class_weights` | learning_rate (0.01–0.2), depth (3–10), iterations (100–1000), l2_leaf_reg (1–10) |
+| **XGBoost** | 원본 데이터 + `scale_pos_weight` | learning_rate (0.01–0.2), max_depth (3–10), n_estimators (100–1000), subsample (0.5–1.0), colsample_bytree (0.5–1.0) |
+| **LightGBM** | 원본 데이터 + `scale_pos_weight` | learning_rate (0.01–0.2), num_leaves (31–256), max_depth (3–10), n_estimators (100–1000), feature_fraction (0.5–1.0) |
+| **RandomForest** | 원본 데이터 + `class_weight='balanced'` | n_estimators (100–1000), max_depth (3–20), max_features (sqrt, log2, None), min_samples_split (2–20) |
+| **DecisionTree** | 원본 데이터 + `class_weight='balanced'` | max_depth (3–20), min_samples_split (2–20), min_samples_leaf (1–10), criterion (gini, entropy) |
+| **GradientBoosting (GB)** | 원본 데이터 + `class_weight='balanced'` | learning_rate (0.01–0.2), n_estimators (100–1000), max_depth (3–10), subsample (0.5–1.0) |
+| **LogisticRegression** | **SMOTE 데이터** + `class_weight='balanced'` | penalty (l1, l2, elasticnet), C (0.01–100), solver (liblinear, saga) |
+| **LinearRegression** | **SMOTE 데이터** (baseline 용도) | fit_intercept (True/False), normalize (True/False) |
+| **MLPClassifier** | **SMOTE 데이터** + EarlyStopping | hidden_layer_sizes ((64,), (128,64), (256,128,64)), activation (relu, tanh), alpha (0.0001–0.1), learning_rate_init (0.0001–0.01) |
+| **SVM (linear)** | **SMOTE 데이터** + `class_weight='balanced'` | C (0.1–100), kernel=linear |
+| **SVM (rbf)** | **SMOTE 데이터** + `class_weight='balanced'` | C (0.1–100), gamma (1e-4–1), kernel=rbf |
+
+---
+
+### 🧭 요약
+- **트리 기반 모델** → 원본 데이터 + 클래스 가중치  
+- **선형/딥러닝/SVM 모델** → SMOTE oversampling 데이터 + 클래스 가중치  
+- **HyperOpt 탐색 공간**은 위 표의 범위를 기준으로 설정  
+
+---
+
+
+
 ## 담당 모델
 
 - catboost : ejm
@@ -110,6 +143,7 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
 - GB(GradientBoosting) : kjh
 - MLPClassifier : lsj
 - SVM : ALL=> HyperOpt에서 제외 
+
 
 ```python
       from sklearn.neural_network import MLPClassifier
