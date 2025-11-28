@@ -110,8 +110,8 @@ def get_clf_eval(
     print(result_text)
     with open(save_path, "w", encoding="utf-8") as f:
         f.write(result_text)
-        
-        
+
+
 # --- eof ------------------
 
 
@@ -152,11 +152,12 @@ def get_model_train_eval(
         )
 
     return {
-        "AUC": round(roc_auc_score(y_test, pred_proba),4),
-        "정밀도": round(precision_score(y_test, pred),4),
-        "재현율": round(recall_score(y_test, pred),4),
-        "F1": round(f1_score(y_test, pred),4)
+        "AUC": round(roc_auc_score(y_test, pred_proba), 4),
+        "정밀도": round(precision_score(y_test, pred), 4),
+        "재현율": round(recall_score(y_test, pred), 4),
+        "F1": round(f1_score(y_test, pred), 4),
     }
+
 
 # -- eof ----------------------------------
 
@@ -378,7 +379,7 @@ class HyperOptTuner:
     best_params, best_model, trials, exec_time = tuner.tune(
         rf, X_train, y_train, X_val, y_val, rf_search_space
     )
-    get_model_train_eval(best_model, "rf_HyperOpt", X_train, X_val, y_train, y_val, best_params)
+    get_model_train_eval(best_model, "rf_HyperOpt", X_train, X_test, y_train, y_test, best_params)
     """
 
     # 모델별 정수형 파라미터 정의

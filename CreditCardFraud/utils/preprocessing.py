@@ -938,7 +938,7 @@ def get_outlier_index(df, column, weight=1.5, class_filter=None):
 
 
 # eof ----------------------------------------------------------------------------------------------------------
-def cap_outliers(df, columns=None, weight=1.5):
+def cap_outliers(X_feature, columns=None, weight=1.5):
     """
     IQR 기반으로 이상치를 탐지하고 상한/하한 값으로 대체(Capping)하는 함수.
 
@@ -949,7 +949,7 @@ def cap_outliers(df, columns=None, weight=1.5):
     사용 예시:
     df_capped = cap_outliers(X_features)
     """
-    df_capped = df.copy()
+    df_capped = X_feature.copy()
 
     # 처리할 컬럼 선택
     if columns is None:
@@ -992,4 +992,3 @@ def Smoting_Data(X_feature=None, y_label=None):
 
 
 # eof ----------------------------------------------------------------------------------------------------------
-
