@@ -257,15 +257,16 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
         
         if verbose:
             print(f"\n✓ Trials 객체 저장 완료: {trials_save_path}")
-    
-    # 파라미터 저장 (JSON)
+        
+    # 파라미터 저장 (JSON) - numpy 타입 변환
     params_data = {
         'model_name': model_name,
-        'best_params': final_params,
-        'best_score': best_score,
-        'elapsed_time': elapsed_time,
-        'max_evals': max_evals,
-        'cv': cv,
+        'best_params': {k: int(v) if isinstance(v, np.integer) else float(v) if isinstance(v, np.floating) else v 
+                        for k, v in final_params.items()},
+        'best_score': float(best_score),
+        'elapsed_time': float(elapsed_time),
+        'max_evals': int(max_evals),
+        'cv': int(cv),
         'scoring': scoring,
         'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
@@ -458,5 +459,45 @@ def train_and_evaluate(model_class, params, X_train, y_train, X_test, y_test,
         'confusion_matrix': cm,
         'result_dict': result_dict,
         'fit_time': fit_time
+    }
+# eof ----------------------------------------------------------------------------------------------------
+
+def extract_best_params_from_trials(trials_path, choice_mappings, integer_params=['max_iter'], random_state=23):
+    """trials 객체에서 최적 파라미터 추출"""
+    import pickle
+    import numpy as np
+    
+    # trials 로드
+    with open(trials_path, 'rb') as f:
+        trials = pickle.load(f)
+    
+    # 최적 trial 찾기
+    best_idx = np.argmin([trial['result']['loss'] for trial in trials.trials])
+    best_trial = trials.trials[best_idx]
+    best_vals = best_trial['misc']['vals']
+    
+    # 파라미터 변환
+    final_params = {}
+    for key, value_list in best_vals.items():
+        if len(value_list) == 0:
+            continue
+        
+        value = value_list[0]
+        
+        if key in choice_mappings:
+            final_params[key] = choice_mappings[key][int(value)]
+        elif key in integer_params:
+            final_params[key] = int(value)
+        else:
+            final_params[key] = float(value)
+    
+    final_params['random_state'] = random_state
+    
+    # 최적 점수
+    best_score = -best_trial['result']['loss']
+    
+    return {
+        'best_params': final_params,
+        'best_score': best_score
     }
 # eof ----------------------------------------------------------------------------------------------------

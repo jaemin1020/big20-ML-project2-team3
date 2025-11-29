@@ -127,3 +127,17 @@ svc_rbf_basic_params = {
   'gamma' : "scale",
   'class_weight' : "balanced"  
 }
+
+# SGD
+sgd_best_params = {
+    'alpha': 3.910947175889396e-05,
+    'class_weight': None,  # 0 → None (첫 번째 옵션)
+    'eta0': 0.0024094779453352057,
+    'l1_ratio': 0.6092668391045077,
+    'learning_rate': 'adaptive',  # 3 → 'adaptive' (네 번째 옵션)
+    'loss': 'log_loss',  # 1 → 'log_loss' (두 번째 옵션)
+    'max_iter': 6000,
+    'penalty': 'elasticnet',  # 2 → 'elasticnet' (세 번째 옵션)
+    'tol': 1.8099178032063352e-05,
+    'random_state': 23
+}
