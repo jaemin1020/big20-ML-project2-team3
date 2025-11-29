@@ -13,7 +13,7 @@ rf_best_param = {
 }
 
 # XGB
-xgb_best_params = {
+xgb_best_params_santander = {
     "random_state": 23,
     "n_estimators": 320,
     "colsample_bytree": 0.88,
@@ -26,6 +26,24 @@ xgb_best_params = {
     "eval_metric": "auc",
     "use_label_encoder": False,
     "n_jobs": -1,
+}
+
+# XGB CreditCardFraud
+xgb_best_params = {
+    'colsample_bytree': 0.8,
+    'gamma': 0.9657494843461217,
+    'learning_rate': 0.07239930133055257,
+    'max_depth': 4,
+    'min_child_weight': 5,
+    'n_estimators': 450,
+    'reg_alpha': 0.7766700326389675,
+    'reg_lambda': 8.599432523914023,
+    'scale_pos_weight': 5.0,
+    'subsample': 0.6000000000000001,
+    "eval_metric": "auc",
+    "use_label_encoder": False,
+    "n_jobs": -1,
+    'random_state': 23
 }
 
 # LGBM
