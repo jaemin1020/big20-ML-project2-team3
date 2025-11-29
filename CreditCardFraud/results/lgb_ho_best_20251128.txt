@@ -1,0 +1,6 @@
+{'AUC': 0.9179, '정확도': 0.9929, '정밀도': 0.1717, '재현율': 0.8163, 'F1': 0.2837 }
+{'오차행렬':
+[[56478   386]
+ [   18    80]] }
+실행 시간: 1.5320014953613281
+하이퍼파라미터: {'bagging_fraction': 0.8928311418280319, 'bagging_freq': 0, 'feature_fraction': 0.9900895952195329, 'lambda_l1': 0.3045393816732618, 'lambda_l2': 3.3928721015115566, 'learning_rate': 0.14435957617147147, 'max_depth': 5, 'min_data_in_leaf': 20, 'n_estimators': 100, 'num_leaves': 111, 'scale_pos_weight': 578, 'random_state': 23, 'n_jobs': -1}
