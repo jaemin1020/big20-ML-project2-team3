@@ -29,7 +29,21 @@ xgb_best_params_santander = {
 }
 
 # XGB CreditCardFraud
-xgb_best_params = {
+xgb_best_params = { # 전처리 후 org data로 한 경우
+    "colsample_bytree": 1.0,
+    "gamma": 1.7089112007254605,
+    "learning_rate": 0.038583724829444874,
+    "max_depth": 3,
+    "min_child_weight": 6,
+    "n_estimators": 150,
+    "reg_alpha": 0.5940048544595263,
+    "reg_lambda": 0.007186370173139192,
+    "scale_pos_weight": 82.0,
+    "subsample": 0.6,
+    "random_state": 23,
+}
+
+xgb_best_params_smote = {
     'colsample_bytree': 0.8,
     'gamma': 0.9657494843461217,
     'learning_rate': 0.07239930133055257,
