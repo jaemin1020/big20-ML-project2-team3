@@ -605,6 +605,7 @@ def robustScaler(df, cols=["Amount", "Time"], isDropCols=True):
     --------
     DataFrame
         스케일링이 완료된 데이터프레임 복사본
+    Scaler 
 
     주의사항:
     ---------
@@ -699,7 +700,7 @@ def robustScaler(df, cols=["Amount", "Time"], isDropCols=True):
         print(f"\n✅ 스케일링 완료: {len(scaled_cols)}개 컬럼")
         print(f"   최종 shape: {df_scaled.shape}")
 
-        return df_scaled
+        return df_scaled, scaler
 
     except Exception as e:
         print(f"❌ robustScaler 함수 실행 중 오류 발생: {e}")
