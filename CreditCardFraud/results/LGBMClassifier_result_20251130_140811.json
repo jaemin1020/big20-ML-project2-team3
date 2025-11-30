@@ -1,0 +1,39 @@
+{
+    "result_dict": {
+        "AUC": 0.8053,
+        "정확도": 0.9979,
+        "정밀도": 0.4184,
+        "재현율": 0.602,
+        "F1": 0.4937
+    },
+    "오차행렬": [
+        [
+            56782,
+            82
+        ],
+        [
+            39,
+            59
+        ]
+    ],
+    "학습 시간": 2.2825326919555664,
+    "하이퍼파라미터": {
+        "bagging_fraction": 0.8255350344404915,
+        "bagging_freq": 4,
+        "feature_fraction": 0.8012038521820253,
+        "lambda_l1": 0.5129374900952416,
+        "lambda_l2": 1.0920278164856038e-07,
+        "learning_rate": 0.06276803879866323,
+        "max_depth": 5,
+        "min_child_samples": 20,
+        "min_data_in_leaf": 25,
+        "min_gain_to_split": 0.002445465753731295,
+        "n_estimators": 450,
+        "num_leaves": 205,
+        "reg_alpha": 0.5488949959590882,
+        "reg_lambda": 2.4350215294491835e-08,
+        "scale_pos_weight": 3,
+        "random_state": 23
+    },
+    "timestamp": "2025-11-30 14:08:11"
+}

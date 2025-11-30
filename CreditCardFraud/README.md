@@ -8,7 +8,7 @@
 
 ## 📌 분석 가이드라인
 
-### 1. 데이터 이해
+### 1. 데이터 이해 
 
 - **출처**: [Kaggle Credit Card Fraud Detection](https://www.kaggle.com/mlg-ulb/creditcardfraud)
 - **특징**: 284,807건 중 492건만 사기 → **불균형 데이터 문제**
@@ -114,6 +114,7 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
 | **RandomForest** lsj| 원본 데이터 + `class_weight='balanced'` | n_estimators (100–1000), max_depth (3–20), max_features (sqrt, log2, None), min_samples_split (2–20) |
 | **DecisionTree** ujm| 원본 데이터 + `class_weight='balanced'` | max_depth (3–20), min_samples_split (2–20), min_samples_leaf (1–10), criterion (gini, entropy) |
 | **GradientBoosting (GB)** yjh| 원본 데이터 + `class_weight='balanced'` | learning_rate (0.01–0.2), n_estimators (100–1000), max_depth (3–10), subsample (0.5–1.0) |
+| **SGD** lkj | 원본 데이터 + `class_weight='balanced'` | loss (hinge, log_loss, modified_huber), penalty (l1, l2, elasticnet), alpha (1e-6–0.1), learning_rate (constant, optimal, adaptive), eta0 (1e-5–0.1), max_iter (1000–10000) |
 | **LogisticRegression** kjh| **SMOTE 데이터** + `class_weight='balanced'` | penalty (l1, l2, elasticnet), C (0.01–100), solver (liblinear, saga) |
 | **LinearRegression** kjh| **SMOTE 데이터** (baseline 용도) | fit_intercept (True/False), normalize (True/False) |
 | **MLPClassifier** lsj| **SMOTE 데이터** + EarlyStopping | hidden_layer_sizes ((64,), (128,64), (256,128,64)), activation (relu, tanh), alpha (0.0001–0.1), learning_rate_init (0.0001–0.01) |
@@ -226,3 +227,54 @@ Recall을 우선시 - 사기를 놓치는 것이 더 위험
     pipe_stack.fit(X_train, y_train)
     evaluate_model("Stacking Ensemble", pipe_stack, X_test, y_test)
 ```
+
+
+
+SGD(Stochastic Gradient Descent)는 **선형 모델**이면서 **대용량 데이터에 효율적**이므로, 불균형 데이터 처리 전략에 따라 2가지 방식으로 접근할 수 있습니다:
+
+## 추천 구성
+위 전략표 업데이트
+
+## 선택 근거
+
+### ✅ 원본 데이터 + `class_weight='balanced'` 추천 이유:
+
+1. **SGD는 대용량 데이터에 강점**
+   - SMOTE로 데이터를 증강하면 학습 시간이 늘어남
+   - 원본 데이터로도 충분히 학습 가능
+
+2. **`class_weight='balanced'` 지원**
+   - SGDClassifier는 내장 class_weight 파라미터 지원
+   - 불균형 처리가 자동으로 가능
+
+3. **다른 Tree 기반 모델과 일관성**
+   - RF, DT, GB 등과 같은 전략 사용
+
+### 대안: SMOTE 사용 시
+
+만약 팀 전략이 "선형 모델은 SMOTE"라면:
+
+```markdown
+| **SGD** lkj | **SMOTE 데이터** + `class_weight='balanced'` | loss (hinge, log_loss, modified_huber), penalty (l1, l2, elasticnet), alpha (1e-6–0.1), learning_rate (constant, optimal, adaptive), eta0 (1e-5–0.1), max_iter (1000–10000) |
+```
+
+## 실제 사용된 search_space 기준
+
+여러분이 실제로 사용한 파라미터를 보면:
+
+```python
+sgd_search_space = {
+    'loss': hp.choice('loss', ['hinge', 'log_loss', 'modified_huber']),
+    'penalty': hp.choice('penalty', ['l2', 'l1', 'elasticnet']),
+    'alpha': hp.loguniform('alpha', np.log(1e-6), np.log(1e-1)),
+    'l1_ratio': hp.uniform('l1_ratio', 0, 1),
+    'max_iter': hp.quniform('max_iter', 1000, 10000, 1000),
+    'tol': hp.loguniform('tol', np.log(1e-5), np.log(1e-2)),
+    'learning_rate': hp.choice('learning_rate', ['constant', 'optimal', 'invscaling', 'adaptive']),
+    'eta0': hp.loguniform('eta0', np.log(1e-5), np.log(1e-1)),
+    'class_weight': hp.choice('class_weight', [None, 'balanced']),
+}
+```
+
+**원본 데이터 + `class_weight='balanced'`** 전략이 적합합니다! 🎯
+---
