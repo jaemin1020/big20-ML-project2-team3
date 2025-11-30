@@ -38,7 +38,6 @@ import json
 import pickle
 
 
-
 def hyperopt_search(model_class, search_space, X_train, y_train,
                     max_evals=100, cv=5, scoring='roc_auc', random_state=23,
                     save_trials=True, trials_path='../models/trials/',
@@ -82,48 +81,6 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
         'elapsed_time': 탐색 시간,
         'model_name': 모델 이름
     }
-    
-    Examples:
-    ---------
-    >>> from sklearn.svm import LinearSVC
-    >>> from hyperopt import hp
-    >>> import numpy as np
-    >>> 
-    >>> # Search Space 정의
-    >>> lsvc_search_space = {
-    ...     'C': hp.loguniform('C', np.log(0.001), np.log(1000)),
-    ...     'class_weight': hp.choice('class_weight', [None, 'balanced']),
-    ...     'max_iter': hp.quniform('max_iter', 1000, 10000, 1000),
-    ...     'tol': hp.loguniform('tol', np.log(1e-5), np.log(1e-2)),
-    ...     'dual': hp.choice('dual', [False, True]),
-    ... }
-    >>> 
-    >>> # 1단계: 하이퍼파라미터 탐색
-    >>> search_result = hyperopt_search(
-    ...     model_class=LinearSVC,
-    ...     search_space=lsvc_search_space,
-    ...     X_train=X_train,
-    ...     y_train=y_train,
-    ...     max_evals=50,
-    ...     cv=5,
-    ...     scoring='roc_auc',
-    ...     random_state=23,
-    ...     save_trials=True
-    ... )
-    >>> 
-    >>> # 찾은 파라미터 확인
-    >>> print(search_result['best_params'])
-    >>> print(f"최적 점수: {search_result['best_score']:.4f}")
-    >>> 
-    >>> # 2단계: 별도로 최종 학습 (train_and_evaluate 함수 사용)
-    >>> result = train_and_evaluate(
-    ...     model_class=LinearSVC,
-    ...     params=search_result['best_params'],
-    ...     X_train=X_train,
-    ...     y_train=y_train,
-    ...     X_test=X_test,
-    ...     y_test=y_test
-    ... )
     """
     
     # 모델 이름 자동 추출
@@ -204,40 +161,117 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
     if verbose:
         print(f"최적 {scoring}: {best_score:.4f}")
     
-    # best_params 변환 (choice 타입 처리)
+    # best_params 변환 (choice 타입 처리) - 완전 개선 버전
     final_params = {}
-    
-    # search_space에서 choice 옵션 미리 추출
+
+    # ===== 0단계: integer_params 먼저 정의 =====
+    integer_params = [
+        # Common
+        'n_estimators', 'max_depth', 'random_state',
+        # XGBoost/LightGBM
+        'min_child_weight', 'scale_pos_weight', 'num_leaves', 
+        'min_child_samples', 'min_data_in_leaf', 'bagging_freq',
+        # sklearn
+        'max_iter', 'min_samples_split', 'min_samples_leaf',
+        # CatBoost
+        'iterations', 'depth'
+    ]
+
+    # ===== 1단계: search_space에서 choice 매핑 추출 시도 =====
     choice_mappings = {}
     for key, space_def in search_space.items():
-        # hyperopt의 pyll.choice 객체 확인
-        if hasattr(space_def, 'name') and 'choice' in str(type(space_def)):
-            # pos_args에서 실제 선택지 추출
+        try:
+            # hyperopt choice 객체에서 선택지 추출
             if hasattr(space_def, 'pos_args') and len(space_def.pos_args) > 1:
-                # pos_args[0]은 파라미터 이름, pos_args[1]은 선택지 리스트
                 choices = space_def.pos_args[1]
                 if hasattr(choices, 'obj'):
-                    choice_mappings[key] = choices.obj
-                else:
+                    extracted = choices.obj
+                    # 리스트인지 확인
+                    if isinstance(extracted, (list, tuple)):
+                        choice_mappings[key] = extracted
+                elif isinstance(choices, (list, tuple)):
                     choice_mappings[key] = choices
+        except Exception as e:
+            if verbose:
+                print(f"⚠️ {key} 추출 실패: {e}")
 
-    # 파라미터 변환
-    integer_params = ['n_estimators', 'max_depth', 'min_child_weight', 'max_iter', 'scale_pos_weight']
+    # ===== 2단계: 일반적인 모델별 choice 매핑 (fallback) =====
+    default_choice_mappings = {
+        # SGD (SGDClassifier에만 적용)
+        'loss': ['hinge', 'log_loss', 'modified_huber'],
+        'penalty': ['l2', 'l1', 'elasticnet'],
+        
+        # SVM
+        'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
+        'dual': [False, True],
+        
+        # Tree models
+        'criterion': ['gini', 'entropy'],
+        'max_features': ['sqrt', 'log2', None],
+        'bootstrap': [True, False],
+        
+        # General
+        'solver': ['liblinear', 'saga', 'lbfgs', 'newton-cg'],
+        'activation': ['relu', 'tanh', 'logistic', 'identity'],
+        'class_weight': [None, 'balanced'],
+    }
+    
+    # SGD의 learning_rate만 choice (다른 모델은 float)
+    if 'SGD' in model_name:
+        default_choice_mappings['learning_rate'] = ['constant', 'optimal', 'invscaling', 'adaptive']
 
+    # 추출 실패한 choice 파라미터는 기본 매핑 사용
+    for key in best_params.keys():
+        if key not in choice_mappings and key in default_choice_mappings:
+            choice_mappings[key] = default_choice_mappings[key]
+
+    # None 값 필터링 및 문자열 제거 (안전장치)
+    choice_mappings = {
+        k: v for k, v in choice_mappings.items() 
+        if v is not None and isinstance(v, (list, tuple))
+    }
+
+    if verbose and choice_mappings:
+        print("\n감지된 choice 파라미터:")
+        for key, choices in choice_mappings.items():
+            print(f"  - {key}: {choices} (타입: {type(choices).__name__}, 길이: {len(choices)})")
+
+    # ===== 3단계: 파라미터 변환 =====
     for key, value in best_params.items():
         # choice 파라미터 처리
         if key in choice_mappings:
-            idx = int(value)
-            final_params[key] = choice_mappings[key][idx]
+            mapping = choice_mappings[key]
+            # 리스트/튜플인지 다시 확인
+            if not isinstance(mapping, (list, tuple)):
+                print(f"⚠️ {key}의 mapping이 리스트가 아닙니다: {type(mapping)} = {mapping}")
+                final_params[key] = value
+                continue
+                
+            try:
+                idx = int(value)
+                if idx < 0 or idx >= len(mapping):
+                    print(f"⚠️ {key} 인덱스 범위 초과: idx={idx}, 선택지={mapping}")
+                    final_params[key] = value
+                else:
+                    final_params[key] = mapping[idx]
+            except (IndexError, ValueError, TypeError) as e:
+                print(f"⚠️ {key} 변환 실패 (idx={value}): {e}")
+                final_params[key] = value
         # quniform으로 정의된 정수형 파라미터
         elif key in integer_params:
             final_params[key] = int(value)
+        # float 파라미터 (numpy → Python float 변환)
         else:
-            final_params[key] = value
-    
+            if isinstance(value, np.floating):
+                final_params[key] = float(value)
+            elif isinstance(value, np.integer):
+                final_params[key] = int(value)
+            else:
+                final_params[key] = value
+
     # random_state 추가
     final_params['random_state'] = random_state
-    
+
     # GPU 설정 추가
     if use_gpu:
         if 'XGB' in model_name:
@@ -250,7 +284,7 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
         elif 'CatBoost' in model_name:
             final_params['task_type'] = 'GPU'
             final_params['devices'] = '0'
-    
+
     if verbose:
         print("\n최적 하이퍼파라미터:")
         for param_name, param_value in final_params.items():
@@ -269,47 +303,63 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
         if verbose:
             print(f"\n✓ Trials 객체 저장 완료: {trials_save_path}")
         
-    # 파라미터 저장 (JSON)
-    params_data = {
-        'model_name': model_name,
-        'best_params': final_params,
-        'best_score': best_score,
-        'elapsed_time': elapsed_time,
-        'max_evals': max_evals,
-        'cv': cv,
-        'scoring': scoring,
-        'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    }
+        # JSON 저장 시도 (실패해도 진행)
+        try:
+            def convert_numpy_types(obj):
+                """numpy 타입을 재귀적으로 Python 기본 타입으로 변환"""
+                if isinstance(obj, np.integer):
+                    return int(obj)
+                elif isinstance(obj, np.floating):
+                    return float(obj)
+                elif isinstance(obj, np.bool_):
+                    return bool(obj)
+                elif isinstance(obj, np.ndarray):
+                    return obj.tolist()
+                elif isinstance(obj, dict):
+                    return {key: convert_numpy_types(value) for key, value in obj.items()}
+                elif isinstance(obj, (list, tuple)):
+                    return [convert_numpy_types(item) for item in obj]
+                return obj
+            
+            params_data = {
+                'model_name': model_name,
+                'best_params': convert_numpy_types(final_params),
+                'best_score': float(best_score),
+                'elapsed_time': float(elapsed_time),
+                'max_evals': int(max_evals),
+                'cv': int(cv),
+                'scoring': scoring,
+                'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            }
+            
+            params_filename = f"{model_name}_best_params_{timestamp}.json"
+            params_save_path = os.path.join(trials_path, params_filename)
+            
+            with open(params_save_path, 'w', encoding='utf-8') as f:
+                json.dump(params_data, f, ensure_ascii=False, indent=4)
+            
+            if verbose:
+                print(f"✓ 최적 파라미터 저장 완료 (JSON): {params_save_path}")
+                
+        except Exception as e:
+            if verbose:
+                print(f"⚠️ JSON 저장 실패 (pickle로 대체): {e}")
+            # pickle로 대체 저장
+            try:
+                result_filename = f"{model_name}_result_{timestamp}.pkl"
+                result_save_path = os.path.join(trials_path, result_filename)
+                with open(result_save_path, 'wb') as f:
+                    pickle.dump({
+                        'best_params': final_params,
+                        'best_score': best_score,
+                        'elapsed_time': elapsed_time
+                    }, f)
+                if verbose:
+                    print(f"✓ pickle로 대체 저장: {result_save_path}")
+            except Exception as pickle_err:
+                if verbose:
+                    print(f"⚠️ pickle 저장도 실패: {pickle_err}")
     
-    os.makedirs(trials_path, exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    params_filename = f"{model_name}_best_params_{timestamp}.json"
-    params_save_path = os.path.join(trials_path, params_filename)
-    
-    # default 함수로 numpy 타입 자동 변환
-    def numpy_encoder(obj):
-        if isinstance(obj, (np.integer, np.int64, np.int32, np.int16, np.int8)):
-            return int(obj)
-        elif isinstance(obj, (np.floating, np.float64, np.float32, np.float16)):
-            return float(obj)
-        elif isinstance(obj, np.bool_):
-            return bool(obj)
-        elif isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return obj
-    
-    with open(params_save_path, 'w', encoding='utf-8') as f:
-        json.dump(params_data, f, ensure_ascii=False, indent=4, default=numpy_encoder)
-        
-    
-    if verbose:
-        print(f"✓ 최적 파라미터 저장 완료: {params_save_path}")
-
-        # final_params 출력해보기
-        print("final_params 타입 확인:")
-        for key, value in final_params.items():
-            print(f"  {key}: {value} (type: {type(value)})")    
-        
     # 반환
     return {
         'best_params': final_params,
@@ -318,7 +368,7 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
         'elapsed_time': elapsed_time,
         'model_name': model_name
     }
-# eof ----------------------------------------------------------------------------------------------------
+# eof -------------------------------------------------------------------------------------
 
 
 def train_and_evaluate(model_class, params, X_train, y_train, X_test, y_test,
