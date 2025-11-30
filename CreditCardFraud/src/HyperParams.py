@@ -176,6 +176,16 @@ meta_best_params = {
     "n_jobs": -1,
 }
 
+# GradientBoostingClassifier by CreditFraud
+gb_best_params = {
+    'learning_rate': 0.02083271293464231, 
+    'max_depth': 3, 
+    'n_estimators': 800, 
+    'subsample': 0.7076395576782778, 
+    'random_state': 23
+}
+
+
 # GradientBoostingClassifier 기본 파라미터
 gb_basic_params = {
     "n_estimators": 100,  # 트리 개수 (더 많을수록 성능↑, 시간↑)
