@@ -116,7 +116,8 @@ lgbm_best_param2 = {
     'reg_lambda': 2.435e-08,        # L2 규제 (lambda_l2와 유사)
 
     # 클래스 불균형 처리
-    'scale_pos_weight': 3,          # 클래스 불균형을 위한 양성 클래스 가중치 (이전보다 크게 감소)
+    # 'scale_pos_weight': 3,          # 클래스 불균형을 위한 양성 클래스 가중치 (이전보다 크게 감소)
+    'scale_pos_weight': 578,          # 클래스 불균형을 위한 양성 클래스 가중치 (이전보다 크게 감소)
 
     # 시스템/재현성 설정
     'random_state': 23,             # 재현성을 위한 랜덤 시드
