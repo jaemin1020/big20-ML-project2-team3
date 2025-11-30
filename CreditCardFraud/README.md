@@ -8,7 +8,7 @@
 
 ## 📌 분석 가이드라인
 
-### 1. 데이터 이해
+### 1. 데이터 이해 
 
 - **출처**: [Kaggle Credit Card Fraud Detection](https://www.kaggle.com/mlg-ulb/creditcardfraud)
 - **특징**: 284,807건 중 492건만 사기 → **불균형 데이터 문제**
