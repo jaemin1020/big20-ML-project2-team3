@@ -191,33 +191,33 @@ lgbm_best_param2 = {
 lgbm_search_space = {
     # 학습률 (로그 스케일이 더 효과적)
     'learning_rate': hp.loguniform('learning_rate', np.log(0.01), np.log(0.3)),
-    
+
     # 트리 구조
     'num_leaves': hp.quniform('num_leaves', 31, 255, 1),  # 2^n-1 권장
     'max_depth': hp.quniform('max_depth', 3, 12, 1),  # 범위 확장
     'n_estimators': hp.quniform('n_estimators', 100, 1000, 50),
-    
+
     # Feature sampling
     'feature_fraction': hp.uniform('feature_fraction', 0.6, 1.0),  # 0.5는 너무 낮음
     'bagging_fraction': hp.uniform('bagging_fraction', 0.6, 1.0),
     'bagging_freq': hp.quniform('bagging_freq', 1, 7, 1),  # 0 제외 (의미 없음)
-    
+
     # 리프 제약
     'min_data_in_leaf': hp.quniform('min_data_in_leaf', 10, 100, 5),  # 200은 너무 큼
     'min_child_samples': hp.quniform('min_child_samples', 5, 50, 5),  # 추가
-    
+
     # 정규화
     'lambda_l1': hp.loguniform('lambda_l1', np.log(1e-8), np.log(10.0)),  # 로그 스케일
     'lambda_l2': hp.loguniform('lambda_l2', np.log(1e-8), np.log(10.0)),
-    
+
     # 불균형 데이터 대응 (개선)
     'scale_pos_weight': hp.choice('scale_pos_weight', [
-        1, 
+        1,
         int(len(y_train) / sum(y_train)),  # 불균형 비율
         int(len(y_train) / sum(y_train)) * 0.5,  # 50%
         int(len(y_train) / sum(y_train)) * 1.5   # 150%
     ]),
-    
+
     # 추가 파라미터 (성능 향상)
     'min_gain_to_split': hp.loguniform('min_gain_to_split', np.log(1e-5), np.log(1.0)),
     'reg_alpha': hp.loguniform('reg_alpha', np.log(1e-8), np.log(10.0)),  # L1
@@ -238,7 +238,7 @@ lgbm_best_param_santander = {
     "n_jobs": -1,
 }
 
-# LR
+# Logistic Regression
 meta_best_params = {
     "random_state": 23,
     "C": 0.029,
@@ -249,12 +249,36 @@ meta_best_params = {
     "n_jobs": -1,
 }
 
+<<<<<<< HEAD
+lr_best_params = {
+    'C': 48.99128351532987,
+    'class_weight': 'balanced',
+    'max_iter': 250,
+    'penalty': 'l2',
+    'solver': 'lbfgs',
+    'random_state': 23,
+    'n_jobs': -1
+}
+
+lr_best_params_smote = {
+    'C': 99.78576192595759,
+    'class_weight': 'balanced',
+    'max_iter': 550,
+    'penalty': 'l2',
+    'solver': 'lbfgs',
+    'random_state': 23,
+    'n_jobs': -1
+}
+
+# GradientBoostingClassifier by CreditFraud
+=======
 # GradientBoostingClassifier by CreditCard Fraud
+>>>>>>> 7efa5783d12365e620f7ada0afeecc6b0a3c04ad
 gb_best_params = {
-    'learning_rate': 0.02083271293464231, 
-    'max_depth': 3, 
-    'n_estimators': 800, 
-    'subsample': 0.7076395576782778, 
+    'learning_rate': 0.02083271293464231,
+    'max_depth': 3,
+    'n_estimators': 800,
+    'subsample': 0.7076395576782778,
     'random_state': 23
 }
 
@@ -366,7 +390,7 @@ sgd_best_params = {
 
     # 시스템/재현성 설정
     "random_state": 23, # 결과 재현성을 위한 랜덤 시드 설정
-} 
+}
 
 # Catboost
 cb_best_params = {
