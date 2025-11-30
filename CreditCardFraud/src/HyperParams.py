@@ -2,7 +2,7 @@
 import numpy as np
 
 # RF
-rf_best_param = {
+rf_best_param_santander = {
     "random_state": 23,
     "n_estimators": 390,
     "max_depth": 25,
@@ -11,6 +11,7 @@ rf_best_param = {
     "min_samples_split": 7,
     "n_jobs": -1,
 }
+
 # --- Random Forest 최적 하이퍼파라미터 정의 ---
 rf_best_params = {
     'bootstrap': True,          # 부트스트래핑 사용 여부 (True 권장)
