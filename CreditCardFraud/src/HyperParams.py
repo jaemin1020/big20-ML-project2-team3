@@ -13,7 +13,7 @@ rf_best_param = {
 }
 
 # XGB
-xgb_best_params = {
+xgb_best_params_santander = {
     "random_state": 23,
     "n_estimators": 320,
     "colsample_bytree": 0.88,
@@ -26,6 +26,38 @@ xgb_best_params = {
     "eval_metric": "auc",
     "use_label_encoder": False,
     "n_jobs": -1,
+}
+
+# XGB CreditCardFraud
+xgb_best_params = { # 전처리 후 org data로 한 경우
+    "colsample_bytree": 1.0,
+    "gamma": 1.7089112007254605,
+    "learning_rate": 0.038583724829444874,
+    "max_depth": 3,
+    "min_child_weight": 6,
+    "n_estimators": 150,
+    "reg_alpha": 0.5940048544595263,
+    "reg_lambda": 0.007186370173139192,
+    "scale_pos_weight": 82.0,
+    "subsample": 0.6,
+    "random_state": 23,
+}
+
+xgb_best_params_smote = {
+    'colsample_bytree': 0.8,
+    'gamma': 0.9657494843461217,
+    'learning_rate': 0.07239930133055257,
+    'max_depth': 4,
+    'min_child_weight': 5,
+    'n_estimators': 450,
+    'reg_alpha': 0.7766700326389675,
+    'reg_lambda': 8.599432523914023,
+    'scale_pos_weight': 5.0,
+    'subsample': 0.6000000000000001,
+    "eval_metric": "auc",
+    "use_label_encoder": False,
+    "n_jobs": -1,
+    'random_state': 23
 }
 
 # LGBM
@@ -94,4 +126,18 @@ svc_rbf_basic_params = {
   'kernel' : "rbf", 
   'gamma' : "scale",
   'class_weight' : "balanced"  
+}
+
+# SGD
+sgd_best_params = {
+    'alpha': 3.910947175889396e-05,
+    'class_weight': None,  # 0 → None (첫 번째 옵션)
+    'eta0': 0.0024094779453352057,
+    'l1_ratio': 0.6092668391045077,
+    'learning_rate': 'adaptive',  # 3 → 'adaptive' (네 번째 옵션)
+    'loss': 'log_loss',  # 1 → 'log_loss' (두 번째 옵션)
+    'max_iter': 6000,
+    'penalty': 'elasticnet',  # 2 → 'elasticnet' (세 번째 옵션)
+    'tol': 1.8099178032063352e-05,
+    'random_state': 23
 }

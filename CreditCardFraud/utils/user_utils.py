@@ -20,6 +20,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import precision_score, recall_score
 from sklearn.metrics import f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score # hyperopt_tune 에서 사용
 from sklearn.preprocessing import StandardScaler
 
 from functools import partial
@@ -33,6 +34,8 @@ from lightgbm import LGBMClassifier
 from catboost import CatBoostClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
+import json
+import pickle
 
 # import importlib
 
@@ -396,6 +399,8 @@ class HyperOptTuner:
             "n_estimators",
             "min_child_weight",
             "num_leaves",
+            "min_data_in_leaf",
+            "bagging_freq"
         ],
         "CatBoostClassifier": ["iterations", "depth", "min_data_in_leaf", "max_bin"],
         "LogisticRegression": ["max_iter"],
@@ -486,19 +491,38 @@ class HyperOptTuner:
             model = model_class(**params)
             model.fit(X_train, y_train)
 
-            # 평가
-            y_pred_proba = model.predict_proba(X_val)
+            if hasattr(model, "predict_proba"):
+                y_pred_proba = model.predict_proba(X_val)
+            elif hasattr(model, "decision_function"):
+                decision_scores = model.decision_function(X_val)
+                # decision_function은 1차원일 수 있으므로 변환 필요
+                if decision_scores.ndim == 1:
+                    decision_scores = (decision_scores - decision_scores.min()) / (
+                        decision_scores.max() - decision_scores.min() + 1e-8
+                    )
+                    y_pred_proba = np.vstack([1 - decision_scores, decision_scores]).T
+                else:
+                    y_pred_proba = decision_scores
+            else:
+                y_pred = model.predict(X_val)
+                y_pred_proba = np.vstack([1 - y_pred, y_pred]).T
+
             scores = self._get_metric_score(y_val, y_pred_proba)
 
             # hyperopt는 loss를 최소화하는 방향으로 최적화합니다.
-            loss = -scores[self.metric]
+            loss = -scores.get(self.metric, 0.0)
 
-            # fmin은 loss, status 외의 다른 값들도 trials 객체에 저장합니다.
             return {"loss": loss, "status": STATUS_OK, "scores": scores}
 
         except Exception as e:
             print(f"Error in objective function: {str(e)}")
-            return {"loss": float("inf"), "status": STATUS_OK}
+            # 예외 발생 시에도 기본 scores 반환
+            return {
+                "loss": float("inf"),
+                "status": STATUS_OK,
+                "scores": {"accuracy": 0.0, "recall": 0.0, "f1": 0.0, "roc_auc": 0.0, "precision": 0.0},
+            }
+
 
     def tune(
         self,

@@ -1,0 +1,45 @@
+{'AUC': 0.9721, '정확도': 0.9996, '정밀도': 0.9419, '재현율': 0.8265, 'F1': 0.8804 }
+{'오차행렬':
+[[56859     5]
+ [   17    81]] }
+실행 시간: 4.120579242706299
+하이퍼파라미터: {'colsample_bytree': 0.8, 'gamma': 0.9657494843461217, 'learning_rate': 0.07239930133055257, 'max_depth': 4, 'min_child_weight': 5, 'n_estimators': 450, 'reg_alpha': 0.7766700326389675, 'reg_lambda': 8.599432523914023, 'scale_pos_weight': 5.0, 'subsample': 0.6000000000000001, 'random_state': 23}
+
+
+
+==================================================
+XGBClassifier 튜닝 시작
+==================================================
+  0%|          | 0/100 [00:00<?, ?trial/s, best loss=?]100%|██████████| 100/100 [10:33<00:00,  6.33s/trial, best loss: -1.0]
+
+튜닝 시간: 633.21초
+최적 recall: 1.0000
+
+최적 모델의 전체 평가 점수:
+- roc_auc: 0.9999
+- f1: 0.9985
+- precision: 0.9970
+- recall: 1.0000
+- accuracy: 0.9985
+
+최적 하이퍼파라미터:
+-colsample_bytree: 0.8
+-gamma: 0.9657494843461217
+-learning_rate: 0.07239930133055257
+-max_depth: 4
+-min_child_weight: 5
+-n_estimators: 450
+-reg_alpha: 0.7766700326389675
+-reg_lambda: 8.599432523914023
+-scale_pos_weight: 5.0
+-subsample: 0.6000000000000001
+-random_state: 23
+✓ 모델 저장 완료: ../models\xgb_ho_best.pkl
+  파일 크기: 0.57 MB
+folder = c:\big20\git\big20-ML-project2-team3\CreditCardFraud\results
+{'AUC': 0.9721, '정확도': 0.9996, '정밀도': 0.9419, '재현율': 0.8265, 'F1': 0.8804 }
+{'오차행렬':
+[[56859     5]
+ [   17    81]] }
+실행 시간: 4.120579242706299
+하이퍼파라미터: {'colsample_bytree': 0.8, 'gamma': 0.9657494843461217, 'learning_rate': 0.07239930133055257, 'max_depth': 4, 'min_child_weight': 5, 'n_estimators': 450, 'reg_alpha': 0.7766700326389675, 'reg_lambda': 8.599432523914023, 'scale_pos_weight': 5.0, 'subsample': 0.6000000000000001, 'random_state': 23}
