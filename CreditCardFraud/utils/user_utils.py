@@ -20,7 +20,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import precision_score, recall_score
 from sklearn.metrics import f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import cross_val_score # hyperopt_tune 에서 사용
+from sklearn.model_selection import cross_val_score  # hyperopt_tune 에서 사용
 from sklearn.preprocessing import StandardScaler
 
 from functools import partial
@@ -400,7 +400,7 @@ class HyperOptTuner:
             "min_child_weight",
             "num_leaves",
             "min_data_in_leaf",
-            "bagging_freq"
+            "bagging_freq",
         ],
         "CatBoostClassifier": ["iterations", "depth", "min_data_in_leaf", "max_bin"],
         "LogisticRegression": ["max_iter"],
@@ -437,7 +437,7 @@ class HyperOptTuner:
     def __init__(
         self,
         max_evals: int = 100,
-        metric: str = "recall",
+        metric: str = "roc_auc",
         random_state: int = 23,
     ):
         """
@@ -520,9 +520,14 @@ class HyperOptTuner:
             return {
                 "loss": float("inf"),
                 "status": STATUS_OK,
-                "scores": {"accuracy": 0.0, "recall": 0.0, "f1": 0.0, "roc_auc": 0.0, "precision": 0.0},
+                "scores": {
+                    "accuracy": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "roc_auc": 0.0,
+                    "precision": 0.0,
+                },
             }
-
 
     def tune(
         self,
