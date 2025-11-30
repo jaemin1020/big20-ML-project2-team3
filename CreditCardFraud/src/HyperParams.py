@@ -215,18 +215,33 @@ svc_rbf_basic_params = {
 }
 
 # SGD
+# --- 1. SGDClassifier 최적 하이퍼파라미터 정의 ---
 sgd_best_params = {
-    "alpha": 3.910947175889396e-05,
-    "class_weight": None,  # 0 → None (첫 번째 옵션)
-    "eta0": 0.0024094779453352057,
-    "l1_ratio": 0.6092668391045077,
-    "learning_rate": "adaptive",  # 3 → 'adaptive' (네 번째 옵션)
-    "loss": "log_loss",  # 1 → 'log_loss' (두 번째 옵션)
-    "max_iter": 6000,
-    "penalty": "elasticnet",  # 2 → 'elasticnet' (세 번째 옵션)
-    "tol": 1.8099178032063352e-05,
-    "random_state": 23,
-}
+    # 모델의 목적 (분류 문제에서 손실 함수 선택)
+    "loss": "log_loss",  # 로지스틱 회귀를 위한 손실 함수 ('hinge'는 SVM)
+
+    # 규제 (과적합 방지) 설정
+    "penalty": "elasticnet",  # L1 (Lasso)과 L2 (Ridge) 규제를 혼합 사용
+    "alpha": 3.910947175889396e-05, # 규제의 강도 (값이 낮을수록 규제 약함)
+    "l1_ratio": 0.6092668391045077, # ElasticNet에서 L1 규제의 혼합 비율 (0: L2만, 1: L1만)
+
+    # 학습률 (Learning Rate) 설정
+    "learning_rate": "adaptive",  # 적응형 학습률 방식 사용 (성능 저하 시 eta0 자동 감소)
+    "eta0": 0.0024094779453352057, # 초기 학습률 값 (learning_rate이 'constant', 'adaptive', 'invscaling' 일 때 사용)
+
+    # 반복 학습 및 수렴 조건
+    "max_iter": 6000, # 전체 데이터셋 반복 횟수 (에포크)
+    "tol": 1.8099178032063352e-05, # 수렴 판단 임계값 (이 값보다 손실이 덜 감소하면 학습 중단)
+
+    # 클래스 불균형 처리 (★ 중요: 캐글 데이터셋에 맞게 수정 필요)
+    # 현재 값은 None이며, 아래 주석 처리된 옵션 중 하나를 선택하여 사용 권장
+    "class_weight": None,
+    # "class_weight": "balanced", # 데이터 불균형 시 자동 가중치 부여 옵션
+    # "class_weight": {0: 1, 1: 578}, # 캐글 데이터셋 비율에 맞춘 수동 가중치 부여 옵션
+
+    # 시스템/재현성 설정
+    "random_state": 23, # 결과 재현성을 위한 랜덤 시드 설정
+} 
 
 # Catboost
 cb_best_params = {
