@@ -2,7 +2,7 @@
 import numpy as np
 
 # RF
-rf_best_param = {
+rf_best_param_santander = {
     "random_state": 23,
     "n_estimators": 390,
     "max_depth": 25,
@@ -11,6 +11,28 @@ rf_best_param = {
     "min_samples_split": 7,
     "n_jobs": -1,
 }
+
+# --- Random Forest 최적 하이퍼파라미터 정의 ---
+rf_best_params = {
+    'bootstrap': True,          # 부트스트래핑 사용 여부 (True 권장)
+    'class_weight': 'balanced', # 클래스 불균형 자동 처리 ('balanced' 사용)
+    'criterion': 'entropy',     # 불순도 측정 기준: 엔트로피 사용 ('gini' 대신)
+    'max_depth': 10, #3,         # 트리의 최대 깊이 (매우 얕게 설정됨)
+    'max_features': None,       # 각 분기에서 고려할 최대 특성 수 (모든 특성 사용)
+    'min_samples_leaf': 9,      # 리프 노드가 되기 위한 최소 샘플 수
+    'min_samples_split': 3,     # 노드를 분할하기 위한 최소 샘플 수
+    'n_estimators': 200,        # 생성할 트리 개수
+    'random_state': 23,         # 재현성을 위한 랜덤 시드
+    'n_jobs': -1                # 병렬 처리 시 모든 CPU 코어 사용
+}
+'''
+### 결론 및 제안
+이 파라미터 세트는 과적합 방지에 최적화되어 있으며, 학습된 모델이 매우 단순하고 해석하기 쉬울 것으로 예상됩니다.
+장점: 안정적이며, 새로운 데이터(테스트/검증 데이터)에서 예상치 못한 성능 저하가 적을 것입니다.
+단점: 트리의 깊이가 3으로 너무 얕아서 복잡한 사기 패턴을 놓칠 수 있으며, 이로 인해 LightGBM 같은 더 강력한 부스팅 모델보다 전체적인 성능(AUROC, F1-Score)이 낮을 수 있습니다.
+추천:
+이 파라미터 세트는 베이스라인 모델로 사용하기에 매우 적합합니다. 만약 이 모델의 성능이 기대보다 낮다면, max_depth를 10 또는 20 정도로 높여서 모델의 복잡도를 높이는 방향으로 튜닝을 시도해 볼 수 있습니다.
+'''
 
 # XGB
 xgb_best_params_santander = {
@@ -175,6 +197,16 @@ meta_best_params = {
     "class_weight": "balanced",
     "n_jobs": -1,
 }
+
+# GradientBoostingClassifier by CreditFraud
+gb_best_params = {
+    'learning_rate': 0.02083271293464231, 
+    'max_depth': 3, 
+    'n_estimators': 800, 
+    'subsample': 0.7076395576782778, 
+    'random_state': 23
+}
+
 
 # GradientBoostingClassifier 기본 파라미터
 gb_basic_params = {
