@@ -607,8 +607,7 @@ class HyperOptTuner:
                 for metric_name, score_value in best_scores.items():
                     print(f"- {metric_name}: {score_value:.4f}")
             else:
-                print("\n⚠️ 최적 trial에 scores가 없습니다. (예외 발생 가능성)")
-
+                print("\n최적 trial에 scores가 없습니다. (예외 발생 가능성)")
 
         return best_params, best_model, trials, exec_time
 
