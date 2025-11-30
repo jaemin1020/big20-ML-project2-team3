@@ -277,3 +277,4 @@ sgd_search_space = {
 ```
 
 **원본 데이터 + `class_weight='balanced'`** 전략이 적합합니다! 🎯
+---

@@ -210,16 +210,27 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
     # search_space에서 choice 옵션 미리 추출
     choice_mappings = {}
     for key, space_def in search_space.items():
-        if hasattr(space_def, 'pos_args') and len(space_def.pos_args) > 0:
-            if hasattr(space_def.pos_args[0], 'obj'):
-                choice_mappings[key] = space_def.pos_args[0].obj
-    
+        # hyperopt의 pyll.choice 객체 확인
+        if hasattr(space_def, 'name') and 'choice' in str(type(space_def)):
+            # pos_args에서 실제 선택지 추출
+            if hasattr(space_def, 'pos_args') and len(space_def.pos_args) > 1:
+                # pos_args[0]은 파라미터 이름, pos_args[1]은 선택지 리스트
+                choices = space_def.pos_args[1]
+                if hasattr(choices, 'obj'):
+                    choice_mappings[key] = choices.obj
+                else:
+                    choice_mappings[key] = choices
+
+    # 파라미터 변환
+    integer_params = ['n_estimators', 'max_depth', 'min_child_weight', 'max_iter', 'scale_pos_weight']
+
     for key, value in best_params.items():
         # choice 파라미터 처리
         if key in choice_mappings:
-            final_params[key] = choice_mappings[key][int(value)]
+            idx = int(value)
+            final_params[key] = choice_mappings[key][idx]
         # quniform으로 정의된 정수형 파라미터
-        elif key in ['n_estimators', 'max_depth', 'min_child_weight', 'max_iter', 'scale_pos_weight']:
+        elif key in integer_params:
             final_params[key] = int(value)
         else:
             final_params[key] = value
@@ -258,15 +269,14 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
         if verbose:
             print(f"\n✓ Trials 객체 저장 완료: {trials_save_path}")
         
-    # 파라미터 저장 (JSON) - numpy 타입 변환
+    # 파라미터 저장 (JSON)
     params_data = {
         'model_name': model_name,
-        'best_params': {k: int(v) if isinstance(v, np.integer) else float(v) if isinstance(v, np.floating) else v 
-                        for k, v in final_params.items()},
-        'best_score': float(best_score),
-        'elapsed_time': float(elapsed_time),
-        'max_evals': int(max_evals),
-        'cv': int(cv),
+        'best_params': final_params,
+        'best_score': best_score,
+        'elapsed_time': elapsed_time,
+        'max_evals': max_evals,
+        'cv': cv,
         'scoring': scoring,
         'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
@@ -276,12 +286,30 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
     params_filename = f"{model_name}_best_params_{timestamp}.json"
     params_save_path = os.path.join(trials_path, params_filename)
     
+    # default 함수로 numpy 타입 자동 변환
+    def numpy_encoder(obj):
+        if isinstance(obj, (np.integer, np.int64, np.int32, np.int16, np.int8)):
+            return int(obj)
+        elif isinstance(obj, (np.floating, np.float64, np.float32, np.float16)):
+            return float(obj)
+        elif isinstance(obj, np.bool_):
+            return bool(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return obj
+    
     with open(params_save_path, 'w', encoding='utf-8') as f:
-        json.dump(params_data, f, ensure_ascii=False, indent=4)
+        json.dump(params_data, f, ensure_ascii=False, indent=4, default=numpy_encoder)
+        
     
     if verbose:
         print(f"✓ 최적 파라미터 저장 완료: {params_save_path}")
-    
+
+        # final_params 출력해보기
+        print("final_params 타입 확인:")
+        for key, value in final_params.items():
+            print(f"  {key}: {value} (type: {type(value)})")    
+        
     # 반환
     return {
         'best_params': final_params,
