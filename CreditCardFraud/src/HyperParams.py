@@ -249,7 +249,6 @@ meta_best_params = {
     "n_jobs": -1,
 }
 
-<<<<<<< HEAD
 lr_best_params = {
     'C': 48.99128351532987,
     'class_weight': 'balanced',
@@ -270,10 +269,7 @@ lr_best_params_smote = {
     'n_jobs': -1
 }
 
-# GradientBoostingClassifier by CreditFraud
-=======
 # GradientBoostingClassifier by CreditCard Fraud
->>>>>>> 7efa5783d12365e620f7ada0afeecc6b0a3c04ad
 gb_best_params = {
     'learning_rate': 0.02083271293464231,
     'max_depth': 3,
