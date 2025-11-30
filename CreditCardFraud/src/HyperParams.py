@@ -298,6 +298,39 @@ mlp_basic_params = {
 # SVM liner basic params
 svc_liner_basic_params = {"C": 1.0, "kernel": "linear", "class_weight": "balanced"}
 
+# LinearSVC
+lsvc_best_params = {
+    # C: 정규화 매개변수의 역수입니다.
+    # 값이 작을수록 정규화 강도가 강해지며(모델이 단순해짐), 과적합을 방지하는 효과가 큽니다.
+    # 이 값은 매우 작으므로, 모델이 강력하게 정규화되었음을 의미합니다.
+    'C': 0.0010064028945580546,
+
+    # class_weight: 클래스 가중치를 설정합니다.
+    # 'balanced'로 설정하면 훈련 데이터의 클래스 빈도에 따라 자동으로 가중치를 조정합니다.
+    # 이는 데이터셋에 클래스 불균형이 있을 때 유용하며, 소수 클래스 예측 성능을 향상시킵니다.
+    'class_weight': 'balanced',
+
+    # dual: 최적화 문제의 형태(프라이멀 또는 듀얼)를 결정합니다.
+    # dual=False는 일반적으로 샘플 수(n_samples)가 특성 수(n_features)보다 많을 때 더 효율적이고 빠릅니다.
+    # liblinear 내부 구현상의 최적화 방식 선택입니다.
+    'dual': False,
+
+    # max_iter: 최적화 알고리즘이 반복할 최대 횟수입니다.
+    # 기본값(1000)보다 높게 설정된 것으로 보아, 모델이 수렴하는 데 추가적인 반복이 필요했거나
+    # ConvergenceWarning (수렴 경고)를 회피하기 위해 설정된 값입니다.
+    'max_iter': 1500,
+
+    # tol (tolerance): 허용 오차입니다.
+    # 최적화 과정에서 목표 함수의 변화량이 이 값 이하로 떨어지면 수렴했다고 판단하고 학습을 중단합니다.
+    # 기본값 0.0001과 유사한 수준입니다.
+    'tol': 0.00010607856911336914,
+
+    # random_state: 난수 생성 시드(Seed)를 고정합니다.
+    # 모델을 여러 번 실행해도 동일한 초기화 및 훈련 결과가 나오도록 재현성을 보장합니다.
+    'random_state': 23
+}
+
+
 # RBF SVM basic params
 svc_rbf_basic_params = {
     "C": 1.0,
