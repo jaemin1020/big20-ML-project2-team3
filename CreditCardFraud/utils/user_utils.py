@@ -24,10 +24,11 @@ from sklearn.model_selection import cross_val_score  # hyperopt_tune 에서 사�
 from sklearn.preprocessing import StandardScaler
 
 from functools import partial
-from typing import Dict, Any, Callable
+from typing import Dict, Any, Callable, Optional, Union
 from hyperopt import hp
 from hyperopt import fmin, tpe, Trials, STATUS_OK
 from hyperopt import space_eval
+from hyperopt import early_stop
 
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
@@ -368,7 +369,7 @@ class HyperOptTuner:
     """HyperOpt을 사용한 하이퍼파라미터 튜닝 클래스
     사용법
     # 튜너 초기화
-    tuner = HyperOptTuner(max_evals=100, random_state=23)
+    tuner = HyperOptTuner(max_evals=100, random_state=23, early_stopping_rounds = 20,class_weight='balanced')
 
     # RandomForest 예시
     rf_search_space = {
@@ -402,7 +403,13 @@ class HyperOptTuner:
             "min_data_in_leaf",
             "bagging_freq",
         ],
-        "CatBoostClassifier": ["iterations", "depth", "min_data_in_leaf", "max_bin"],
+        "CatBoostClassifier": [
+            "iterations",
+            "depth",
+            "min_data_in_leaf",
+            "max_bin",
+            "border_count",
+        ],
         "LogisticRegression": ["max_iter"],
         "MLPClassifier": ["max_iter"],
         "GradientBoostingClassifier": [
@@ -439,16 +446,21 @@ class HyperOptTuner:
         max_evals: int = 100,
         metric: str = "roc_auc",
         random_state: int = 23,
+        early_stopping_rounds: Optional[int] = None,
+        class_weight: Optional[Union[str, dict]] = None,
     ):
         """
         Args:
             max_evals: 최대 평가 횟수
             metric: 평가 지표 ('roc_auc', 'accuracy', 'f1' 등)
             random_state: 랜덤 시드
+            early_stopping_rounds: 조기 종료 patience. None이면 사용 안함.
         """
         self.max_evals = max_evals
         self.metric = metric
         self.random_state = random_state
+        self.early_stopping_rounds = early_stopping_rounds
+        self.class_weight = class_weight
 
     @staticmethod
     def _convert_int_params(
@@ -466,7 +478,7 @@ class HyperOptTuner:
         y_pred = (y_pred_proba[:, 1] >= 0.5).astype(int)
         """평가 지표 계산"""
         scores["roc_auc"] = roc_auc_score(y_true, y_pred_proba[:, 1])
-        scores["f1"] = f1_score(y_true, y_pred)
+        scores["f1"] = f1_score(y_true, y_pred, zero_division=0)
         scores["precision"] = precision_score(y_true, y_pred)
         scores["recall"] = recall_score(y_true, y_pred)
         scores["accuracy"] = accuracy_score(y_true, y_pred)
@@ -573,6 +585,15 @@ class HyperOptTuner:
             y_val=y_val,
         )
 
+        early_stop_fn = None
+        if self.early_stopping_rounds is not None:
+
+            early_stop_fn = early_stop.no_progress_loss(self.early_stopping_rounds)
+            if verbose:
+                print(
+                    f"\n조기 종료 활성화: {self.early_stopping_rounds} 라운드 동안 개선 없을 시 중단."
+                )
+
         best_params = fmin(
             fn=objective_fn,
             space=search_space,
@@ -581,6 +602,7 @@ class HyperOptTuner:
             trials=trials,
             rstate=np.random.default_rng(seed=self.random_state),
             verbose=verbose,
+            early_stop_fn=early_stop_fn,
         )
 
         exec_time = time.time() - start_time
@@ -597,6 +619,15 @@ class HyperOptTuner:
         # 고정 파라미터 추가
         if model_name in self.FIXED_PARAMS:
             best_params.update(self.FIXED_PARAMS[model_name])
+
+        if self.class_weight and model_name in [
+            "RandomForestClassifier",
+            "LogisticRegression",
+            "XGBClassifier",
+            "LGBMClassifier",
+            "DecisionTreeClassifier",
+        ]:
+            best_params["class_weight"] = self.class_weight
 
         # 최적 모델 생성
         best_model = model_class(**best_params)

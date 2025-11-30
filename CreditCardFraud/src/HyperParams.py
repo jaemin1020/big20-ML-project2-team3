@@ -249,7 +249,7 @@ meta_best_params = {
     "n_jobs": -1,
 }
 
-# GradientBoostingClassifier by CreditFraud
+# GradientBoostingClassifier by CreditCard Fraud
 gb_best_params = {
     'learning_rate': 0.02083271293464231, 
     'max_depth': 3, 
@@ -258,6 +258,15 @@ gb_best_params = {
     'random_state': 23
 }
 
+# HistGradientBoostingClassifier by CreditCard Fraud
+hgb_best_params = {
+    'l2_regularization': 0.7775071677100267, 
+    'learning_rate': 0.07444330922448128, 
+    'max_bins': 128, 
+    'max_depth': 5, 
+    'max_iter': 500, 
+    'min_samples_leaf': 20
+}
 
 # GradientBoostingClassifier 기본 파라미터
 gb_basic_params = {
