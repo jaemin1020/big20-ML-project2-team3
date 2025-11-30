@@ -37,7 +37,7 @@ from sklearn.linear_model import LogisticRegression
 import json
 import pickle
 
-
+# sof hyperopt_search ---------------------------------------------------------------------------
 def hyperopt_search(model_class, search_space, X_train, y_train,
                     max_evals=100, cv=5, scoring='roc_auc', random_state=23,
                     save_trials=True, trials_path='../models/trials/',
@@ -100,9 +100,13 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
         # 파라미터 타입 변환
         converted_params = {}
         for key, value in params.items():
-            # quniform으로 정의된 정수형 파라미터 변환
+            # quniform으로 정의된 정수형 파라미터 변환 (None 체크 추가)
             if key in ['n_estimators', 'max_depth', 'min_child_weight', 'max_iter', 'scale_pos_weight']:
-                converted_params[key] = int(value)
+                # None은 그대로 유지 (max_depth=None 등)
+                if value is None:
+                    converted_params[key] = None
+                else:
+                    converted_params[key] = int(value)
             else:
                 converted_params[key] = value
         
@@ -259,7 +263,11 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
                 final_params[key] = value
         # quniform으로 정의된 정수형 파라미터
         elif key in integer_params:
-            final_params[key] = int(value)
+            # None은 그대로 유지 (max_depth=None 등)
+            if value is None:
+                final_params[key] = None
+            else:
+                final_params[key] = int(value)
         # float 파라미터 (numpy → Python float 변환)
         else:
             if isinstance(value, np.floating):
@@ -271,6 +279,10 @@ def hyperopt_search(model_class, search_space, X_train, y_train,
 
     # random_state 추가
     final_params['random_state'] = random_state
+    
+    # n_jobs 추가 (RandomForest, ExtraTrees 등)
+    if any(keyword in model_name for keyword in ['RandomForest', 'ExtraTrees', 'GradientBoosting']):
+        final_params['n_jobs'] = -1
 
     # GPU 설정 추가
     if use_gpu:

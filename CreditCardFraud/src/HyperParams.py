@@ -2,15 +2,37 @@
 import numpy as np
 
 # RF
-rf_best_param_santander = {
-    "random_state": 23,
-    "n_estimators": 390,
-    "max_depth": 25,
-    "class_weight": {0: 1, 1: 2},
-    "min_samples_leaf": 1,
-    "min_samples_split": 7,
-    "n_jobs": -1,
+rf_best_params_lsj = {
+    'max_depth': 10,             # 트리의 최대 깊이 (규제와 성능 사이의 균형점)
+    'max_features': 'log2',      # 각 분기에서 고려할 최대 특성 수 (특성 수의 log2만큼 사용)
+    'min_samples_leaf': 5,       # 리프 노드가 되기 위한 최소 샘플 수
+    'min_samples_split': 15,     # 노드를 분할하기 위한 최소 샘플 수
+    'n_estimators': 450,         # 생성할 트리 개수 (충분히 많음)
+    'random_state': 23,          # 재현성을 위한 랜덤 시드
+    'n_jobs': -1                 # 병렬 처리 시 모든 CPU 코어 사용    
+    # 참고: class_weight 파라미터가 포함되어 있지 않음. 
+    #       신용카드 사기 검출 시 이 파라미터 추가 필요.
 }
+'''
+캐글 신용카드 사기 검출 데이터셋 적용 분석
+이 파라미터 세트는 이전 rf_best_params (max_depth 3)보다 훨씬 강력한 모델입니다.
+1. 모델 복잡도: 중~고 수준
+max_depth: 10
+깊이 3은 너무 얕았지만, 깊이 10은 적절한 수준의 복잡성을 가집니다. 모델이 데이터의 복잡한 패턴을 학습할 수 있는 능력이 향상되었습니다.
+n_estimators: 450
+충분한 수의 트리를 사용하여 모델의 안정성과 성능을 높였습니다.
+2. 규제 및 샘플링: 적절한 균형
+max_features: 'log2'
+특성 수의 로그2만큼의 특성만 고려하여 무작위성을 높이고 과적합을 방지합니다.
+min_samples_leaf: 5 & min_samples_split: 15
+노드 생성 조건을 까다롭게 하여 트리가 너무 깊고 복잡해지는 것을 막습니다.
+3. 주요 고려사항: 클래스 불균형 처리 부재
+제공된 rf_best_params2 딕셔너리에는 class_weight 파라미터가 포함되어 있지 않습니다.
+캐글 신용카드 사기 검출과 같이 극심한 클래스 불균형이 있는 데이터셋에서는 이대로 학습할 경우 사기 거래 탐지율(Recall)이 매우 낮게 나올 것입니다.
+결론 및 제안
+이 파라미터 세트는 매우 유망한 성능을 보일 것으로 예상됩니다. 하지만 신용카드 사기 검출 데이터에 사용하기 위해서는 반드시 class_weight 파라미터를 추가해야 합니다.
+
+'''
 
 # --- Random Forest 최적 하이퍼파라미터 정의 ---
 rf_best_params = {
@@ -33,6 +55,16 @@ rf_best_params = {
 추천:
 이 파라미터 세트는 베이스라인 모델로 사용하기에 매우 적합합니다. 만약 이 모델의 성능이 기대보다 낮다면, max_depth를 10 또는 20 정도로 높여서 모델의 복잡도를 높이는 방향으로 튜닝을 시도해 볼 수 있습니다.
 '''
+rf_best_param_santander = {
+    "random_state": 23,
+    "n_estimators": 390,
+    "max_depth": 25,
+    "class_weight": {0: 1, 1: 2},
+    "min_samples_leaf": 1,
+    "min_samples_split": 7,
+    "n_jobs": -1,
+}
+
 
 # XGB
 xgb_best_params_santander = {
@@ -51,19 +83,38 @@ xgb_best_params_santander = {
 }
 
 # XGB CreditCardFraud
-xgb_best_params = {  # 전처리 후 org data로 한 경우
-    "colsample_bytree": 1.0,
-    "gamma": 1.7089112007254605,
-    "learning_rate": 0.038583724829444874,
-    "max_depth": 3,
-    "min_child_weight": 6,
-    "n_estimators": 150,
-    "reg_alpha": 0.5940048544595263,
-    "reg_lambda": 0.007186370173139192,
-    "scale_pos_weight": 82.0,
-    "subsample": 0.6,
-    "random_state": 23,
+# 원본 데이터(org data) 전처리 후 학습 시 사용된 XGBoost 최적 파라미터
+xgb_best_params = {
+    # 모델 복잡성 제어 (트리 구조 관련)
+    "max_depth": 3,             # 트리의 최대 깊이 (매우 얕게 설정됨)
+    "min_child_weight": 6,      # 리프 노드의 최소 가중치 합 (과적합 방지)
+    "gamma": 1.7089112007254605, # 트리 분할에 필요한 최소 손실 감소량 (값이 클수록 규제 강함)
+
+    # 학습률 및 부스팅 반복 횟수
+    "learning_rate": 0.038583724829444874, # 학습 속도 (비교적 낮음)
+    "n_estimators": 150,        # 부스팅 단계 수 (트리 개수)
+
+    # 샘플링 및 피처 사용 비율 제어
+    "subsample": 0.6,           # 각 트리 학습 시 사용될 데이터 샘플링 비율 (60% 사용)
+    "colsample_bytree": 1.0,    # 각 트리 학습 시 사용될 특성(컬럼) 샘플링 비율 (모두 사용)
+
+    # 규제 (L1/L2)
+    "reg_alpha": 0.5940048544595263, # L1 규제 (Lasso)
+    "reg_lambda": 0.007186370173139192, # L2 규제 (Ridge)
+
+    # 클래스 불균형 처리 (원본 데이터셋 비율에 맞춤)
+    "scale_pos_weight": 82.0,   # 양성 클래스(사기)에 부여하는 가중치
+
+    # 시스템/재현성 설정
+    "random_state": 23,         # 재현성을 위한 랜덤 시드
+    # "objective": "binary:logistic", # 일반적으로 이진 분류 시 기본 설정됨
 }
+''' 
+xgb_best_params 분석:
+강력한 클래스 가중치: scale_pos_weight가 82로 설정되었습니다. 이는 데이터셋의 실제 불균형 비율(약 578:1)보다는 낮지만, 모델이 사기 거래 탐지에 집중하도록 유도합니다.
+얕은 트리: max_depth가 3으로 매우 얕게 설정되어 과적합을 방지하고 모델 안정성을 추구합니다.
+약한 규제 및 피처 사용: colsample_bytree가 1.0으로 모든 특성을 사용하며, 규제 강도(alpha, lambda)는 중간 정도입니다.
+'''
 
 xgb_best_params_smote = {
     "colsample_bytree": 0.8,
@@ -198,6 +249,7 @@ meta_best_params = {
     "n_jobs": -1,
 }
 
+<<<<<<< HEAD
 lr_best_params = {
     'C': 48.99128351532987,
     'class_weight': 'balanced',
@@ -219,6 +271,9 @@ lr_best_params_smote = {
 }
 
 # GradientBoostingClassifier by CreditFraud
+=======
+# GradientBoostingClassifier by CreditCard Fraud
+>>>>>>> 7efa5783d12365e620f7ada0afeecc6b0a3c04ad
 gb_best_params = {
     'learning_rate': 0.02083271293464231,
     'max_depth': 3,
@@ -227,6 +282,15 @@ gb_best_params = {
     'random_state': 23
 }
 
+# HistGradientBoostingClassifier by CreditCard Fraud
+hgb_best_params = {
+    'l2_regularization': 0.7775071677100267, 
+    'learning_rate': 0.07444330922448128, 
+    'max_bins': 128, 
+    'max_depth': 5, 
+    'max_iter': 500, 
+    'min_samples_leaf': 20
+}
 
 # GradientBoostingClassifier 기본 파라미터
 gb_basic_params = {
