@@ -89,11 +89,15 @@ def get_clf_eval(
     roc_auc = roc_auc_score(y_test, pred_proba)
     f2 = fbeta_score(y_test, pred, beta=2)
 
-    result_text = (
-        f"{{'AUC': {roc_auc:.4f}, '정확도': {accuracy:.4f}, "
-        f"'정밀도': {precision:.4f}, '재현율': {recall:.4f}, 'F1': {f1:.4f} ,'F2': {f2:.4f} }}\n"
-        f"{{'오차행렬':\n{confusion} }}"
-    )
+    result_text = {
+        "AUC": round((roc_auc, 0), 4),
+        "정확도": round(accuracy, 4),
+        "정밀도": round(precision, 4),
+        "재현율": round(recall, 4),
+        "F1": round(f1, 4),
+        "F2": round(f2, 4),
+        "오차행렬": confusion,
+    }
     if exec_time is not None:
         result_text += f"\n실행 시간: {exec_time}"
     if HO_params is not None:
