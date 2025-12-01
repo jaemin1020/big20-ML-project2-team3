@@ -278,3 +278,11 @@ sgd_search_space = {
 
 **원본 데이터 + `class_weight='balanced'`** 전략이 적합합니다! 🎯
 ---
+
+## ensemble model 담당
+3.EnsembleSet.ipynb
+1 YJH 
+2 EJM
+3 KJH
+4 LKJ
+5 LSJ
