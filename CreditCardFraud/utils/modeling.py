@@ -145,9 +145,14 @@ def model_metrics_graph(results, title='모델별 성능 지표 비교', figsize
             max_idx = df_results[metric].idxmax()
             max_val = df_results[metric].max()
             max_pos = df_results.index.get_loc(max_idx)
-            ax.text(max_pos, max_val + 0.02, f'{max_val:.4f}', ha='center', va='bottom',
-                    fontweight='bold', fontsize=10)
+            # ax.text(max_pos, max_val + 0.02, f'{max_val:.4f}', ha='center', va='bottom',
+            #         fontweight='bold', fontsize=10)
 
+            # 모든 bar 위에 수치 표시
+            for i, (model, value) in enumerate(zip(df_results.index, df_results[metric])):
+                ax.text(i, value + 0.02, f'{value:.3f}', ha='center', va='bottom',
+                        fontweight='bold', fontsize=9)
+            
         plt.tight_layout()
         plt.savefig(filename, dpi=300)  # 그래프 저장
         plt.show()
@@ -172,7 +177,12 @@ def model_metrics_graph(results, title='모델별 성능 지표 비교', figsize
 
         for i, (metric, color) in enumerate(zip(metrics, colors)):
             offset = width * (i - 1.5)
-            ax2.bar(x + offset, df_results[metric], width, label=metric, color=color, alpha=0.7)
+            bars = ax2.bar(x + offset, df_results[metric], width, label=metric, color=color, alpha=0.7)
+            
+            # 각 bar 위에 수치 표시
+            for j, value in enumerate(df_results[metric]):
+                ax2.text(j + offset, value + 0.02, f'{value:.3f}', ha='center', va='bottom',
+                        fontsize=8, fontweight='bold')
 
         ax2.set_xlabel('모델', fontsize=14, fontweight='bold')
         ax2.set_ylabel('점수', fontsize=14, fontweight='bold')
@@ -194,9 +204,17 @@ def model_metrics_graph(results, title='모델별 성능 지표 비교', figsize
         top5_f1 = df_results.nlargest(5, 'F1')
         print(top5_f1[metrics])
 
+        # ========================================
+        # 7. 상위 모델 분석 (AUC 기준)
+        # ========================================
+        print("\n=== AUC 기준 상위 5개 모델 ===")
+        top5_f1 = df_results.nlargest(5, 'AUC')
+        print(top5_f1[metrics])
+        
         print(f"\n그래프가 저장되었습니다: {filename}")
 
     except Exception as e:
         print(f"[에러 발생] {e}")
         
 # eof -----------------------------------------------------------------------------------------------------------------------------------    
+

@@ -18,21 +18,25 @@ from datetime import datetime
 import time
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import precision_score, recall_score
-from sklearn.metrics import f1_score, roc_auc_score
+from sklearn.metrics import f1_score, roc_auc_score, fbeta_score
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score  # hyperopt_tune 에서 사용
 from sklearn.preprocessing import StandardScaler
 
 from functools import partial
-from typing import Dict, Any, Callable
+from typing import Dict, Any, Callable, Optional, Union
 from hyperopt import hp
 from hyperopt import fmin, tpe, Trials, STATUS_OK
 from hyperopt import space_eval
+from hyperopt import early_stop
 
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
 from catboost import CatBoostClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
+import json
+import pickle
 
 # import importlib
 
@@ -83,12 +87,17 @@ def get_clf_eval(
     recall = recall_score(y_test, pred)
     f1 = f1_score(y_test, pred)
     roc_auc = roc_auc_score(y_test, pred_proba)
+    f2 = fbeta_score(y_test, pred, beta=2)
 
-    result_text = (
-        f"{{'AUC': {roc_auc:.4f}, '정확도': {accuracy:.4f}, "
-        f"'정밀도': {precision:.4f}, '재현율': {recall:.4f}, 'F1': {f1:.4f} }}\n"
-        f"{{'오차행렬':\n{confusion} }}"
-    )
+    result_text = {
+        "AUC": round((roc_auc, 0), 4),
+        "정확도": round(accuracy, 4),
+        "정밀도": round(precision, 4),
+        "재현율": round(recall, 4),
+        "F1": round(f1, 4),
+        "F2": round(f2, 4),
+        "오차행렬": confusion,
+    }
     if exec_time is not None:
         result_text += f"\n실행 시간: {exec_time}"
     if HO_params is not None:
@@ -156,6 +165,9 @@ def get_model_train_eval(
         "정밀도": round(precision_score(y_test, pred), 4),
         "재현율": round(recall_score(y_test, pred), 4),
         "F1": round(f1_score(y_test, pred), 4),
+        "F2": round(fbeta_score(y_test, pred, beta=2), 4),
+        "실행시간": round(exec_time, 4),
+        "하이퍼파라미터": hyperopt_params if hyperopt_params else "None",
     }
 
 
@@ -365,7 +377,7 @@ class HyperOptTuner:
     """HyperOpt을 사용한 하이퍼파라미터 튜닝 클래스
     사용법
     # 튜너 초기화
-    tuner = HyperOptTuner(max_evals=100, random_state=23)
+    tuner = HyperOptTuner(max_evals=100, random_state=23, early_stopping_rounds = 20,class_weight='balanced')
 
     # RandomForest 예시
     rf_search_space = {
@@ -396,8 +408,16 @@ class HyperOptTuner:
             "n_estimators",
             "min_child_weight",
             "num_leaves",
+            "min_data_in_leaf",
+            "bagging_freq",
         ],
-        "CatBoostClassifier": ["iterations", "depth", "min_data_in_leaf", "max_bin"],
+        "CatBoostClassifier": [
+            "iterations",
+            "depth",
+            "min_data_in_leaf",
+            "max_bin",
+            "border_count",
+        ],
         "LogisticRegression": ["max_iter"],
         "MLPClassifier": ["max_iter"],
         "GradientBoostingClassifier": [
@@ -432,18 +452,23 @@ class HyperOptTuner:
     def __init__(
         self,
         max_evals: int = 100,
-        metric: str = "recall",
+        metric: str = "f2",
         random_state: int = 23,
+        early_stopping_rounds: Optional[int] = None,
+        class_weight: Optional[Union[str, dict]] = None,
     ):
         """
         Args:
             max_evals: 최대 평가 횟수
             metric: 평가 지표 ('roc_auc', 'accuracy', 'f1' 등)
             random_state: 랜덤 시드
+            early_stopping_rounds: 조기 종료 patience. None이면 사용 안함.
         """
         self.max_evals = max_evals
         self.metric = metric
         self.random_state = random_state
+        self.early_stopping_rounds = early_stopping_rounds
+        self.class_weight = class_weight
 
     @staticmethod
     def _convert_int_params(
@@ -460,12 +485,16 @@ class HyperOptTuner:
         scores = {}
         y_pred = (y_pred_proba[:, 1] >= 0.5).astype(int)
         """평가 지표 계산"""
-        scores["roc_auc"] = roc_auc_score(y_true, y_pred_proba[:, 1])
-        scores["f1"] = f1_score(y_true, y_pred)
-        scores["precision"] = precision_score(y_true, y_pred)
-        scores["recall"] = recall_score(y_true, y_pred)
-        scores["accuracy"] = accuracy_score(y_true, y_pred)
-        return scores
+        if self.metric == "roc_auc":
+            return roc_auc_score(y_true, y_pred_proba[:, 1])
+        elif self.metric == "accuracy":
+            return accuracy_score(y_true, y_pred)
+        elif self.metric == "f1":
+            return f1_score(y_true, y_pred, zero_division=0)
+        elif self.metric == "f2":
+            return fbeta_score(y_true, y_pred, beta=2, zero_division=0)
+        else:
+            raise ValueError(f"지원하지 않는 메트릭: {self.metric}")
 
     def _objective(
         self, params: Dict[str, Any], model_class: type, X_train, y_train, X_val, y_val
@@ -486,19 +515,43 @@ class HyperOptTuner:
             model = model_class(**params)
             model.fit(X_train, y_train)
 
-            # 평가
-            y_pred_proba = model.predict_proba(X_val)
+            if hasattr(model, "predict_proba"):
+                y_pred_proba = model.predict_proba(X_val)
+            elif hasattr(model, "decision_function"):
+                decision_scores = model.decision_function(X_val)
+                # decision_function은 1차원일 수 있으므로 변환 필요
+                if decision_scores.ndim == 1:
+                    decision_scores = (decision_scores - decision_scores.min()) / (
+                        decision_scores.max() - decision_scores.min() + 1e-8
+                    )
+                    y_pred_proba = np.vstack([1 - decision_scores, decision_scores]).T
+                else:
+                    y_pred_proba = decision_scores
+            else:
+                y_pred = model.predict(X_val)
+                y_pred_proba = np.vstack([1 - y_pred, y_pred]).T
+
             scores = self._get_metric_score(y_val, y_pred_proba)
 
             # hyperopt는 loss를 최소화하는 방향으로 최적화합니다.
-            loss = -scores[self.metric]
+            loss = -scores.get(self.metric, 0.0)
 
-            # fmin은 loss, status 외의 다른 값들도 trials 객체에 저장합니다.
             return {"loss": loss, "status": STATUS_OK, "scores": scores}
 
         except Exception as e:
             print(f"Error in objective function: {str(e)}")
-            return {"loss": float("inf"), "status": STATUS_OK}
+            # 예외 발생 시에도 기본 scores 반환
+            return {
+                "loss": float("inf"),
+                "status": STATUS_OK,
+                "scores": {
+                    "accuracy": 0.0,
+                    "recall": 0.0,
+                    "f1": 0.0,
+                    "roc_auc": 0.0,
+                    "precision": 0.0,
+                },
+            }
 
     def tune(
         self,
@@ -544,6 +597,15 @@ class HyperOptTuner:
             y_val=y_val,
         )
 
+        early_stop_fn = None
+        if self.early_stopping_rounds is not None:
+
+            early_stop_fn = early_stop.no_progress_loss(self.early_stopping_rounds)
+            if verbose:
+                print(
+                    f"\n조기 종료 활성화: {self.early_stopping_rounds} 라운드 동안 개선 없을 시 중단."
+                )
+
         best_params = fmin(
             fn=objective_fn,
             space=search_space,
@@ -552,6 +614,7 @@ class HyperOptTuner:
             trials=trials,
             rstate=np.random.default_rng(seed=self.random_state),
             verbose=verbose,
+            early_stop_fn=early_stop_fn,
         )
 
         exec_time = time.time() - start_time
@@ -569,6 +632,15 @@ class HyperOptTuner:
         if model_name in self.FIXED_PARAMS:
             best_params.update(self.FIXED_PARAMS[model_name])
 
+        if self.class_weight and model_name in [
+            "RandomForestClassifier",
+            "LogisticRegression",
+            "XGBClassifier",
+            "LGBMClassifier",
+            "DecisionTreeClassifier",
+        ]:
+            best_params["class_weight"] = self.class_weight
+
         # 최적 모델 생성
         best_model = model_class(**best_params)
 
@@ -576,14 +648,14 @@ class HyperOptTuner:
             print(f"\n튜닝 시간: {exec_time:.2f}초")
             print(f"최적 {self.metric}: {-trials.best_trial['result']['loss']:.4f}")
 
-            best_scores = trials.best_trial["result"]["scores"]
-            print("\n최적 모델의 전체 평가 점수:")
-            for metric_name, score_value in best_scores.items():
-                print(f"- {metric_name}: {score_value:.4f}")
-
-            print("\n최적 하이퍼파라미터:")
-            for key, value in best_params.items():
-                print(f"-{key}: {value}")
+            result = trials.best_trial["result"]
+            if "scores" in result:
+                best_scores = result["scores"]
+                print("\n최적 모델의 전체 평가 점수:")
+                for metric_name, score_value in best_scores.items():
+                    print(f"- {metric_name}: {score_value:.4f}")
+            else:
+                print("\n최적 trial에 scores가 없습니다. (예외 발생 가능성)")
 
         return best_params, best_model, trials, exec_time
 
