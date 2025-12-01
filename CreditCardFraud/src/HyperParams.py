@@ -421,3 +421,15 @@ cb_best_params = {
     "verbose": 0,
     "allow_writing_files": False,
 }
+mlp_best_param = {
+    "activation": "tanh",
+        "alpha": 0.004721246220578279,
+        "batch_size": 3,
+        "early_stopping": 1,
+        "hidden_layer_sizes": 0,
+        "learning_rate": 2,
+        "learning_rate_init": 0.00036361698972348403,
+        "max_iter": 1,
+        "solver": "liblinear",
+        "random_state": 23
+}
