@@ -645,4 +645,140 @@ pipeline → fit → predict → csv 저장까지 full automation.
 * c) Full Kaggle submission pipeline
 * d) ROC-AUC/F1 특화 threshold 자동 탐색
 
-하나 선택해줘!
+아래는 **VotingClassifier 가중치를 자동 최적화**하는 가장 안정적이고 많이 쓰이는 방식인
+**Optuna 기반 Weight Optimization 코드**를 정리해서 제공할게.
+
+✔ **5개 스택 모델에 대해 5개 weight를 자동으로 찾음**
+✔ Soft Voting 이므로 weight 는 양수여야 함 → Optuna 로 모델 성능(AUC 등) 최대화
+✔ Optuna 로 찾은 weights 를 VotingClassifier 에 직접 주입
+
+---
+
+# ✅ **1) Optuna 기반 Voting Weights 최적화 코드**
+
+## 🔧 준비: objective 함수
+
+```python
+import optuna
+from sklearn.metrics import roc_auc_score
+
+def optimize_voting_weights(trial, stacks, X_train, y_train, X_valid, y_valid):
+    """
+    Optuna가 호출하는 objective 함수.
+    5개의 스택 모델의 가중치를 하이퍼파라미터로 최적화함.
+    
+    Parameters
+    ----------
+    trial : optuna.trial.Trial
+        Optuna trial 객체
+    stacks : list
+        [stack1, stack2, stack3, stack4, stack5] 모델 리스트
+    X_train, y_train : pd.DataFrame, pd.Series
+        학습용 데이터
+    X_valid, y_valid : pd.DataFrame, pd.Series
+        검증용 데이터
+
+    Returns
+    -------
+    float
+        Validation AUC (Optuna는 이 값을 maximize)
+    """
+
+    # 1) weight 5개 샘플링 (양수로 제한)
+    w = [
+        trial.suggest_float(f"w{i}", 0.1, 5.0)  # 범위는 필요 시 조절 가능
+        for i in range(5)
+    ]
+
+    # 2) 각 스택 모델의 예측 확률 생성
+    preds = None
+    for model, weight in zip(stacks, w):
+        prob = model.predict_proba(X_valid)[:, 1] * weight
+
+        if preds is None:
+            preds = prob
+        else:
+            preds += prob
+
+    # 3) 평균 확률로 normalization
+    preds /= sum(w)
+
+    # 4) AUC 계산
+    auc = roc_auc_score(y_valid, preds)
+    return auc
+```
+
+---
+
+# ✅ **2) Optuna 실행 코드**
+
+```python
+def find_best_voting_weights(stacks, X_train, y_train, X_valid, y_valid, n_trials=50):
+    """
+    Optuna를 사용하여 VotingClassifier의 soft voting 가중치를 자동 최적화.
+
+    Returns
+    -------
+    dict : {"w0": ..., "w1": ..., ...}
+    """
+    study = optuna.create_study(direction='maximize')
+    
+    study.optimize(
+        lambda trial: optimize_voting_weights(
+            trial, stacks, X_train, y_train, X_valid, y_valid
+        ),
+        n_trials=n_trials
+    )
+
+    print("Best AUC:", study.best_value)
+    print("Best weights:", study.best_params)
+
+    return study.best_params
+```
+
+---
+
+# ✅ **3) 최적 가중치로 VotingClassifier 생성**
+
+```python
+# 1) 스택 모델 리스트
+stacks = [stack_1, stack_2, stack_3, stack_4, stack_5]
+
+# 2) Optuna 실행
+best_weights = find_best_voting_weights(
+    stacks, X_train, y_train, X_valid, y_valid, n_trials=100
+)
+
+# best_weights = {'w0': 3.1, 'w1': 2.0, ...}
+
+# 3) 순서대로 weight 추출
+weights = [best_weights[f"w{i}"] for i in range(5)]
+
+# 4) VotingClassifier 생성
+voting_ensemble = VotingClassifier(
+    estimators=[
+        ('stack1', stack_1),
+        ('stack2', stack_2),
+        ('stack3', stack_3),
+        ('stack4', stack_4),
+        ('stack5', stack_5)
+    ],
+    voting='soft',
+    weights=weights,
+    n_jobs=-1
+)
+```
+
+---
+
+# 🚀 추가 기능도 만들어줄 수 있어!
+
+원하면 다음도 제공 가능해:
+
+* **가중치 + threshold 동시 최적화**
+* **가중치의 합 = 1 로 softmax 변환 자동 적용한 버전**
+* **우수 모델 자동 선택 후 voting 조합 구성기**
+* **Optuna pruning 적용한 초고속 버전**
+
+필요하면 말해줘!
+
