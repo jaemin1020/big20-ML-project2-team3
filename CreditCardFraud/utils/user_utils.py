@@ -170,7 +170,7 @@ def get_model_train_eval(
             y_test, pred, pred_proba, model_name=model_name, exec_time=exec_time
         )
 
-    return {
+    results = {
         "AUC": round(roc_auc_score(y_test, pred_proba), 4),
         "정밀도": round(precision_score(y_test, pred), 4),
         "재현율": round(recall_score(y_test, pred), 4),
@@ -179,6 +179,19 @@ def get_model_train_eval(
         "실행시간": round(exec_time, 4),
         "하이퍼파라미터": hyperopt_params if hyperopt_params else "None",
     }
+    
+    if hasattr(model, 'estimators_'):
+        results["Base Estimators"] = {}
+        for name, est in model.estimators_:
+            base_pred = est.predict(X_test)
+            results["Base Estimators"][name] = {
+                "정밀도": round(precision_score(y_test, base_pred), 4),
+                "재현율": round(recall_score(y_test, base_pred), 4),
+                "F1": round(f1_score(y_test, base_pred), 4),
+            }
+
+    return results
+
 
 
 # -- eof ----------------------------------
