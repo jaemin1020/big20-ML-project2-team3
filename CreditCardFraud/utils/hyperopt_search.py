@@ -475,7 +475,7 @@ def train_and_evaluate(model_class, params, X_train, y_train, X_test, y_test,
         'precision': precision_score(y_test, y_pred, zero_division=0),
         'recall': recall_score(y_test, y_pred),
         'f1': f1_score(y_test, y_pred),
-        'f2': fbeta_score(y_test, pred, beta=2)
+        'f2': fbeta_score(y_test, y_pred, beta=2)
     }
     
     # AUC 계산
