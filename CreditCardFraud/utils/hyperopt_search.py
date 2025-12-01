@@ -513,7 +513,7 @@ def train_and_evaluate(model_class, params, X_train, y_train, X_test, y_test,
         '정확도': round(metrics['accuracy'], 4),
         '정밀도': round(metrics['precision'], 4),
         '재현율': round(metrics['recall'], 4),
-        'F1': round(metrics['f1'], 4)
+        'F1': round(metrics['f1'], 4)        
     }
     
     # 결과 저장

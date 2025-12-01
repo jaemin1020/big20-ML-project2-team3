@@ -47,7 +47,26 @@ import pickle
 # # 수정된 함수 불러오기
 from utils.model_utils import save_model
 
+# NumPy 타입을 Python 네이티브 타입으로 변환하는 헬퍼 함수
+def convert_to_serializable(obj):
+    """NumPy 타입을 JSON 직렬화 가능한 타입으로 변환"""
+    if isinstance(obj, dict):
+        return {k: convert_to_serializable(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_to_serializable(item) for item in obj]
+    elif isinstance(obj, np.integer):
+        return int(obj)
+    elif isinstance(obj, np.floating):
+        return float(obj)
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif isinstance(obj, (np.bool_, bool)):
+        return bool(obj)
+    else:
+        return obj
+# eof ---------------------------------------------------------------------------------------------    
 
+# get_clf_eval 분류 모델의 평가 지표를 계산하고 결과를 파일로 저장
 def get_clf_eval(
     y_test,
     pred,
@@ -74,7 +93,7 @@ def get_clf_eval(
         결과 저장 폴더명
     exec_time : float, optional
         실행 시간 (초)
-    HO : dictionary
+    HO_params : dictionary
         하이퍼파라미터 값
 
     Returns:
@@ -89,19 +108,23 @@ def get_clf_eval(
     roc_auc = roc_auc_score(y_test, pred_proba)
     f2 = fbeta_score(y_test, pred, beta=2)
 
-    result_text = {
+    result_data = {}
+    result_text = {        
         "AUC": round(roc_auc, 4),
         "정확도": round(accuracy, 4),
         "정밀도": round(precision, 4),
         "재현율": round(recall, 4),
         "F1": round(f1, 4),
-        "F2": round(f2, 4),
-        "오차행렬": confusion,
+        "F2": round(f2, 4)
     }
+    result_data['result_dict'] = result_text
+    result_data['오차행렬'] = confusion.tolist()
+    
     if exec_time is not None:
-        result_text += f"\n실행 시간: {exec_time}"
+        result_data['실행 시간'] = round(exec_time, 4)  # ← {} 제거
+    
     if HO_params is not None:
-        result_text += f"\n하이퍼파라미터: {HO_params}"
+        result_data['하이퍼파라미터'] = HO_params  # ← {} 제거
 
     # 현재 작업 디렉토리 기준으로 상위 1단계 폴더를 루트로 설정
     current_dir = os.getcwd()
@@ -112,17 +135,17 @@ def get_clf_eval(
     print(f"folder = {folder}")
     os.makedirs(folder, exist_ok=True)
 
-    today = datetime.now().strftime("%Y%m%d")
-    filename = f"{model_name}_{today}.txt"
+    today = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"{model_name}_{today}.json"
     save_path = os.path.join(folder, filename)
 
-    print(result_text)
+    # 전체 result_data를 변환
+    result_data = convert_to_serializable(result_data)
+    
+    print(result_data)
     with open(save_path, "w", encoding="utf-8") as f:
-        f.write(result_text)
-
-
+        json.dump(result_data, f, ensure_ascii=False, indent=4)
 # --- eof ------------------
-
 
 def get_model_train_eval(
     model,
@@ -136,9 +159,8 @@ def get_model_train_eval(
     """
     model별 HyperOpt수치, 학습, 예측값, 예측확율 구하기
     get_model_train_eval(lr_clf, 'model_name', X_train, X_test, y_train, y_test)
-
     """
-    start_time = time.time()  # 시작 시간 기록
+    start_time = time.time()
     model.fit(X_train, y_train)
     save_model(model, model_name)
     pred = model.predict(X_test)
@@ -153,7 +175,8 @@ def get_model_train_eval(
             pred_proba = None
     except:
         pred_proba = None
-    end_time = time.time()  # 종료 시간기록
+    
+    end_time = time.time()
     exec_time = end_time - start_time
 
     if hyperopt_params:
@@ -170,30 +193,59 @@ def get_model_train_eval(
             y_test, pred, pred_proba, model_name=model_name, exec_time=exec_time
         )
 
+    
+
+    # hyperopt_params를 직렬화 가능한 형태로 변환
+    serializable_params = convert_to_serializable(hyperopt_params) if hyperopt_params else "None"
+
     results = {
-        "AUC": round(roc_auc_score(y_test, pred_proba), 4),
-        "정밀도": round(precision_score(y_test, pred), 4),
-        "재현율": round(recall_score(y_test, pred), 4),
-        "F1": round(f1_score(y_test, pred), 4),
-        "F2": round(fbeta_score(y_test, pred, beta=2), 4),
-        "실행시간": round(exec_time, 4),
-        "하이퍼파라미터": hyperopt_params if hyperopt_params else "None",
+        'result_dict': {
+            "AUC": round(roc_auc_score(y_test, pred_proba), 4),
+            "정밀도": round(precision_score(y_test, pred), 4),
+            "재현율": round(recall_score(y_test, pred), 4),
+            "F1": round(f1_score(y_test, pred), 4),
+            "F2": round(fbeta_score(y_test, pred, beta=2), 4),
+            "실행시간": round(exec_time, 4),
+            "하이퍼파라미터": serializable_params
+        }
     }
 
+    # StackingClassifier의 추가
     if hasattr(model, "estimators_"):
         results["Base Estimators"] = {}
-        for name, est in model.estimators_:
-            base_pred = est.predict(X_test)
-            results["Base Estimators"][name] = {
-                "정밀도": round(precision_score(y_test, base_pred), 4),
-                "재현율": round(recall_score(y_test, base_pred), 4),
-                "F1": round(f1_score(y_test, base_pred), 4),
-            }
+        
+        try:
+            # StackingClassifier의 경우
+            if hasattr(model, "estimators"):
+                for (name, _), fitted_est in zip(model.estimators, model.estimators_):
+                    try:
+                        base_pred = fitted_est.predict(X_test)
+                        results["Base Estimators"][name] = {
+                            "정밀도": round(precision_score(y_test, base_pred), 4),
+                            "재현율": round(recall_score(y_test, base_pred), 4),
+                            "F1": round(f1_score(y_test, base_pred), 4),
+                        }
+                    except Exception as e:
+                        print(f"Warning: Could not evaluate {name}: {e}")
+            else:
+                # 다른 앙상블 모델
+                for idx, fitted_est in enumerate(model.estimators_):
+                    try:
+                        name = f"estimator_{idx}"
+                        base_pred = fitted_est.predict(X_test)
+                        results["Base Estimators"][name] = {
+                            "정밀도": round(precision_score(y_test, base_pred), 4),
+                            "재현율": round(recall_score(y_test, base_pred), 4),
+                            "F1": round(f1_score(y_test, base_pred), 4),
+                        }
+                    except Exception as e:
+                        print(f"Warning: Could not evaluate estimator_{idx}: {e}")
+        except Exception as e:
+            print(f"Warning: Could not evaluate base estimators: {e}")
 
     return results
+# eof --------------------------------------------------------------------------------------
 
-
-# -- eof ----------------------------------
 
 
 def get_preprocssed_df(df, columns=None):
