@@ -147,6 +147,9 @@ def get_clf_eval(
         json.dump(result_data, f, ensure_ascii=False, indent=4)
 # --- eof ------------------
 
+from tqdm import tqdm
+
+# get_model_train_eval start --------------------------------------------------------
 def get_model_train_eval(
     model,
     model_name,
@@ -160,11 +163,24 @@ def get_model_train_eval(
     model별 HyperOpt수치, 학습, 예측값, 예측확율 구하기
     get_model_train_eval(lr_clf, 'model_name', X_train, X_test, y_train, y_test)
     """
+    print(f"\n{'='*60}")
+    print(f"🚀 모델 학습 시작: {model_name}")
+    print(f"{'='*60}")
+    
+    # 진행 단계 정의
+    steps = ['학습', '예측', '평가', '저장']
+    pbar = tqdm(total=len(steps), desc=f"{model_name}", ncols=100)
+    
+    # 1. 학습
+    pbar.set_description(f"{model_name} - 학습 중")
     start_time = time.time()
     model.fit(X_train, y_train)
-    save_model(model, model_name)
+    pbar.update(1)
+    
+    # 2. 예측
+    pbar.set_description(f"{model_name} - 예측 중")
     pred = model.predict(X_test)
-
+    
     # 확률 예측 (가능한 경우)
     try:
         if hasattr(model, "predict_proba"):
@@ -175,10 +191,13 @@ def get_model_train_eval(
             pred_proba = None
     except:
         pred_proba = None
+    pbar.update(1)
     
     end_time = time.time()
     exec_time = end_time - start_time
-
+    
+    # 3. 평가
+    pbar.set_description(f"{model_name} - 평가 중")
     if hyperopt_params:
         get_clf_eval(
             y_test,
@@ -192,9 +211,8 @@ def get_model_train_eval(
         get_clf_eval(
             y_test, pred, pred_proba, model_name=model_name, exec_time=exec_time
         )
-
+    pbar.update(1)
     
-
     # hyperopt_params를 직렬화 가능한 형태로 변환
     serializable_params = convert_to_serializable(hyperopt_params) if hyperopt_params else "None"
 
@@ -210,42 +228,101 @@ def get_model_train_eval(
         }
     }
 
-    # StackingClassifier의 추가
+    # StackingClassifier의 Base Estimators 평가
     if hasattr(model, "estimators_"):
         results["Base Estimators"] = {}
         
         try:
             # StackingClassifier의 경우
             if hasattr(model, "estimators"):
-                for (name, _), fitted_est in zip(model.estimators, model.estimators_):
+                num_estimators = len(model.estimators)
+                print(f"\n📊 Base Estimators 평가 중 ({num_estimators}개)...")
+                
+                for (name, _), fitted_est in tqdm(
+                    zip(model.estimators, model.estimators_),
+                    total=num_estimators,
+                    desc="Base Estimators",
+                    ncols=100
+                ):
                     try:
                         base_pred = fitted_est.predict(X_test)
+                        
+                        # Base estimator의 확률 예측
+                        try:
+                            if hasattr(fitted_est, "predict_proba"):
+                                base_pred_proba = fitted_est.predict_proba(X_test)[:, 1]
+                            elif hasattr(fitted_est, "decision_function"):
+                                base_pred_proba = fitted_est.decision_function(X_test)
+                            else:
+                                base_pred_proba = None
+                        except:
+                            base_pred_proba = None
+                        
                         results["Base Estimators"][name] = {
-                            "AUC": round(roc_auc_score(y_test, pred_proba), 4),
                             "정밀도": round(precision_score(y_test, base_pred), 4),
                             "재현율": round(recall_score(y_test, base_pred), 4),
                             "F1": round(f1_score(y_test, base_pred), 4),
-                            "F2": round(fbeta_score(y_test, pred, beta=2), 4),
+                            "F2": round(fbeta_score(y_test, base_pred, beta=2), 4),
                         }
+                        
+                        if base_pred_proba is not None:
+                            results["Base Estimators"][name]["AUC"] = round(
+                                roc_auc_score(y_test, base_pred_proba), 4
+                            )
+                            
                     except Exception as e:
-                        print(f"Warning: Could not evaluate {name}: {e}")
+                        print(f"⚠️  Warning: Could not evaluate {name}: {e}")
             else:
                 # 다른 앙상블 모델
-                for idx, fitted_est in enumerate(model.estimators_):
+                num_estimators = len(model.estimators_)
+                print(f"\n📊 Base Estimators 평가 중 ({num_estimators}개)...")
+                
+                for idx, fitted_est in tqdm(
+                    enumerate(model.estimators_),
+                    total=num_estimators,
+                    desc="Base Estimators",
+                    ncols=100
+                ):
                     try:
                         name = f"estimator_{idx}"
                         base_pred = fitted_est.predict(X_test)
+                        
+                        # Base estimator의 확률 예측
+                        try:
+                            if hasattr(fitted_est, "predict_proba"):
+                                base_pred_proba = fitted_est.predict_proba(X_test)[:, 1]
+                            elif hasattr(fitted_est, "decision_function"):
+                                base_pred_proba = fitted_est.decision_function(X_test)
+                            else:
+                                base_pred_proba = None
+                        except:
+                            base_pred_proba = None
+                        
                         results["Base Estimators"][name] = {
-                            "AUC": round(roc_auc_score(y_test, pred_proba), 4),
                             "정밀도": round(precision_score(y_test, base_pred), 4),
                             "재현율": round(recall_score(y_test, base_pred), 4),
                             "F1": round(f1_score(y_test, base_pred), 4),
-                            "F2": round(fbeta_score(y_test, pred, beta=2), 4),
+                            "F2": round(fbeta_score(y_test, base_pred, beta=2), 4),
                         }
+                        
+                        if base_pred_proba is not None:
+                            results["Base Estimators"][name]["AUC"] = round(
+                                roc_auc_score(y_test, base_pred_proba), 4
+                            )
+                            
                     except Exception as e:
-                        print(f"Warning: Could not evaluate estimator_{idx}: {e}")
+                        print(f"⚠️  Warning: Could not evaluate estimator_{idx}: {e}")
         except Exception as e:
-            print(f"Warning: Could not evaluate base estimators: {e}")
+            print(f"⚠️  Warning: Could not evaluate base estimators: {e}")
+    
+    # 4. 저장
+    pbar.set_description(f"{model_name} - 저장 중")
+    save_model(model, model_name)
+    pbar.update(1)
+    pbar.close()
+    
+    print(f"\n✅ 완료: {model_name} (실행시간: {exec_time:.2f}초)")
+    print(f"{'='*60}\n")
 
     return results
 # eof --------------------------------------------------------------------------------------
