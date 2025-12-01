@@ -18,7 +18,7 @@ from datetime import datetime
 import time
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import precision_score, recall_score
-from sklearn.metrics import f1_score, roc_auc_score
+from sklearn.metrics import f1_score, roc_auc_score, fbeta_score
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score  # hyperopt_tune 에서 사용
 from sklearn.preprocessing import StandardScaler
@@ -87,10 +87,11 @@ def get_clf_eval(
     recall = recall_score(y_test, pred)
     f1 = f1_score(y_test, pred)
     roc_auc = roc_auc_score(y_test, pred_proba)
+    f2 = fbeta_score(y_test, pred, beta=2)
 
     result_text = (
         f"{{'AUC': {roc_auc:.4f}, '정확도': {accuracy:.4f}, "
-        f"'정밀도': {precision:.4f}, '재현율': {recall:.4f}, 'F1': {f1:.4f} }}\n"
+        f"'정밀도': {precision:.4f}, '재현율': {recall:.4f}, 'F1': {f1:.4f} ,'F2': {f2:.4f} }}\n"
         f"{{'오차행렬':\n{confusion} }}"
     )
     if exec_time is not None:
@@ -160,6 +161,9 @@ def get_model_train_eval(
         "정밀도": round(precision_score(y_test, pred), 4),
         "재현율": round(recall_score(y_test, pred), 4),
         "F1": round(f1_score(y_test, pred), 4),
+        "F2": round(fbeta_score(y_test, pred, beta=2), 4),
+        "실행시간": round(exec_time, 4),
+        "하이퍼파라미터": hyperopt_params if hyperopt_params else "None",
     }
 
 
@@ -444,7 +448,7 @@ class HyperOptTuner:
     def __init__(
         self,
         max_evals: int = 100,
-        metric: str = "roc_auc",
+        metric: str = "f2",
         random_state: int = 23,
         early_stopping_rounds: Optional[int] = None,
         class_weight: Optional[Union[str, dict]] = None,
@@ -477,12 +481,16 @@ class HyperOptTuner:
         scores = {}
         y_pred = (y_pred_proba[:, 1] >= 0.5).astype(int)
         """평가 지표 계산"""
-        scores["roc_auc"] = roc_auc_score(y_true, y_pred_proba[:, 1])
-        scores["f1"] = f1_score(y_true, y_pred, zero_division=0)
-        scores["precision"] = precision_score(y_true, y_pred)
-        scores["recall"] = recall_score(y_true, y_pred)
-        scores["accuracy"] = accuracy_score(y_true, y_pred)
-        return scores
+        if self.metric == "roc_auc":
+            return roc_auc_score(y_true, y_pred_proba[:, 1])
+        elif self.metric == "accuracy":
+            return accuracy_score(y_true, y_pred)
+        elif self.metric == "f1":
+            return f1_score(y_true, y_pred, zero_division=0)
+        elif self.metric == "f2":
+            return fbeta_score(y_true, y_pred, beta=2, zero_division=0)
+        else:
+            raise ValueError(f"지원하지 않는 메트릭: {self.metric}")
 
     def _objective(
         self, params: Dict[str, Any], model_class: type, X_train, y_train, X_val, y_val
