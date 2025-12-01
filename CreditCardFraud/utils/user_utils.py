@@ -90,7 +90,7 @@ def get_clf_eval(
     f2 = fbeta_score(y_test, pred, beta=2)
 
     result_text = {
-        "AUC": round((roc_auc, 0), 4),
+        "AUC": round(roc_auc, 4),
         "정확도": round(accuracy, 4),
         "정밀도": round(precision, 4),
         "재현율": round(recall, 4),
@@ -179,8 +179,8 @@ def get_model_train_eval(
         "실행시간": round(exec_time, 4),
         "하이퍼파라미터": hyperopt_params if hyperopt_params else "None",
     }
-    
-    if hasattr(model, 'estimators_'):
+
+    if hasattr(model, "estimators_"):
         results["Base Estimators"] = {}
         for name, est in model.estimators_:
             base_pred = est.predict(X_test)
@@ -191,7 +191,6 @@ def get_model_train_eval(
             }
 
     return results
-
 
 
 # -- eof ----------------------------------
