@@ -141,8 +141,17 @@ def get_model_train_eval(
     start_time = time.time()  # 시작 시간 기록
     model.fit(X_train, y_train)
     save_model(model, model_name)
-    pred = model.predict(X_test)
-    pred_proba = model.predict_proba(X_test)[:, 1]  # Positive인 확률만 가져오기
+
+    try:
+        if hasattr(model, 'predict_proba'):
+            y_proba = model.predict_proba(X_test)[:, 1]
+        elif hasattr(model, 'decision_function'):
+            y_proba = model.decision_function(X_test)
+        else:
+            y_proba = None
+    except:
+        y_proba = None
+        
     end_time = time.time()  # 종료 시간기록
     exec_time = end_time - start_time
 
