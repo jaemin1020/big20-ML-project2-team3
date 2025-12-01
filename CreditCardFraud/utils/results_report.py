@@ -4,7 +4,9 @@ import pandas as pd
 from pathlib import Path
 import re
 import matplotlib.pyplot as plt
+from matplotlib import rc
 import seaborn as sns
+
 
 
 # load_results_to_df start ##############################################################
@@ -194,6 +196,8 @@ def plot_model_comparison(df, metrics=None, top_n=20, figsize=(16, 12), save_pat
     --------
     fig, axes : matplotlib figure and axes objects
     """
+    rc('font', family='Malgun Gothic')  # Windows 기본 한글 폰트
+    plt.rcParams['axes.unicode_minus'] = False
     
     if df.empty:
         print("⚠️  DataFrame이 비어있습니다.")
@@ -324,6 +328,8 @@ def plot_metric_heatmap(df, metrics=None, top_n=20, figsize=(12, 10), save_path=
     save_path : str, optional
         그래프 저장 경로
     """
+    rc('font', family='Malgun Gothic')  # Windows 기본 한글 폰트
+    plt.rcParams['axes.unicode_minus'] = False
     
     if df.empty:
         print("⚠️  DataFrame이 비어있습니다.")
