@@ -9,8 +9,8 @@ rf_best_params_lsj = {
     'min_samples_split': 15,     # 노드를 분할하기 위한 최소 샘플 수
     'n_estimators': 450,         # 생성할 트리 개수 (충분히 많음)
     'random_state': 23,          # 재현성을 위한 랜덤 시드
-    'n_jobs': -1                 # 병렬 처리 시 모든 CPU 코어 사용    
-    # 참고: class_weight 파라미터가 포함되어 있지 않음. 
+    'n_jobs': -1                 # 병렬 처리 시 모든 CPU 코어 사용
+    # 참고: class_weight 파라미터가 포함되어 있지 않음.
     #       신용카드 사기 검출 시 이 파라미터 추가 필요.
 }
 '''
@@ -109,7 +109,7 @@ xgb_best_params = {
     "random_state": 23,         # 재현성을 위한 랜덤 시드
     # "objective": "binary:logistic", # 일반적으로 이진 분류 시 기본 설정됨
 }
-''' 
+'''
 xgb_best_params 분석:
 강력한 클래스 가중치: scale_pos_weight가 82로 설정되었습니다. 이는 데이터셋의 실제 불균형 비율(약 578:1)보다는 낮지만, 모델이 사기 거래 탐지에 집중하도록 유도합니다.
 얕은 트리: max_depth가 3으로 매우 얕게 설정되어 과적합을 방지하고 모델 안정성을 추구합니다.
@@ -269,6 +269,12 @@ lr_best_params_smote = {
     'n_jobs': -1
 }
 
+# LinearRegression
+lir_best_params = {
+    'fit_intercept': True,
+    'positive': True
+}
+
 # GradientBoostingClassifier by CreditCard Fraud
 gb_best_params = {
     'learning_rate': 0.02083271293464231,
@@ -280,11 +286,11 @@ gb_best_params = {
 
 # HistGradientBoostingClassifier by CreditCard Fraud
 hgb_best_params = {
-    'l2_regularization': 0.7775071677100267, 
-    'learning_rate': 0.07444330922448128, 
-    'max_bins': 128, 
-    'max_depth': 5, 
-    'max_iter': 500, 
+    'l2_regularization': 0.7775071677100267,
+    'learning_rate': 0.07444330922448128,
+    'max_bins': 128,
+    'max_depth': 5,
+    'max_iter': 500,
     'min_samples_leaf': 20
 }
 
@@ -317,6 +323,20 @@ mlp_basic_params = {
 
 # SVM liner basic params
 svc_liner_basic_params = {"C": 1.0, "kernel": "linear", "class_weight": "balanced"}
+
+# SVC rbf best params
+svc_rbf_best_params = {'C': 0.17794949104514904,
+                       'class_weight': 'balanced',
+                       'gamma': 0.006213034643966193,
+                       'kernel': 'rbf',
+                       'probability': True}
+
+svc_rbf_best_params_smote = {'C': 0.17794949104514904,
+                       'class_weight': 'balanced',
+                       'gamma': 0.006213034643966193,
+                       'kernel': 'rbf',
+                       'probability': True}
+
 
 # LinearSVC
 lsvc_best_params = {
