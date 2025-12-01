@@ -425,11 +425,11 @@ mlp_best_param = {
     "activation": "tanh",
         "alpha": 0.004721246220578279,
         "batch_size": 3,
-        "early_stopping": 1,
-        "hidden_layer_sizes": 0,
-        "learning_rate": 2,
+        "early_stopping": True,
+        "hidden_layer_sizes": (100,),
+        "learning_rate": "adaptive",
         "learning_rate_init": 0.00036361698972348403,
         "max_iter": 1,
-        "solver": "liblinear",
+        "solver": "adam",
         "random_state": 23
 }
