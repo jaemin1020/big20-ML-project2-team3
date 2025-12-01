@@ -18,7 +18,7 @@ from datetime import datetime
 import time
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.metrics import precision_score, recall_score
-from sklearn.metrics import f1_score, roc_auc_score
+from sklearn.metrics import f1_score, roc_auc_score, fbeta_score
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score # hyperopt_tune 에서 사용
 from sklearn.preprocessing import StandardScaler
@@ -474,7 +474,8 @@ def train_and_evaluate(model_class, params, X_train, y_train, X_test, y_test,
         'accuracy': accuracy_score(y_test, y_pred),
         'precision': precision_score(y_test, y_pred, zero_division=0),
         'recall': recall_score(y_test, y_pred),
-        'f1': f1_score(y_test, y_pred)
+        'f1': f1_score(y_test, y_pred),
+        'f2': fbeta_score(y_test, pred, beta=2)
     }
     
     # AUC 계산

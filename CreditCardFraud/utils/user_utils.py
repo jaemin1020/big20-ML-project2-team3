@@ -221,9 +221,11 @@ def get_model_train_eval(
                     try:
                         base_pred = fitted_est.predict(X_test)
                         results["Base Estimators"][name] = {
+                            "AUC": round(roc_auc_score(y_test, pred_proba), 4),
                             "정밀도": round(precision_score(y_test, base_pred), 4),
                             "재현율": round(recall_score(y_test, base_pred), 4),
                             "F1": round(f1_score(y_test, base_pred), 4),
+                            "F2": round(fbeta_score(y_test, pred, beta=2), 4),
                         }
                     except Exception as e:
                         print(f"Warning: Could not evaluate {name}: {e}")
@@ -234,9 +236,11 @@ def get_model_train_eval(
                         name = f"estimator_{idx}"
                         base_pred = fitted_est.predict(X_test)
                         results["Base Estimators"][name] = {
+                            "AUC": round(roc_auc_score(y_test, pred_proba), 4),
                             "정밀도": round(precision_score(y_test, base_pred), 4),
                             "재현율": round(recall_score(y_test, base_pred), 4),
                             "F1": round(f1_score(y_test, base_pred), 4),
+                            "F2": round(fbeta_score(y_test, pred, beta=2), 4),
                         }
                     except Exception as e:
                         print(f"Warning: Could not evaluate estimator_{idx}: {e}")
