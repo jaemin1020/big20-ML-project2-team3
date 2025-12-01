@@ -1,0 +1,35 @@
+{
+    "result_dict": {
+        "AUC": 0.9528,
+        "정확도": 0.9992,
+        "정밀도": 0.8514,
+        "재현율": 0.6429,
+        "F1": 0.7326
+    },
+    "오차행렬": [
+        [
+            56853,
+            11
+        ],
+        [
+            35,
+            63
+        ]
+    ],
+    "학습 시간": 16.08386206626892,
+    "하이퍼파라미터": {
+        "activation": "tanh",
+        "alpha": 0.004721246220578279,
+        "batch_size": 3,
+        "early_stopping": true,
+        "hidden_layer_sizes": [
+            100
+        ],
+        "learning_rate": "adaptive",
+        "learning_rate_init": 0.00036361698972348403,
+        "max_iter": 1,
+        "solver": "adam",
+        "random_state": 23
+    },
+    "timestamp": "2025-12-01 16:13:41"
+}
