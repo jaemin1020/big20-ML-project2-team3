@@ -1,0 +1,33 @@
+{
+    "result_dict": {
+        "AUC": 0.9526,
+        "정확도": 0.9946,
+        "정밀도": 0.2196,
+        "재현율": 0.8469,
+        "F1": 0.3487
+    },
+    "오차행렬": [
+        [
+            56569,
+            295
+        ],
+        [
+            15,
+            83
+        ]
+    ],
+    "학습 시간": 147.49633836746216,
+    "하이퍼파라미터": {
+        "bootstrap": true,
+        "class_weight": "balanced",
+        "criterion": "entropy",
+        "max_depth": 3,
+        "max_features": null,
+        "min_samples_leaf": 9,
+        "min_samples_split": 3,
+        "n_estimators": 200,
+        "random_state": 23,
+        "n_jobs": -1
+    },
+    "timestamp": "2025-11-30 15:44:19"
+}
