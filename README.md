@@ -31,10 +31,18 @@
 ```
 
 ## File명 규칙
+- results/ 에 넣을 파일명 규칙  : 함수에서 자동으로 _yyyymmdd.txt/json 으로 채워줌
+  model_initial(2~4)_ho_datasetName
+  ex) dt_basic (dt model hyperopt 하기전)
+      lir_ho_smote (default ho 돌린것)
+      rf_ho-best_under (rf ho best under sampling한 경우)
+      rf+xgbm+lgbm_ho-best_basic (stackingModel들은 + 결함)
+
 - 해당 폴더에 이니셜_filename_최초생성일자.확장자 사용하기
   ex) lkj_eda.ipynb
 - 공통 작업해서 분할할때는 filename_이니셜.확장자
   ex) 분석작업_lkj_20251120.doc
+
 
 
 
