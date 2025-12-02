@@ -40,7 +40,30 @@ warnings.filterwarnings("ignore")
 # 전처리 클래스
 # =============================================================================
 class TextPreprocessor:
-    """텍스트 전처리를 위한 종합 클래스"""
+    """텍스트 전처리를 위한 종합 클래스
+    사용예시
+    preprocessor = TextPreprocessor(
+        remove_html=True,
+        remove_urls=True,
+        remove_emails=True,
+        remove_numbers=True,
+        lowercase=True,
+        remove_punctuation=True,
+        remove_stopwords=True,
+        min_word_length=2,
+        use_stemming=False,
+        use_lemmatization=True,
+    )
+
+    # 도메인 특화 불용어 추가 (필요시)
+    # preprocessor.get_custom_stopwords(['custom', 'words', 'here'])
+
+    # 전처리 실행
+    document_df = preprocessor.preprocess_dataframe(document_df, "filename")
+
+    Returns:
+        dataframe : 전처리
+    """
 
     def __init__(
         self,
@@ -276,129 +299,3 @@ def load_file_data(path):
             print(f"❌ Error reading {file_}: {e}")
 
     return pd.DataFrame(data_list)
-
-
-# =============================================================================
-# 메인 실행
-# =============================================================================
-if __name__ == "__main__":
-    # 경로 설정
-    DATA_PATH = "../data"
-    OUTPUT_DIR = "../results"
-    IMAGE_DIR = "../images"
-
-    # 데이터 로드
-    all_files = glob.glob(os.path.join(DATA_PATH, "*.data"))
-    if not all_files:
-        raise FileNotFoundError(f"No .data files found in {DATA_PATH}")
-
-    print(f"\n{'='*60}")
-    print(f"📂 {len(all_files)}개 파일 발견")
-    document_df = load_file_data(all_files)
-    print(f"✅ {len(document_df)}개 문서 로드 완료")
-
-    # 전처리 설정 및 실행
-    preprocessor = TextPreprocessor(
-        remove_html=True,
-        remove_urls=True,
-        remove_emails=True,
-        remove_numbers=True,
-        lowercase=True,
-        remove_punctuation=True,
-        remove_stopwords=True,
-        min_word_length=2,
-        use_stemming=False,
-        use_lemmatization=True,
-    )
-
-    # 도메인 특화 불용어 추가 (필요시)
-    # preprocessor.get_custom_stopwords(['custom', 'words', 'here'])
-
-    # 전처리 실행
-    document_df = preprocessor.preprocess_dataframe(document_df, "opinion_text")
-
-    # TF-IDF 벡터화
-    print(f"\n{'='*60}")
-    print("🔤 TF-IDF 벡터화 중...")
-    vectorizer = TfidfVectorizer(
-        max_features=5000,
-        min_df=2,  # 최소 2개 문서에 등장
-        max_df=0.8,  # 80% 이상 문서에 등장하는 단어 제외
-    )
-    X = vectorizer.fit_transform(document_df["processed_text"])
-    tfidf_df = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names_out())
-
-    print(f"✅ TF-IDF 행렬 생성 완료: {tfidf_df.shape}")
-
-    # 타임스탬프 및 디렉토리 생성
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    os.makedirs(IMAGE_DIR, exist_ok=True)
-
-    # 전처리된 데이터 저장
-    processed_path = os.path.join(OUTPUT_DIR, f"preprocessed_data_{timestamp}.csv")
-    document_df.to_csv(processed_path, index=False, encoding="utf-8")
-    print(f"💾 전처리 데이터 저장: {processed_path}")
-
-    # TF-IDF 저장
-    tfidf_path = os.path.join(OUTPUT_DIR, f"tfidf_matrix_{timestamp}.csv")
-    tfidf_df.to_csv(tfidf_path, index=False)
-    print(f"💾 TF-IDF 행렬 저장: {tfidf_path}")
-
-    # 클러스터링
-    print(f"\n{'='*60}")
-    print("🤖 클러스터링 모델 생성 중...")
-    s = setup(data=tfidf_df, session_id=42, verbose=False)
-
-    kmeans = create_model("kmeans", verbose=False)
-    dbscan = create_model("dbscan", verbose=False)
-    birch = create_model("birch", verbose=False)
-
-    # Silhouette Score 계산
-    def get_silhouette_score(model, tfidf_df):
-        clustered = assign_model(model)
-        labels = clustered["Cluster"]
-        unique_labels = set(labels)
-
-        if len(unique_labels) <= 1 or (len(unique_labels) == 2 and -1 in unique_labels):
-            return None
-
-        valid_mask = labels != -1
-        if valid_mask.sum() > 0:
-            return silhouette_score(tfidf_df[valid_mask], labels[valid_mask])
-        return None
-
-    print("\n📊 Silhouette Score 계산 중...")
-    kmeans_score = get_silhouette_score(kmeans, tfidf_df)
-    dbscan_score = get_silhouette_score(dbscan, tfidf_df)
-    birch_score = get_silhouette_score(birch, tfidf_df)
-
-    scores = {"KMeans": kmeans_score, "DBSCAN": dbscan_score, "Birch": birch_score}
-
-    # 결과 저장
-    results_path = os.path.join(OUTPUT_DIR, f"results_{timestamp}.txt")
-    with open(results_path, "w", encoding="utf-8") as f:
-        f.write("=" * 60 + "\n")
-        f.write("텍스트 클러스터링 결과 보고서\n")
-        f.write("=" * 60 + "\n\n")
-        f.write(f"분석 시간: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-        f.write(f"원본 문서 수: {preprocessor.stats['original_docs']}\n")
-        f.write(f"전처리 후 문서 수: {len(document_df)}\n")
-        f.write(f"TF-IDF 특성 수: {tfidf_df.shape[1]}\n\n")
-
-        f.write("=== 전처리 설정 ===\n")
-        f.write(f"HTML 제거: {preprocessor.remove_html}\n")
-        f.write(f"URL 제거: {preprocessor.remove_urls}\n")
-        f.write(f"숫자 제거: {preprocessor.remove_numbers}\n")
-        f.write(f"불용어 제거: {preprocessor.remove_stopwords}\n")
-        f.write(f"Lemmatization: {preprocessor.use_lemmatization}\n\n")
-
-        f.write("=== Silhouette Score 비교 ===\n")
-        for model, score in scores.items():
-            score_str = f"{score:.4f}" if score is not None else "N/A"
-            f.write(f"{model}: {score_str}\n")
-
-    print(f"\n{'='*60}")
-    print(f"✨ 분석 완료!")
-    print(f"📁 결과 파일: {results_path}")
-    print("=" * 60)
