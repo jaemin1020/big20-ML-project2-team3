@@ -1,0 +1,4 @@
+=== Silhouette Score 비교 ===
+KMeans: 0.05213227921830856
+DBSCAN: 0
+Birch: 0.06736913134867333
