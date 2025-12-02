@@ -1361,6 +1361,7 @@ ValueError: Number of labels is 1. Valid values are 2 to n_samples - 1 (inclusiv
 'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
 2025-12-02 14:59:08,527:WARNING:
 'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+<<<<<<< HEAD
 2025-12-02 15:27:28,454:WARNING:
 'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
 2025-12-02 15:27:28,454:WARNING:
@@ -1368,4 +1369,13 @@ ValueError: Number of labels is 1. Valid values are 2 to n_samples - 1 (inclusiv
 2025-12-02 15:27:28,454:WARNING:
 'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
 2025-12-02 15:27:28,454:WARNING:
+=======
+2025-12-02 15:46:05,028:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 15:46:05,028:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 15:46:05,028:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 15:46:05,028:WARNING:
+>>>>>>> 56dda77733ae646aedbae5f684100d4168f4fb27
 'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
