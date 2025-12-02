@@ -1,18 +1,37 @@
+# result_report.py results 폴더를 읽어 평가표 작성하기 
 import os
 import json
 import pandas as pd
 from pathlib import Path
 import re
 import matplotlib.pyplot as plt
-from matplotlib import rc
 import seaborn as sns
+import platform
 
+# 한글 폰트 설정 ##############################################################
+def set_korean_font():
+    """
+    운영체제에 맞는 한글 폰트 설정
+    """
+    system = platform.system()
+    
+    if system == 'Windows':
+        plt.rc('font', family='Malgun Gothic')  # 맑은 고딕
+    elif system == 'Darwin':  # macOS
+        plt.rc('font', family='AppleGothic')
+    else:  # Linux
+        plt.rc('font', family='NanumGothic')
+    
+    # 마이너스 기호 깨짐 방지
+    plt.rc('axes', unicode_minus=False)
+    
+    print(f"✅ 한글 폰트 설정 완료: {system}")
+    
 
-
-# load_results_to_df start ##############################################################
+#  load_results_to_df ##############################################################
 def load_results_to_df(
     folder_path='../results', 
-    sort_by='AUC', 
+    sort_by='F1', 
     ascending=False,
     filter_pattern=None,
     exclude_patterns=None
@@ -172,9 +191,9 @@ def load_results_to_df(
             for fname, err in error_files[:10]:  # 최대 10개만 표시
                 print(f"  - {fname}: {err}")
         return pd.DataFrame()
-# EOF ----------------------------------------------------------------------------------------
+# eof -------------------------------------------------------------------    
 
-# plot_model_comparison start ##############################################################
+#  plot_model_comparison ##############################################################
 def plot_model_comparison(df, metrics=None, top_n=20, figsize=(16, 12), save_path=None):
     """
     모델 비교 그래프 생성
@@ -196,8 +215,9 @@ def plot_model_comparison(df, metrics=None, top_n=20, figsize=(16, 12), save_pat
     --------
     fig, axes : matplotlib figure and axes objects
     """
-    rc('font', family='Malgun Gothic')  # Windows 기본 한글 폰트
-    plt.rcParams['axes.unicode_minus'] = False
+    
+    # 한글 폰트 설정
+    set_korean_font()
     
     if df.empty:
         print("⚠️  DataFrame이 비어있습니다.")
@@ -253,22 +273,42 @@ def plot_model_comparison(df, metrics=None, top_n=20, figsize=(16, 12), save_pat
         
         if valid_data.empty:
             ax.text(0.5, 0.5, f'{metric}: 유효한 데이터 없음', 
-                   ha='center', va='center', transform=ax.transAxes)
+                   ha='center', va='center', transform=ax.transAxes, fontsize=12)
             ax.axis('off')
             continue
         
         # 수평 막대 그래프
         bars = ax.barh(valid_data['model_name'], valid_data[metric], alpha=0.8)
         
-        # 색상 그라데이션 (점수 높을수록 진한 색)
+        # 색상 그라데이션 처리
         metric_min = valid_data[metric].min()
         metric_max = valid_data[metric].max()
         
-        # min과 max가 같은 경우 처리
-        if metric_min == metric_max:
-            colors = ['#90EE90'] * len(valid_data)  # 연두색으로 통일
+        # AUC=0인 경우 특별 처리
+        if metric == 'AUC':
+            colors = []
+            for val in valid_data[metric]:
+                if val == 0.0:
+                    colors.append('#CCCCCC')  # 회색 (예측 불가능)
+                else:
+                    # 0이 아닌 값들로만 정규화
+                    non_zero_vals = valid_data[metric][valid_data[metric] > 0]
+                    if len(non_zero_vals) > 0:
+                        nz_min = non_zero_vals.min()
+                        nz_max = non_zero_vals.max()
+                        if nz_min == nz_max:
+                            colors.append('#90EE90')
+                        else:
+                            normalized = (val - nz_min) / (nz_max - nz_min)
+                            colors.append(plt.cm.RdYlGn(normalized))
+                    else:
+                        colors.append('#90EE90')
         else:
-            colors = plt.cm.RdYlGn((valid_data[metric] - metric_min) / (metric_max - metric_min))
+            # min과 max가 같은 경우 처리
+            if metric_min == metric_max:
+                colors = ['#90EE90'] * len(valid_data)  # 연두색으로 통일
+            else:
+                colors = plt.cm.RdYlGn((valid_data[metric] - metric_min) / (metric_max - metric_min))
         
         for bar, color in zip(bars, colors):
             bar.set_color(color)
@@ -279,7 +319,13 @@ def plot_model_comparison(df, metrics=None, top_n=20, figsize=(16, 12), save_pat
         
         # 값 표시
         for i, (val, bar) in enumerate(zip(valid_data[metric], bars)):
-            ax.text(val, bar.get_y() + bar.get_height()/2, f'{val:.4f}', 
+            # AUC=0인 경우 특별 표시
+            if metric == 'AUC' and val == 0.0:
+                label = 'N/A'
+            else:
+                label = f'{val:.4f}'
+            
+            ax.text(val, bar.get_y() + bar.get_height()/2, label, 
                    ha='left', va='center', fontsize=9, fontweight='bold')
         
         # 그리드 추가
@@ -307,10 +353,10 @@ def plot_model_comparison(df, metrics=None, top_n=20, figsize=(16, 12), save_pat
         print(f"💾 그래프 저장: {save_path}")
     
     return fig, axes
-# EOF ----------------------------------------------------------------------------------------
+# eof -------------------------------------------------------------------    
 
 
-# plot_metric_heatmap start #############################################################
+#  plot_metric_heatmap ##############################################################
 def plot_metric_heatmap(df, metrics=None, top_n=20, figsize=(12, 10), save_path=None):
     """
     모델별 metric 히트맵 생성
@@ -328,8 +374,9 @@ def plot_metric_heatmap(df, metrics=None, top_n=20, figsize=(12, 10), save_path=
     save_path : str, optional
         그래프 저장 경로
     """
-    rc('font', family='Malgun Gothic')  # Windows 기본 한글 폰트
-    plt.rcParams['axes.unicode_minus'] = False
+    
+    # 한글 폰트 설정
+    set_korean_font()
     
     if df.empty:
         print("⚠️  DataFrame이 비어있습니다.")
@@ -373,7 +420,45 @@ def plot_metric_heatmap(df, metrics=None, top_n=20, figsize=(12, 10), save_path=
         print(f"💾 히트맵 저장: {save_path}")
     
     return fig
-# EOF -------------------------------------------------------------------------------------------------------
+# eof ------------------------------------------------------------------- 
+
+   
+# check_data_quality ##############################################################
+def check_data_quality(df):
+    """DataFrame의 데이터 품질 체크"""
+    print("="*80)
+    print("📊 데이터 품질 체크")
+    print("="*80)
+    
+    metrics = ['AUC', '정밀도', '재현율', 'F1', 'F2']
+    
+    for metric in metrics:
+        if metric not in df.columns:
+            continue
+        
+        print(f"\n[{metric}]")
+        print(f"  - 총 개수: {len(df)}")
+        print(f"  - NaN 개수: {df[metric].isna().sum()}")
+        print(f"  - Inf 개수: {df[metric].isin([float('inf'), float('-inf')]).sum()}")
+        print(f"  - 0.0 개수: {(df[metric] == 0.0).sum()}")
+        print(f"  - 최소값: {df[metric].min()}")
+        print(f"  - 최대값: {df[metric].max()}")
+        print(f"  - 평균값: {df[metric].mean():.4f}")
+        
+        # NaN이 있는 행 표시
+        if df[metric].isna().any():
+            print(f"  ⚠️  NaN 값이 있는 모델:")
+            nan_rows = df[df[metric].isna()]['model_name'].tolist()
+            for model in nan_rows[:5]:  # 최대 5개만
+                print(f"      - {model}")
+        
+        # 0.0인 행 표시 (AUC인 경우)
+        if metric == 'AUC' and (df[metric] == 0.0).any():
+            print(f"  ⚠️  AUC=0.0 (확률 예측 불가) 모델:")
+            zero_rows = df[df[metric] == 0.0]['model_name'].tolist()
+            for model in zero_rows[:5]:
+                print(f"      - {model}")
+
 
 # ==================== 사용 예시 ====================
 
@@ -392,6 +477,9 @@ if __name__ == "__main__":
     )
     
     if not df_ho.empty:
+        # 데이터 품질 체크
+        check_data_quality(df_ho)
+        
         # 데이터 요약 출력
         print("\n📊 상위 10개 모델:")
         display_cols = ['model_name', 'AUC', 'F1', 'F2', '정밀도', '재현율']
@@ -416,7 +504,7 @@ if __name__ == "__main__":
             metrics=['AUC', '정밀도', '재현율', 'F1', 'F2'],
             top_n=15,
             figsize=(16, 12),
-            save_path='../images/hyperopt_comparison.png'
+            save_path='../results/hyperopt_comparison.png'
         )
         
         # 히트맵
@@ -425,7 +513,7 @@ if __name__ == "__main__":
             metrics=['AUC', '정밀도', '재현율', 'F1', 'F2'],
             top_n=15,
             figsize=(12, 10),
-            save_path='../images/hyperopt_heatmap.png'
+            save_path='../results/hyperopt_heatmap.png'
         )
         
         plt.show()
@@ -434,18 +522,3 @@ if __name__ == "__main__":
         csv_path = '../results/hyperopt_results.csv'
         df_ho.to_csv(csv_path, index=False, encoding='utf-8-sig')
         print(f"\n💾 결과 저장: {csv_path}")
-    
-    # 4️⃣ 전체 결과도 비교 (옵션)
-    print("\n" + "="*80)
-    print("🔍 전체 결과 로드 (참고용)")
-    print("="*80 + "\n")
-    
-    df_all = load_results_to_df(
-        folder_path='../results',
-        sort_by='F1',
-        ascending=False
-    )
-    
-    if not df_all.empty:
-        print(f"\n📊 전체 모델 수: {len(df_all)}개")
-        print(f"📊 HyperOpt 모델 수: {len(df_ho)}개")
