@@ -1050,3 +1050,322 @@ ValueError: Number of labels is 1. Valid values are 2 to n_samples - 1 (inclusiv
 2025-12-02 14:28:01,000:INFO:Copying data
 2025-12-02 14:28:01,382:INFO:(51, 5001)
 2025-12-02 14:28:01,383:INFO:assign_model() successfully completed......................................
+2025-12-02 14:54:50,208:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 14:54:50,208:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 14:54:50,208:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 14:54:50,208:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 14:57:22,441:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 14:57:22,441:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 14:57:22,441:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 14:57:22,441:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 14:58:56,466:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 14:58:56,466:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 14:58:56,466:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 14:58:56,466:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 15:01:09,652:INFO:PyCaret ClusteringExperiment
+2025-12-02 15:01:09,652:INFO:Logging name: cluster-default-name
+2025-12-02 15:01:09,652:INFO:ML Usecase: MLUsecase.CLUSTERING
+2025-12-02 15:01:09,652:INFO:version 3.3.2
+2025-12-02 15:01:09,652:INFO:Initializing setup()
+2025-12-02 15:01:09,652:INFO:self.USI: a52a
+2025-12-02 15:01:09,652:INFO:self._variable_keys: {'logging_param', 'n_jobs_param', '_ml_usecase', 'memory', 'USI', 'pipeline', '_available_plots', 'seed', 'log_plots_param', 'html_param', 'data', 'X', 'gpu_param', 'gpu_n_jobs_param', 'exp_id', 'idx', 'exp_name_log'}
+2025-12-02 15:01:09,652:INFO:Checking environment
+2025-12-02 15:01:09,652:INFO:python_version: 3.10.19
+2025-12-02 15:01:09,652:INFO:python_build: ('main', 'Oct 21 2025 16:41:31')
+2025-12-02 15:01:09,653:INFO:machine: AMD64
+2025-12-02 15:01:09,653:INFO:platform: Windows-10-10.0.19045-SP0
+2025-12-02 15:01:09,656:INFO:Memory: svmem(total=34261204992, available=23100252160, percent=32.6, used=11160952832, free=23100252160)
+2025-12-02 15:01:09,656:INFO:Physical Core: 6
+2025-12-02 15:01:09,656:INFO:Logical Core: 12
+2025-12-02 15:01:09,656:INFO:Checking libraries
+2025-12-02 15:01:09,656:INFO:System:
+2025-12-02 15:01:09,656:INFO:    python: 3.10.19 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 16:41:31) [MSC v.1929 64 bit (AMD64)]
+2025-12-02 15:01:09,656:INFO:executable: c:\ProgramData\anaconda3\envs\pycaret_env\python.exe
+2025-12-02 15:01:09,656:INFO:   machine: Windows-10-10.0.19045-SP0
+2025-12-02 15:01:09,656:INFO:PyCaret required dependencies:
+2025-12-02 15:01:09,657:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 15:01:10,816:INFO:                 pip: 25.3
+2025-12-02 15:01:10,816:INFO:          setuptools: 80.9.0
+2025-12-02 15:01:10,816:INFO:             pycaret: 3.3.2
+2025-12-02 15:01:10,816:INFO:             IPython: 8.37.0
+2025-12-02 15:01:10,816:INFO:          ipywidgets: 8.1.8
+2025-12-02 15:01:10,816:INFO:                tqdm: 4.67.1
+2025-12-02 15:01:10,817:INFO:               numpy: 1.26.4
+2025-12-02 15:01:10,817:INFO:              pandas: 2.1.4
+2025-12-02 15:01:10,817:INFO:              jinja2: 3.1.6
+2025-12-02 15:01:10,817:INFO:               scipy: 1.11.4
+2025-12-02 15:01:10,817:INFO:              joblib: 1.3.2
+2025-12-02 15:01:10,817:INFO:             sklearn: 1.4.2
+2025-12-02 15:01:10,817:INFO:                pyod: 2.0.5
+2025-12-02 15:01:10,817:INFO:            imblearn: 0.14.0
+2025-12-02 15:01:10,817:INFO:   category_encoders: 2.7.0
+2025-12-02 15:01:10,817:INFO:            lightgbm: 4.6.0
+2025-12-02 15:01:10,817:INFO:               numba: 0.62.1
+2025-12-02 15:01:10,817:INFO:            requests: 2.32.5
+2025-12-02 15:01:10,817:INFO:          matplotlib: 3.7.5
+2025-12-02 15:01:10,817:INFO:          scikitplot: 0.3.7
+2025-12-02 15:01:10,817:INFO:         yellowbrick: 1.5
+2025-12-02 15:01:10,817:INFO:              plotly: 5.24.1
+2025-12-02 15:01:10,817:INFO:    plotly-resampler: Not installed
+2025-12-02 15:01:10,817:INFO:             kaleido: 1.2.0
+2025-12-02 15:01:10,817:INFO:           schemdraw: 0.15
+2025-12-02 15:01:10,817:INFO:         statsmodels: 0.14.5
+2025-12-02 15:01:10,817:INFO:              sktime: 0.26.0
+2025-12-02 15:01:10,817:INFO:               tbats: 1.1.3
+2025-12-02 15:01:10,817:INFO:            pmdarima: 2.0.4
+2025-12-02 15:01:10,817:INFO:              psutil: 7.1.3
+2025-12-02 15:01:10,818:INFO:          markupsafe: 3.0.3
+2025-12-02 15:01:10,818:INFO:             pickle5: Not installed
+2025-12-02 15:01:10,818:INFO:         cloudpickle: 3.1.2
+2025-12-02 15:01:10,818:INFO:         deprecation: 2.1.0
+2025-12-02 15:01:10,818:INFO:              xxhash: 3.6.0
+2025-12-02 15:01:10,818:INFO:           wurlitzer: Not installed
+2025-12-02 15:01:10,818:INFO:PyCaret optional dependencies:
+2025-12-02 15:01:15,663:INFO:                shap: 0.44.1
+2025-12-02 15:01:15,663:INFO:           interpret: 0.7.3
+2025-12-02 15:01:15,664:INFO:                umap: 0.5.7
+2025-12-02 15:01:15,664:INFO:     ydata_profiling: 4.18.0
+2025-12-02 15:01:15,664:INFO:  explainerdashboard: 0.5.1
+2025-12-02 15:01:15,664:INFO:             autoviz: Not installed
+2025-12-02 15:01:15,664:INFO:           fairlearn: 0.7.0
+2025-12-02 15:01:15,664:INFO:          deepchecks: Not installed
+2025-12-02 15:01:15,664:INFO:             xgboost: 3.1.2
+2025-12-02 15:01:15,664:INFO:            catboost: 1.2.8
+2025-12-02 15:01:15,664:INFO:              kmodes: 0.12.2
+2025-12-02 15:01:15,664:INFO:             mlxtend: 0.23.4
+2025-12-02 15:01:15,664:INFO:       statsforecast: 1.5.0
+2025-12-02 15:01:15,664:INFO:        tune_sklearn: Not installed
+2025-12-02 15:01:15,664:INFO:                 ray: Not installed
+2025-12-02 15:01:15,664:INFO:            hyperopt: 0.2.7
+2025-12-02 15:01:15,664:INFO:              optuna: 4.6.0
+2025-12-02 15:01:15,664:INFO:               skopt: 0.10.2
+2025-12-02 15:01:15,664:INFO:              mlflow: 3.6.0
+2025-12-02 15:01:15,664:INFO:              gradio: 6.0.2
+2025-12-02 15:01:15,664:INFO:             fastapi: 0.123.0
+2025-12-02 15:01:15,664:INFO:             uvicorn: 0.38.0
+2025-12-02 15:01:15,664:INFO:              m2cgen: 0.10.0
+2025-12-02 15:01:15,664:INFO:           evidently: 0.4.40
+2025-12-02 15:01:15,664:INFO:               fugue: 0.8.7
+2025-12-02 15:01:15,665:INFO:           streamlit: Not installed
+2025-12-02 15:01:15,665:INFO:             prophet: Not installed
+2025-12-02 15:01:15,665:INFO:None
+2025-12-02 15:01:15,665:INFO:Set up data.
+2025-12-02 15:01:16,817:INFO:Set up index.
+2025-12-02 15:01:16,817:INFO:Assigning column types.
+2025-12-02 15:01:17,303:INFO:Engine successfully changes for model 'kmeans' to 'sklearn'.
+2025-12-02 15:01:17,304:INFO:Engine for model 'dbscan' has not been set explicitly, hence returning None.
+2025-12-02 15:01:17,304:INFO:Soft dependency imported: kmodes: 0.12.2
+2025-12-02 15:01:17,313:INFO:Engine for model 'dbscan' has not been set explicitly, hence returning None.
+2025-12-02 15:01:17,313:INFO:Soft dependency imported: kmodes: 0.12.2
+2025-12-02 15:01:17,313:INFO:Engine successfully changes for model 'dbscan' to 'sklearn'.
+2025-12-02 15:01:17,314:INFO:Soft dependency imported: kmodes: 0.12.2
+2025-12-02 15:01:17,314:INFO:Soft dependency imported: kmodes: 0.12.2
+2025-12-02 15:01:17,317:INFO:Preparing preprocessing pipeline...
+2025-12-02 15:01:17,317:INFO:Set up simple imputation.
+2025-12-02 15:01:19,455:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\pycaret\internal\pipeline.py:249: UserWarning: Persisting input arguments took 0.85s to run.If this happens often in your code, it can cause performance problems (results will be correct in all cases). The reason for this is probably some large input arguments for a wrapped function.
+
+2025-12-02 15:01:21,364:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\pycaret\internal\pipeline.py:256: UserWarning: Persisting input arguments took 0.83s to run.If this happens often in your code, it can cause performance problems (results will be correct in all cases). The reason for this is probably some large input arguments for a wrapped function.
+
+2025-12-02 15:01:21,375:INFO:Finished creating preprocessing pipeline.
+2025-12-02 15:01:21,414:INFO:Pipeline: Pipeline(memory=FastMemory(location=C:\Users\TJ\AppData\Local\Temp\joblib),
+         steps=[('numerical_imputer',
+                 TransformerWrapper(include=['00', '000', '00am', '01', '02',
+                                             '03', '0404', '05', '06', '07',
+                                             '08', '09', '0w', '10', '100',
+                                             '1000', '100000', '1000he', '1005',
+                                             '1005ha', '1005pa', '1008',
+                                             '1008ha', '100m', '101', '1024',
+                                             '1024x', '1024x600', '1024x768',
+                                             '1030am', ...],
+                                    transformer=SimpleImputer())),
+                ('categorical_imputer',
+                 TransformerWrapper(include=[],
+                                    transformer=SimpleImputer(strategy='most_frequent')))])
+2025-12-02 15:01:21,414:INFO:Creating final display dataframe.
+2025-12-02 15:01:24,270:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\pycaret\internal\pipeline.py:289: UserWarning: Persisting input arguments took 0.91s to run.If this happens often in your code, it can cause performance problems (results will be correct in all cases). The reason for this is probably some large input arguments for a wrapped function.
+
+2025-12-02 15:01:24,590:INFO:Setup _display_container:                Description                 Value
+0               Session id                    42
+1      Original data shape            (51, 5000)
+2   Transformed data shape            (51, 5000)
+3         Numeric features                  5000
+4               Preprocess                  True
+5          Imputation type                simple
+6       Numeric imputation                  mean
+7   Categorical imputation                  mode
+8                 CPU Jobs                    -1
+9                  Use GPU                 False
+10          Log Experiment                 False
+11         Experiment Name  cluster-default-name
+12                     USI                  a52a
+2025-12-02 15:01:24,598:INFO:Soft dependency imported: kmodes: 0.12.2
+2025-12-02 15:01:24,598:INFO:Soft dependency imported: kmodes: 0.12.2
+2025-12-02 15:01:24,599:INFO:setup() successfully completed in 14.95s...............
+2025-12-02 15:01:24,600:INFO:Initializing create_model()
+2025-12-02 15:01:24,600:INFO:create_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, estimator=kmeans, num_clusters=4, fraction=0.05, ground_truth=None, round=4, fit_kwargs=None, experiment_custom_tags=None, verbose=True, system=True, add_to_model_list=True, raise_num_clusters=False, display=None, kwargs={})
+2025-12-02 15:01:24,600:INFO:Checking exceptions
+2025-12-02 15:01:25,658:INFO:Importing untrained model
+2025-12-02 15:01:25,662:INFO:K-Means Clustering Imported successfully
+2025-12-02 15:01:25,684:INFO:Fitting Model
+2025-12-02 15:01:26,453:INFO:KMeans(n_clusters=4, random_state=42)
+2025-12-02 15:01:26,453:INFO:create_models() successfully completed......................................
+2025-12-02 15:01:26,458:INFO:Uploading results into container
+2025-12-02 15:01:26,460:INFO:Uploading model into container now
+2025-12-02 15:01:26,468:INFO:_master_model_container: 1
+2025-12-02 15:01:26,468:INFO:_display_container: 2
+2025-12-02 15:01:26,468:INFO:KMeans(n_clusters=4, random_state=42)
+2025-12-02 15:01:26,468:INFO:create_model() successfully completed......................................
+2025-12-02 15:01:26,650:INFO:Initializing create_model()
+2025-12-02 15:01:26,650:INFO:create_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, estimator=dbscan, num_clusters=4, fraction=0.05, ground_truth=None, round=4, fit_kwargs=None, experiment_custom_tags=None, verbose=True, system=True, add_to_model_list=True, raise_num_clusters=False, display=None, kwargs={})
+2025-12-02 15:01:26,650:INFO:Checking exceptions
+2025-12-02 15:01:27,662:INFO:Importing untrained model
+2025-12-02 15:01:27,666:INFO:Density-Based Spatial Clustering Imported successfully
+2025-12-02 15:01:27,688:INFO:Fitting Model
+2025-12-02 15:01:28,306:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\pycaret\utils\generic.py:528: UserWarning: Traceback (most recent call last):
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\pycaret\utils\generic.py", line 526, in _calculate_unsupervised_metric
+    calculated_metric = score_func(target, labels, **container.args)
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\utils\_param_validation.py", line 213, in wrapper
+    return func(*args, **kwargs)
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\cluster\_unsupervised.py", line 140, in silhouette_score
+    return np.mean(silhouette_samples(X, labels, metric=metric, **kwds))
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\utils\_param_validation.py", line 186, in wrapper
+    return func(*args, **kwargs)
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\cluster\_unsupervised.py", line 297, in silhouette_samples
+    check_number_of_labels(len(le.classes_), n_samples)
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\cluster\_unsupervised.py", line 37, in check_number_of_labels
+    raise ValueError(
+ValueError: Number of labels is 1. Valid values are 2 to n_samples - 1 (inclusive)
+
+
+2025-12-02 15:01:28,333:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\pycaret\utils\generic.py:528: UserWarning: Traceback (most recent call last):
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\pycaret\utils\generic.py", line 526, in _calculate_unsupervised_metric
+    calculated_metric = score_func(target, labels, **container.args)
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\utils\_param_validation.py", line 213, in wrapper
+    return func(*args, **kwargs)
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\cluster\_unsupervised.py", line 373, in calinski_harabasz_score
+    check_number_of_labels(n_labels, n_samples)
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\cluster\_unsupervised.py", line 37, in check_number_of_labels
+    raise ValueError(
+ValueError: Number of labels is 1. Valid values are 2 to n_samples - 1 (inclusive)
+
+
+2025-12-02 15:01:28,360:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\pycaret\utils\generic.py:528: UserWarning: Traceback (most recent call last):
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\pycaret\utils\generic.py", line 526, in _calculate_unsupervised_metric
+    calculated_metric = score_func(target, labels, **container.args)
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\utils\_param_validation.py", line 213, in wrapper
+    return func(*args, **kwargs)
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\cluster\_unsupervised.py", line 446, in davies_bouldin_score
+    check_number_of_labels(n_labels, n_samples)
+  File "c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\cluster\_unsupervised.py", line 37, in check_number_of_labels
+    raise ValueError(
+ValueError: Number of labels is 1. Valid values are 2 to n_samples - 1 (inclusive)
+
+
+2025-12-02 15:01:28,360:INFO:DBSCAN(n_jobs=-1)
+2025-12-02 15:01:28,360:INFO:create_models() successfully completed......................................
+2025-12-02 15:01:28,365:INFO:Uploading results into container
+2025-12-02 15:01:28,366:INFO:Uploading model into container now
+2025-12-02 15:01:28,376:INFO:_master_model_container: 2
+2025-12-02 15:01:28,376:INFO:_display_container: 3
+2025-12-02 15:01:28,377:INFO:DBSCAN(n_jobs=-1)
+2025-12-02 15:01:28,377:INFO:create_model() successfully completed......................................
+2025-12-02 15:01:28,575:INFO:Initializing create_model()
+2025-12-02 15:01:28,575:INFO:create_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, estimator=birch, num_clusters=4, fraction=0.05, ground_truth=None, round=4, fit_kwargs=None, experiment_custom_tags=None, verbose=True, system=True, add_to_model_list=True, raise_num_clusters=False, display=None, kwargs={})
+2025-12-02 15:01:28,575:INFO:Checking exceptions
+2025-12-02 15:01:29,609:INFO:Importing untrained model
+2025-12-02 15:01:29,613:INFO:Birch Clustering Imported successfully
+2025-12-02 15:01:29,636:INFO:Fitting Model
+2025-12-02 15:01:30,267:INFO:Birch(n_clusters=4)
+2025-12-02 15:01:30,267:INFO:create_models() successfully completed......................................
+2025-12-02 15:01:30,270:INFO:Uploading results into container
+2025-12-02 15:01:30,271:INFO:Uploading model into container now
+2025-12-02 15:01:30,277:INFO:_master_model_container: 3
+2025-12-02 15:01:30,278:INFO:_display_container: 4
+2025-12-02 15:01:30,278:INFO:Birch(n_clusters=4)
+2025-12-02 15:01:30,278:INFO:create_model() successfully completed......................................
+2025-12-02 15:02:33,880:INFO:Initializing assign_model()
+2025-12-02 15:02:33,880:INFO:assign_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, model=KMeans(n_clusters=4, random_state=42), transformation=False, score=True, verbose=True)
+2025-12-02 15:02:33,880:INFO:Checking exceptions
+2025-12-02 15:02:33,881:INFO:Determining Trained Model
+2025-12-02 15:02:33,881:INFO:Trained Model : K-Means Clustering
+2025-12-02 15:02:33,881:INFO:Copying data
+2025-12-02 15:02:34,021:INFO:(51, 5001)
+2025-12-02 15:02:34,021:INFO:assign_model() successfully completed......................................
+2025-12-02 15:02:34,050:INFO:Initializing assign_model()
+2025-12-02 15:02:34,050:INFO:assign_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, model=DBSCAN(n_jobs=-1), transformation=False, score=True, verbose=True)
+2025-12-02 15:02:34,050:INFO:Checking exceptions
+2025-12-02 15:02:34,050:INFO:Determining Trained Model
+2025-12-02 15:02:34,050:INFO:Trained Model : Density-Based Spatial Clustering
+2025-12-02 15:02:34,050:INFO:Copying data
+2025-12-02 15:02:34,365:INFO:(51, 5001)
+2025-12-02 15:02:34,365:INFO:assign_model() successfully completed......................................
+2025-12-02 15:02:34,366:INFO:Initializing assign_model()
+2025-12-02 15:02:34,366:INFO:assign_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, model=Birch(n_clusters=4), transformation=False, score=True, verbose=True)
+2025-12-02 15:02:34,366:INFO:Checking exceptions
+2025-12-02 15:02:34,366:INFO:Determining Trained Model
+2025-12-02 15:02:34,366:INFO:Trained Model : Birch Clustering
+2025-12-02 15:02:34,366:INFO:Copying data
+2025-12-02 15:02:34,500:INFO:(51, 5001)
+2025-12-02 15:02:34,500:INFO:assign_model() successfully completed......................................
+2025-12-02 15:04:40,934:INFO:Initializing assign_model()
+2025-12-02 15:04:40,934:INFO:assign_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, model=KMeans(n_clusters=4, random_state=42), transformation=False, score=True, verbose=True)
+2025-12-02 15:04:40,934:INFO:Checking exceptions
+2025-12-02 15:04:40,934:INFO:Determining Trained Model
+2025-12-02 15:04:40,934:INFO:Trained Model : K-Means Clustering
+2025-12-02 15:04:40,934:INFO:Copying data
+2025-12-02 15:04:41,251:INFO:(51, 5001)
+2025-12-02 15:04:41,251:INFO:assign_model() successfully completed......................................
+2025-12-02 15:04:41,367:INFO:Initializing assign_model()
+2025-12-02 15:04:41,367:INFO:assign_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, model=DBSCAN(n_jobs=-1), transformation=False, score=True, verbose=True)
+2025-12-02 15:04:41,367:INFO:Checking exceptions
+2025-12-02 15:04:41,368:INFO:Determining Trained Model
+2025-12-02 15:04:41,368:INFO:Trained Model : Density-Based Spatial Clustering
+2025-12-02 15:04:41,368:INFO:Copying data
+2025-12-02 15:04:41,507:INFO:(51, 5001)
+2025-12-02 15:04:41,507:INFO:assign_model() successfully completed......................................
+2025-12-02 15:04:41,628:INFO:Initializing assign_model()
+2025-12-02 15:04:41,628:INFO:assign_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, model=Birch(n_clusters=4), transformation=False, score=True, verbose=True)
+2025-12-02 15:04:41,628:INFO:Checking exceptions
+2025-12-02 15:04:41,628:INFO:Determining Trained Model
+2025-12-02 15:04:41,628:INFO:Trained Model : Birch Clustering
+2025-12-02 15:04:41,628:INFO:Copying data
+2025-12-02 15:04:41,948:INFO:(51, 5001)
+2025-12-02 15:04:41,948:INFO:assign_model() successfully completed......................................
+2025-12-02 15:05:25,571:INFO:Initializing assign_model()
+2025-12-02 15:05:25,571:INFO:assign_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, model=KMeans(n_clusters=4, random_state=42), transformation=False, score=True, verbose=True)
+2025-12-02 15:05:25,571:INFO:Checking exceptions
+2025-12-02 15:05:25,572:INFO:Determining Trained Model
+2025-12-02 15:05:25,572:INFO:Trained Model : K-Means Clustering
+2025-12-02 15:05:25,572:INFO:Copying data
+2025-12-02 15:05:25,730:INFO:(51, 5001)
+2025-12-02 15:05:25,730:INFO:assign_model() successfully completed......................................
+2025-12-02 15:05:25,876:INFO:Initializing assign_model()
+2025-12-02 15:05:25,876:INFO:assign_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, model=DBSCAN(n_jobs=-1), transformation=False, score=True, verbose=True)
+2025-12-02 15:05:25,876:INFO:Checking exceptions
+2025-12-02 15:05:25,876:INFO:Determining Trained Model
+2025-12-02 15:05:25,876:INFO:Trained Model : Density-Based Spatial Clustering
+2025-12-02 15:05:25,876:INFO:Copying data
+2025-12-02 15:05:26,196:INFO:(51, 5001)
+2025-12-02 15:05:26,196:INFO:assign_model() successfully completed......................................
+2025-12-02 15:05:26,311:INFO:Initializing assign_model()
+2025-12-02 15:05:26,312:INFO:assign_model(self=<pycaret.clustering.oop.ClusteringExperiment object at 0x0000021656E53070>, model=Birch(n_clusters=4), transformation=False, score=True, verbose=True)
+2025-12-02 15:05:26,312:INFO:Checking exceptions
+2025-12-02 15:05:26,312:INFO:Determining Trained Model
+2025-12-02 15:05:26,312:INFO:Trained Model : Birch Clustering
+2025-12-02 15:05:26,312:INFO:Copying data
+2025-12-02 15:05:26,453:INFO:(51, 5001)
+2025-12-02 15:05:26,453:INFO:assign_model() successfully completed......................................
