@@ -10292,3 +10292,1290 @@ Alternately, you can install this by running `pip install pycaret[models]`
 2025-12-02 11:31:57,685:INFO:Gradient Boosting Classifier Imported successfully
 2025-12-02 11:31:57,691:INFO:Starting cross validation
 2025-12-02 11:31:57,699:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 11:33:15,481:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+
+2025-12-02 11:33:15,605:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+
+2025-12-02 11:33:16,332:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+
+2025-12-02 11:33:17,684:INFO:Calculating mean and std
+2025-12-02 11:33:17,686:INFO:Creating metrics dataframe
+2025-12-02 11:33:17,692:INFO:Finalizing model
+2025-12-02 11:33:18,150:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:33:18,161:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.009880 seconds.
+2025-12-02 11:33:18,161:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 11:33:18,161:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 11:33:18,162:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 11:33:18,163:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:33:18,163:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:34:07,356:INFO:Uploading results into container
+2025-12-02 11:34:07,356:INFO:Uploading model into container now
+2025-12-02 11:34:07,365:INFO:_master_model_container: 27
+2025-12-02 11:34:07,365:INFO:_display_container: 20
+2025-12-02 11:34:07,365:INFO:GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
+                           learning_rate=0.1, loss='log_loss', max_depth=3,
+                           max_features=None, max_leaf_nodes=None,
+                           min_impurity_decrease=0.0, min_samples_leaf=1,
+                           min_samples_split=2, min_weight_fraction_leaf=0.0,
+                           n_estimators=100, n_iter_no_change=None,
+                           random_state=23, subsample=1.0, tol=0.0001,
+                           validation_fraction=0.1, verbose=0,
+                           warm_start=False)
+2025-12-02 11:34:07,365:INFO:create_model() successfully completed......................................
+2025-12-02 11:34:07,483:INFO:Initializing tune_model()
+2025-12-02 11:34:07,483:INFO:tune_model(estimator=GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
+                           learning_rate=0.1, loss='log_loss', max_depth=3,
+                           max_features=None, max_leaf_nodes=None,
+                           min_impurity_decrease=0.0, min_samples_leaf=1,
+                           min_samples_split=2, min_weight_fraction_leaf=0.0,
+                           n_estimators=100, n_iter_no_change=None,
+                           random_state=23, subsample=1.0, tol=0.0001,
+                           validation_fraction=0.1, verbose=0,
+                           warm_start=False), fold=None, round=4, n_iter=10, custom_grid={'learning_rate': [0.02083271293464231], 'max_depth': [3], 'n_estimators': [800], 'subsample': [0.7076395576782778], 'random_state': [23]}, optimize=Accuracy, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>)
+2025-12-02 11:34:07,483:INFO:Checking exceptions
+2025-12-02 11:34:07,579:INFO:Copying training dataset
+2025-12-02 11:34:07,723:INFO:Checking base model
+2025-12-02 11:34:07,723:INFO:Base model : Gradient Boosting Classifier
+2025-12-02 11:34:07,727:INFO:Declaring metric variables
+2025-12-02 11:34:07,731:INFO:Defining Hyperparameters
+2025-12-02 11:34:07,858:INFO:custom_grid: {'actual_estimator__learning_rate': [0.02083271293464231], 'actual_estimator__max_depth': [3], 'actual_estimator__n_estimators': [800], 'actual_estimator__subsample': [0.7076395576782778], 'actual_estimator__random_state': [23]}
+2025-12-02 11:34:07,858:INFO:Tuning with n_jobs=-1
+2025-12-02 11:34:07,858:INFO:Initializing RandomizedSearchCV
+2025-12-02 11:41:46,297:INFO:best_params: {'actual_estimator__subsample': 0.7076395576782778, 'actual_estimator__random_state': 23, 'actual_estimator__n_estimators': 800, 'actual_estimator__max_depth': 3, 'actual_estimator__learning_rate': 0.02083271293464231}
+2025-12-02 11:41:46,298:INFO:Hyperparameter search completed
+2025-12-02 11:41:46,299:INFO:SubProcess create_model() called ==================================
+2025-12-02 11:41:46,300:INFO:Initializing create_model()
+2025-12-02 11:41:46,300:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
+                           learning_rate=0.1, loss='log_loss', max_depth=3,
+                           max_features=None, max_leaf_nodes=None,
+                           min_impurity_decrease=0.0, min_samples_leaf=1,
+                           min_samples_split=2, min_weight_fraction_leaf=0.0,
+                           n_estimators=100, n_iter_no_change=None,
+                           random_state=23, subsample=1.0, tol=0.0001,
+                           validation_fraction=0.1, verbose=0,
+                           warm_start=False), fold=StratifiedKFold(n_splits=10, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001FA002EFEE0>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'subsample': 0.7076395576782778, 'random_state': 23, 'n_estimators': 800, 'max_depth': 3, 'learning_rate': 0.02083271293464231})
+2025-12-02 11:41:46,300:INFO:Checking exceptions
+2025-12-02 11:41:46,300:INFO:Importing libraries
+2025-12-02 11:41:46,300:INFO:Copying training dataset
+2025-12-02 11:41:46,493:INFO:Defining folds
+2025-12-02 11:41:46,493:INFO:Declaring metric variables
+2025-12-02 11:41:46,497:INFO:Importing untrained model
+2025-12-02 11:41:46,497:INFO:Declaring custom model
+2025-12-02 11:41:46,498:INFO:Gradient Boosting Classifier Imported successfully
+2025-12-02 11:41:46,509:INFO:Starting cross validation
+2025-12-02 11:41:46,515:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 11:48:40,129:INFO:Calculating mean and std
+2025-12-02 11:48:40,129:INFO:Creating metrics dataframe
+2025-12-02 11:48:40,129:INFO:Finalizing model
+2025-12-02 11:48:40,614:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:48:40,630:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.014469 seconds.
+2025-12-02 11:48:40,630:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 11:48:40,630:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 11:48:40,630:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 11:48:40,631:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:48:40,632:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:53:19,863:INFO:Uploading results into container
+2025-12-02 11:53:19,865:INFO:Uploading model into container now
+2025-12-02 11:53:19,865:INFO:_master_model_container: 28
+2025-12-02 11:53:19,865:INFO:_display_container: 21
+2025-12-02 11:53:19,865:INFO:GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
+                           learning_rate=0.02083271293464231, loss='log_loss',
+                           max_depth=3, max_features=None, max_leaf_nodes=None,
+                           min_impurity_decrease=0.0, min_samples_leaf=1,
+                           min_samples_split=2, min_weight_fraction_leaf=0.0,
+                           n_estimators=800, n_iter_no_change=None,
+                           random_state=23, subsample=0.7076395576782778,
+                           tol=0.0001, validation_fraction=0.1, verbose=0,
+                           warm_start=False)
+2025-12-02 11:53:19,865:INFO:create_model() successfully completed......................................
+2025-12-02 11:53:19,997:INFO:SubProcess create_model() end ==================================
+2025-12-02 11:53:19,997:INFO:choose_better activated
+2025-12-02 11:53:19,998:INFO:SubProcess create_model() called ==================================
+2025-12-02 11:53:19,998:INFO:Initializing create_model()
+2025-12-02 11:53:19,998:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
+                           learning_rate=0.1, loss='log_loss', max_depth=3,
+                           max_features=None, max_leaf_nodes=None,
+                           min_impurity_decrease=0.0, min_samples_leaf=1,
+                           min_samples_split=2, min_weight_fraction_leaf=0.0,
+                           n_estimators=100, n_iter_no_change=None,
+                           random_state=23, subsample=1.0, tol=0.0001,
+                           validation_fraction=0.1, verbose=0,
+                           warm_start=False), fold=StratifiedKFold(n_splits=10, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-12-02 11:53:19,998:INFO:Checking exceptions
+2025-12-02 11:53:19,998:INFO:Importing libraries
+2025-12-02 11:53:19,998:INFO:Copying training dataset
+2025-12-02 11:53:20,192:INFO:Defining folds
+2025-12-02 11:53:20,192:INFO:Declaring metric variables
+2025-12-02 11:53:20,192:INFO:Importing untrained model
+2025-12-02 11:53:20,192:INFO:Declaring custom model
+2025-12-02 11:53:20,192:INFO:Gradient Boosting Classifier Imported successfully
+2025-12-02 11:53:20,192:INFO:Starting cross validation
+2025-12-02 11:53:20,209:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 11:54:35,577:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+
+2025-12-02 11:54:36,657:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+
+2025-12-02 11:54:37,399:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+
+2025-12-02 11:54:37,690:INFO:Calculating mean and std
+2025-12-02 11:54:37,692:INFO:Creating metrics dataframe
+2025-12-02 11:54:37,695:INFO:Finalizing model
+2025-12-02 11:54:38,172:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:54:38,188:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.009303 seconds.
+2025-12-02 11:54:38,188:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 11:54:38,188:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 11:54:38,188:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 11:54:38,188:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:54:38,188:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:55:25,185:INFO:Uploading results into container
+2025-12-02 11:55:25,186:INFO:Uploading model into container now
+2025-12-02 11:55:25,186:INFO:_master_model_container: 29
+2025-12-02 11:55:25,187:INFO:_display_container: 22
+2025-12-02 11:55:25,187:INFO:GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
+                           learning_rate=0.1, loss='log_loss', max_depth=3,
+                           max_features=None, max_leaf_nodes=None,
+                           min_impurity_decrease=0.0, min_samples_leaf=1,
+                           min_samples_split=2, min_weight_fraction_leaf=0.0,
+                           n_estimators=100, n_iter_no_change=None,
+                           random_state=23, subsample=1.0, tol=0.0001,
+                           validation_fraction=0.1, verbose=0,
+                           warm_start=False)
+2025-12-02 11:55:25,187:INFO:create_model() successfully completed......................................
+2025-12-02 11:55:25,307:INFO:SubProcess create_model() end ==================================
+2025-12-02 11:55:25,307:INFO:GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
+                           learning_rate=0.1, loss='log_loss', max_depth=3,
+                           max_features=None, max_leaf_nodes=None,
+                           min_impurity_decrease=0.0, min_samples_leaf=1,
+                           min_samples_split=2, min_weight_fraction_leaf=0.0,
+                           n_estimators=100, n_iter_no_change=None,
+                           random_state=23, subsample=1.0, tol=0.0001,
+                           validation_fraction=0.1, verbose=0,
+                           warm_start=False) result for Accuracy is 0.9983
+2025-12-02 11:55:25,307:INFO:GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
+                           learning_rate=0.02083271293464231, loss='log_loss',
+                           max_depth=3, max_features=None, max_leaf_nodes=None,
+                           min_impurity_decrease=0.0, min_samples_leaf=1,
+                           min_samples_split=2, min_weight_fraction_leaf=0.0,
+                           n_estimators=800, n_iter_no_change=None,
+                           random_state=23, subsample=0.7076395576782778,
+                           tol=0.0001, validation_fraction=0.1, verbose=0,
+                           warm_start=False) result for Accuracy is 0.9965
+2025-12-02 11:55:25,307:INFO:GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
+                           learning_rate=0.1, loss='log_loss', max_depth=3,
+                           max_features=None, max_leaf_nodes=None,
+                           min_impurity_decrease=0.0, min_samples_leaf=1,
+                           min_samples_split=2, min_weight_fraction_leaf=0.0,
+                           n_estimators=100, n_iter_no_change=None,
+                           random_state=23, subsample=1.0, tol=0.0001,
+                           validation_fraction=0.1, verbose=0,
+                           warm_start=False) is best model
+2025-12-02 11:55:25,307:INFO:choose_better completed
+2025-12-02 11:55:25,307:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-12-02 11:55:25,307:INFO:_master_model_container: 29
+2025-12-02 11:55:25,307:INFO:_display_container: 21
+2025-12-02 11:55:25,307:INFO:GradientBoostingClassifier(ccp_alpha=0.0, criterion='friedman_mse', init=None,
+                           learning_rate=0.1, loss='log_loss', max_depth=3,
+                           max_features=None, max_leaf_nodes=None,
+                           min_impurity_decrease=0.0, min_samples_leaf=1,
+                           min_samples_split=2, min_weight_fraction_leaf=0.0,
+                           n_estimators=100, n_iter_no_change=None,
+                           random_state=23, subsample=1.0, tol=0.0001,
+                           validation_fraction=0.1, verbose=0,
+                           warm_start=False)
+2025-12-02 11:55:25,307:INFO:tune_model() successfully completed......................................
+2025-12-02 11:55:25,439:INFO:Initializing create_model()
+2025-12-02 11:55:25,439:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=lightgbm, fold=None, round=4, cross_validation=True, predict=True, fit_kwargs=None, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=True, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-12-02 11:55:25,439:INFO:Checking exceptions
+2025-12-02 11:55:25,454:INFO:Importing libraries
+2025-12-02 11:55:25,454:INFO:Copying training dataset
+2025-12-02 11:55:25,638:INFO:Defining folds
+2025-12-02 11:55:25,638:INFO:Declaring metric variables
+2025-12-02 11:55:25,655:INFO:Importing untrained model
+2025-12-02 11:55:25,659:INFO:Light Gradient Boosting Machine Imported successfully
+2025-12-02 11:55:25,665:INFO:Starting cross validation
+2025-12-02 11:55:25,665:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 11:55:33,952:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 11:55:34,059:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 11:55:36,882:INFO:Calculating mean and std
+2025-12-02 11:55:36,883:INFO:Creating metrics dataframe
+2025-12-02 11:55:36,888:INFO:Finalizing model
+2025-12-02 11:55:37,359:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:55:37,369:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.009216 seconds.
+2025-12-02 11:55:37,369:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 11:55:37,370:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 11:55:37,370:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 11:55:37,371:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:55:37,371:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:55:37,857:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:55:37,860:INFO:[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000578 seconds.
+2025-12-02 11:55:37,860:INFO:You can set `force_row_wise=true` to remove the overhead.
+2025-12-02 11:55:37,860:INFO:And if memory is not enough, you can set `force_col_wise=true`.
+2025-12-02 11:55:37,860:INFO:[LightGBM] [Info] Total Bins 1275
+2025-12-02 11:55:37,860:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 5
+2025-12-02 11:55:37,861:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:55:37,861:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:55:38,091:INFO:Uploading results into container
+2025-12-02 11:55:38,092:INFO:Uploading model into container now
+2025-12-02 11:55:38,105:INFO:_master_model_container: 30
+2025-12-02 11:55:38,105:INFO:_display_container: 22
+2025-12-02 11:55:38,107:INFO:LGBMClassifier(boosting_type='gbdt', class_weight=None, colsample_bytree=1.0,
+               importance_type='split', learning_rate=0.1, max_depth=-1,
+               min_child_samples=20, min_child_weight=0.001, min_split_gain=0.0,
+               n_estimators=100, n_jobs=-1, num_leaves=31, objective=None,
+               random_state=23, reg_alpha=0.0, reg_lambda=0.0, subsample=1.0,
+               subsample_for_bin=200000, subsample_freq=0)
+2025-12-02 11:55:38,107:INFO:create_model() successfully completed......................................
+2025-12-02 11:55:38,248:INFO:Initializing tune_model()
+2025-12-02 11:55:38,248:INFO:tune_model(estimator=LGBMClassifier(boosting_type='gbdt', class_weight=None, colsample_bytree=1.0,
+               importance_type='split', learning_rate=0.1, max_depth=-1,
+               min_child_samples=20, min_child_weight=0.001, min_split_gain=0.0,
+               n_estimators=100, n_jobs=-1, num_leaves=31, objective=None,
+               random_state=23, reg_alpha=0.0, reg_lambda=0.0, subsample=1.0,
+               subsample_for_bin=200000, subsample_freq=0), fold=None, round=4, n_iter=10, custom_grid={'max_depth': [5], 'num_leaves': [205], 'min_data_in_leaf': [25], 'min_child_samples': [20], 'min_gain_to_split': [0.002445], 'learning_rate': [0.062768], 'n_estimators': [450], 'feature_fraction': [0.801203], 'bagging_fraction': [0.825535], 'bagging_freq': [4], 'lambda_l1': [0.512937], 'lambda_l2': [1.092e-07], 'reg_alpha': [0.548894], 'reg_lambda': [2.435e-08], 'scale_pos_weight': [578], 'random_state': [23]}, optimize=Accuracy, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>)
+2025-12-02 11:55:38,248:INFO:Checking exceptions
+2025-12-02 11:55:38,334:INFO:Copying training dataset
+2025-12-02 11:55:38,457:INFO:Checking base model
+2025-12-02 11:55:38,457:INFO:Base model : Light Gradient Boosting Machine
+2025-12-02 11:55:38,461:INFO:Declaring metric variables
+2025-12-02 11:55:38,464:INFO:Defining Hyperparameters
+2025-12-02 11:55:38,588:INFO:custom_grid: {'actual_estimator__max_depth': [5], 'actual_estimator__num_leaves': [205], 'actual_estimator__min_data_in_leaf': [25], 'actual_estimator__min_child_samples': [20], 'actual_estimator__min_gain_to_split': [0.002445], 'actual_estimator__learning_rate': [0.062768], 'actual_estimator__n_estimators': [450], 'actual_estimator__feature_fraction': [0.801203], 'actual_estimator__bagging_fraction': [0.825535], 'actual_estimator__bagging_freq': [4], 'actual_estimator__lambda_l1': [0.512937], 'actual_estimator__lambda_l2': [1.092e-07], 'actual_estimator__reg_alpha': [0.548894], 'actual_estimator__reg_lambda': [2.435e-08], 'actual_estimator__scale_pos_weight': [578], 'actual_estimator__random_state': [23]}
+2025-12-02 11:55:38,588:INFO:Tuning with n_jobs=-1
+2025-12-02 11:55:38,588:INFO:Initializing RandomizedSearchCV
+2025-12-02 11:56:02,639:INFO:best_params: {'actual_estimator__scale_pos_weight': 578, 'actual_estimator__reg_lambda': 2.435e-08, 'actual_estimator__reg_alpha': 0.548894, 'actual_estimator__random_state': 23, 'actual_estimator__num_leaves': 205, 'actual_estimator__n_estimators': 450, 'actual_estimator__min_gain_to_split': 0.002445, 'actual_estimator__min_data_in_leaf': 25, 'actual_estimator__min_child_samples': 20, 'actual_estimator__max_depth': 5, 'actual_estimator__learning_rate': 0.062768, 'actual_estimator__lambda_l2': 1.092e-07, 'actual_estimator__lambda_l1': 0.512937, 'actual_estimator__feature_fraction': 0.801203, 'actual_estimator__bagging_freq': 4, 'actual_estimator__bagging_fraction': 0.825535}
+2025-12-02 11:56:02,640:INFO:Hyperparameter search completed
+2025-12-02 11:56:02,641:INFO:SubProcess create_model() called ==================================
+2025-12-02 11:56:02,641:INFO:Initializing create_model()
+2025-12-02 11:56:02,642:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=LGBMClassifier(boosting_type='gbdt', class_weight=None, colsample_bytree=1.0,
+               importance_type='split', learning_rate=0.1, max_depth=-1,
+               min_child_samples=20, min_child_weight=0.001, min_split_gain=0.0,
+               n_estimators=100, n_jobs=-1, num_leaves=31, objective=None,
+               random_state=23, reg_alpha=0.0, reg_lambda=0.0, subsample=1.0,
+               subsample_for_bin=200000, subsample_freq=0), fold=StratifiedKFold(n_splits=10, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001FA056380D0>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'scale_pos_weight': 578, 'reg_lambda': 2.435e-08, 'reg_alpha': 0.548894, 'random_state': 23, 'num_leaves': 205, 'n_estimators': 450, 'min_gain_to_split': 0.002445, 'min_data_in_leaf': 25, 'min_child_samples': 20, 'max_depth': 5, 'learning_rate': 0.062768, 'lambda_l2': 1.092e-07, 'lambda_l1': 0.512937, 'feature_fraction': 0.801203, 'bagging_freq': 4, 'bagging_fraction': 0.825535})
+2025-12-02 11:56:02,642:INFO:Checking exceptions
+2025-12-02 11:56:02,642:INFO:Importing libraries
+2025-12-02 11:56:02,642:INFO:Copying training dataset
+2025-12-02 11:56:02,842:INFO:Defining folds
+2025-12-02 11:56:02,842:INFO:Declaring metric variables
+2025-12-02 11:56:02,846:INFO:Importing untrained model
+2025-12-02 11:56:02,846:INFO:Declaring custom model
+2025-12-02 11:56:02,851:INFO:Light Gradient Boosting Machine Imported successfully
+2025-12-02 11:56:02,859:INFO:Starting cross validation
+2025-12-02 11:56:02,866:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 11:56:25,335:INFO:Calculating mean and std
+2025-12-02 11:56:25,336:INFO:Creating metrics dataframe
+2025-12-02 11:56:25,342:INFO:Finalizing model
+2025-12-02 11:56:25,873:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:56:25,884:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.009558 seconds.
+2025-12-02 11:56:25,884:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 11:56:25,884:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 11:56:25,885:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 11:56:25,886:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:56:25,886:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:56:26,319:INFO:[LightGBM] [Warning] min_data_in_leaf is set=25, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=25
+2025-12-02 11:56:26,319:INFO:[LightGBM] [Warning] feature_fraction is set=0.801203, colsample_bytree=1.0 will be ignored. Current value: feature_fraction=0.801203
+2025-12-02 11:56:26,319:INFO:[LightGBM] [Warning] min_gain_to_split is set=0.002445, min_split_gain=0.0 will be ignored. Current value: min_gain_to_split=0.002445
+2025-12-02 11:56:26,319:INFO:[LightGBM] [Warning] lambda_l1 is set=0.512937, reg_alpha=0.548894 will be ignored. Current value: lambda_l1=0.512937
+2025-12-02 11:56:26,319:INFO:[LightGBM] [Warning] lambda_l2 is set=1.092e-07, reg_lambda=2.435e-08 will be ignored. Current value: lambda_l2=1.092e-07
+2025-12-02 11:56:26,319:INFO:[LightGBM] [Warning] bagging_fraction is set=0.825535, subsample=1.0 will be ignored. Current value: bagging_fraction=0.825535
+2025-12-02 11:56:26,319:INFO:[LightGBM] [Warning] bagging_freq is set=4, subsample_freq=0 will be ignored. Current value: bagging_freq=4
+2025-12-02 11:56:26,376:INFO:[LightGBM] [Warning] min_data_in_leaf is set=25, min_child_samples=20 will be ignored. Current value: min_data_in_leaf=25
+2025-12-02 11:56:26,376:INFO:[LightGBM] [Warning] feature_fraction is set=0.801203, colsample_bytree=1.0 will be ignored. Current value: feature_fraction=0.801203
+2025-12-02 11:56:26,376:INFO:[LightGBM] [Warning] min_gain_to_split is set=0.002445, min_split_gain=0.0 will be ignored. Current value: min_gain_to_split=0.002445
+2025-12-02 11:56:26,376:INFO:[LightGBM] [Warning] lambda_l1 is set=0.512937, reg_alpha=0.548894 will be ignored. Current value: lambda_l1=0.512937
+2025-12-02 11:56:26,376:INFO:[LightGBM] [Warning] lambda_l2 is set=1.092e-07, reg_lambda=2.435e-08 will be ignored. Current value: lambda_l2=1.092e-07
+2025-12-02 11:56:26,376:INFO:[LightGBM] [Warning] bagging_fraction is set=0.825535, subsample=1.0 will be ignored. Current value: bagging_fraction=0.825535
+2025-12-02 11:56:26,376:INFO:[LightGBM] [Warning] bagging_freq is set=4, subsample_freq=0 will be ignored. Current value: bagging_freq=4
+2025-12-02 11:56:26,376:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:56:26,379:INFO:[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000580 seconds.
+2025-12-02 11:56:26,379:INFO:You can set `force_row_wise=true` to remove the overhead.
+2025-12-02 11:56:26,379:INFO:And if memory is not enough, you can set `force_col_wise=true`.
+2025-12-02 11:56:26,379:INFO:[LightGBM] [Info] Total Bins 1275
+2025-12-02 11:56:26,380:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 5
+2025-12-02 11:56:26,381:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:56:26,382:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:56:26,385:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,388:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,392:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,396:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,402:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,406:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,409:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,412:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,415:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,418:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,421:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,425:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,428:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,431:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,434:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,437:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,442:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,445:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,447:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,450:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,454:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,457:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,460:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,463:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,467:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,470:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,473:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,477:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,480:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,483:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,487:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,490:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,493:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,496:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,500:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,503:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,507:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,510:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,513:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,516:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,519:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,523:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,527:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,530:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,534:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,537:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,540:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,543:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,547:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,550:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,553:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,557:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,560:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,564:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,567:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,570:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,573:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,576:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,580:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,583:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,587:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,590:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,594:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,597:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,601:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,604:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,607:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,611:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,615:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,618:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,621:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,624:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,628:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,633:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,636:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,639:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,643:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,647:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,650:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,653:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,657:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,660:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,663:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,666:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,670:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,673:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,676:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,680:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,683:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,688:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,691:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,694:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,698:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,701:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,705:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,708:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,712:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,715:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,720:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,725:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,730:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,735:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,739:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,742:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,746:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,749:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,752:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,756:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,760:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,763:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,766:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,769:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,773:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,777:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,780:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,783:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,787:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,790:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,793:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,797:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,802:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,807:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,811:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,814:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,818:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,822:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,825:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,828:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,832:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,836:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,840:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,844:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,848:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,851:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,855:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,859:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,863:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,866:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,870:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,873:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,877:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,881:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,885:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,888:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,892:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,896:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,899:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,903:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,907:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,911:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,914:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,917:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,922:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,925:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,929:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,932:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,936:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,940:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,943:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,948:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,952:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,956:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,959:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,963:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,967:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,970:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,974:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,977:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,982:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,985:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,989:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,993:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:26,997:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,000:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,004:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,007:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,011:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,016:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,019:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,023:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,027:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,031:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,035:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,038:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,043:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,046:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,049:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,053:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,058:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,062:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,065:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,069:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,073:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,077:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,081:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,084:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,089:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,092:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,096:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,100:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,104:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,108:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,111:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,115:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,120:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,124:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,127:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,131:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,135:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,139:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,143:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,146:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,151:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,155:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,159:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,163:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,167:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,172:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,176:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,179:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,184:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,188:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,191:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,195:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,200:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,204:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,208:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,211:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,216:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,220:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,224:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,227:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,232:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,236:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,239:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,243:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,248:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,252:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,256:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,260:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,264:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,268:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,272:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,276:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,281:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,286:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,290:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,294:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,299:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,303:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,307:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,310:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,315:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,319:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,323:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,327:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,331:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,335:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,339:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,343:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,347:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,351:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,355:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,360:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,364:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,368:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,372:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,376:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,381:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,385:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,389:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,394:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,398:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,402:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,406:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,410:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,414:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,418:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,422:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,426:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,430:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,434:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,438:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,442:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,446:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,450:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,454:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,458:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,463:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,467:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,471:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,475:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,479:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,483:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,487:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,491:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,495:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,500:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,505:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,509:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,513:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,517:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,521:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,525:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,529:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,533:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,537:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,541:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,545:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,549:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,553:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,557:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,561:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,565:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,569:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,573:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,578:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,582:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,586:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,590:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,594:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,598:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,602:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,606:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,612:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,616:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,620:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,624:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,629:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,633:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,636:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,641:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,646:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,650:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,653:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,657:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,662:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,666:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,669:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,673:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,678:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,682:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,686:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,691:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,695:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,699:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,703:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,707:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,712:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,716:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,722:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,726:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,731:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,735:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,739:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,743:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,748:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,752:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,756:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,760:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,765:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,769:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,773:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,777:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,783:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,787:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,791:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,795:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,800:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,804:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,808:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,812:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,817:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,821:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,825:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,830:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,836:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,840:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,844:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,849:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,853:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,858:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,862:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,866:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,871:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,875:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,879:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,883:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,888:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,893:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,897:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,901:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,906:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,910:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,914:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,918:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,923:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,927:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,931:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,935:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,941:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,946:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,950:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,954:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,959:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,963:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,967:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,972:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,977:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,981:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,985:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,989:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,994:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:27,998:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,003:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,007:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,011:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,015:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,019:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,024:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,028:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,033:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,037:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,041:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,047:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,052:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,057:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,061:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,066:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,070:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,074:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,078:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,083:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,087:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,092:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,096:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,101:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,105:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,109:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,113:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,118:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,122:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,127:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,131:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,136:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,140:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,144:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,149:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,154:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,159:INFO:[LightGBM] [Warning] No further splits with positive gain, best gain: -inf
+2025-12-02 11:56:28,189:INFO:Uploading results into container
+2025-12-02 11:56:28,190:INFO:Uploading model into container now
+2025-12-02 11:56:28,191:INFO:_master_model_container: 31
+2025-12-02 11:56:28,191:INFO:_display_container: 23
+2025-12-02 11:56:28,193:INFO:LGBMClassifier(bagging_fraction=0.825535, bagging_freq=4, boosting_type='gbdt',
+               class_weight=None, colsample_bytree=1.0,
+               feature_fraction=0.801203, importance_type='split',
+               lambda_l1=0.512937, lambda_l2=1.092e-07, learning_rate=0.062768,
+               max_depth=5, min_child_samples=20, min_child_weight=0.001,
+               min_data_in_leaf=25, min_gain_to_split=0.002445,
+               min_split_gain=0.0, n_estimators=450, n_jobs=-1, num_leaves=205,
+               objective=None, random_state=23, reg_alpha=0.548894,
+               reg_lambda=2.435e-08, scale_pos_weight=578, subsample=1.0,
+               subsample_for_bin=200000, subsample_freq=0)
+2025-12-02 11:56:28,193:INFO:create_model() successfully completed......................................
+2025-12-02 11:56:28,332:INFO:SubProcess create_model() end ==================================
+2025-12-02 11:56:28,332:INFO:choose_better activated
+2025-12-02 11:56:28,336:INFO:SubProcess create_model() called ==================================
+2025-12-02 11:56:28,337:INFO:Initializing create_model()
+2025-12-02 11:56:28,337:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=LGBMClassifier(boosting_type='gbdt', class_weight=None, colsample_bytree=1.0,
+               importance_type='split', learning_rate=0.1, max_depth=-1,
+               min_child_samples=20, min_child_weight=0.001, min_split_gain=0.0,
+               n_estimators=100, n_jobs=-1, num_leaves=31, objective=None,
+               random_state=23, reg_alpha=0.0, reg_lambda=0.0, subsample=1.0,
+               subsample_for_bin=200000, subsample_freq=0), fold=StratifiedKFold(n_splits=10, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-12-02 11:56:28,337:INFO:Checking exceptions
+2025-12-02 11:56:28,338:INFO:Importing libraries
+2025-12-02 11:56:28,338:INFO:Copying training dataset
+2025-12-02 11:56:28,529:INFO:Defining folds
+2025-12-02 11:56:28,529:INFO:Declaring metric variables
+2025-12-02 11:56:28,530:INFO:Importing untrained model
+2025-12-02 11:56:28,530:INFO:Declaring custom model
+2025-12-02 11:56:28,531:INFO:Light Gradient Boosting Machine Imported successfully
+2025-12-02 11:56:28,531:INFO:Starting cross validation
+2025-12-02 11:56:28,537:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 11:56:39,395:INFO:Calculating mean and std
+2025-12-02 11:56:39,396:INFO:Creating metrics dataframe
+2025-12-02 11:56:39,398:INFO:Finalizing model
+2025-12-02 11:56:39,989:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:56:40,005:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.015291 seconds.
+2025-12-02 11:56:40,005:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 11:56:40,006:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 11:56:40,006:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 11:56:40,008:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:56:40,009:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:56:40,580:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:56:40,583:INFO:[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000523 seconds.
+2025-12-02 11:56:40,583:INFO:You can set `force_row_wise=true` to remove the overhead.
+2025-12-02 11:56:40,584:INFO:And if memory is not enough, you can set `force_col_wise=true`.
+2025-12-02 11:56:40,584:INFO:[LightGBM] [Info] Total Bins 1275
+2025-12-02 11:56:40,584:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 5
+2025-12-02 11:56:40,585:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:56:40,585:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:56:40,861:INFO:Uploading results into container
+2025-12-02 11:56:40,862:INFO:Uploading model into container now
+2025-12-02 11:56:40,862:INFO:_master_model_container: 32
+2025-12-02 11:56:40,862:INFO:_display_container: 24
+2025-12-02 11:56:40,863:INFO:LGBMClassifier(boosting_type='gbdt', class_weight=None, colsample_bytree=1.0,
+               importance_type='split', learning_rate=0.1, max_depth=-1,
+               min_child_samples=20, min_child_weight=0.001, min_split_gain=0.0,
+               n_estimators=100, n_jobs=-1, num_leaves=31, objective=None,
+               random_state=23, reg_alpha=0.0, reg_lambda=0.0, subsample=1.0,
+               subsample_for_bin=200000, subsample_freq=0)
+2025-12-02 11:56:40,863:INFO:create_model() successfully completed......................................
+2025-12-02 11:56:41,016:INFO:SubProcess create_model() end ==================================
+2025-12-02 11:56:41,017:INFO:LGBMClassifier(boosting_type='gbdt', class_weight=None, colsample_bytree=1.0,
+               importance_type='split', learning_rate=0.1, max_depth=-1,
+               min_child_samples=20, min_child_weight=0.001, min_split_gain=0.0,
+               n_estimators=100, n_jobs=-1, num_leaves=31, objective=None,
+               random_state=23, reg_alpha=0.0, reg_lambda=0.0, subsample=1.0,
+               subsample_for_bin=200000, subsample_freq=0) result for Accuracy is 0.9957
+2025-12-02 11:56:41,018:INFO:LGBMClassifier(bagging_fraction=0.825535, bagging_freq=4, boosting_type='gbdt',
+               class_weight=None, colsample_bytree=1.0,
+               feature_fraction=0.801203, importance_type='split',
+               lambda_l1=0.512937, lambda_l2=1.092e-07, learning_rate=0.062768,
+               max_depth=5, min_child_samples=20, min_child_weight=0.001,
+               min_data_in_leaf=25, min_gain_to_split=0.002445,
+               min_split_gain=0.0, n_estimators=450, n_jobs=-1, num_leaves=205,
+               objective=None, random_state=23, reg_alpha=0.548894,
+               reg_lambda=2.435e-08, scale_pos_weight=578, subsample=1.0,
+               subsample_for_bin=200000, subsample_freq=0) result for Accuracy is 0.9064
+2025-12-02 11:56:41,019:INFO:LGBMClassifier(boosting_type='gbdt', class_weight=None, colsample_bytree=1.0,
+               importance_type='split', learning_rate=0.1, max_depth=-1,
+               min_child_samples=20, min_child_weight=0.001, min_split_gain=0.0,
+               n_estimators=100, n_jobs=-1, num_leaves=31, objective=None,
+               random_state=23, reg_alpha=0.0, reg_lambda=0.0, subsample=1.0,
+               subsample_for_bin=200000, subsample_freq=0) is best model
+2025-12-02 11:56:41,019:INFO:choose_better completed
+2025-12-02 11:56:41,019:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-12-02 11:56:41,029:INFO:_master_model_container: 32
+2025-12-02 11:56:41,030:INFO:_display_container: 23
+2025-12-02 11:56:41,030:INFO:LGBMClassifier(boosting_type='gbdt', class_weight=None, colsample_bytree=1.0,
+               importance_type='split', learning_rate=0.1, max_depth=-1,
+               min_child_samples=20, min_child_weight=0.001, min_split_gain=0.0,
+               n_estimators=100, n_jobs=-1, num_leaves=31, objective=None,
+               random_state=23, reg_alpha=0.0, reg_lambda=0.0, subsample=1.0,
+               subsample_for_bin=200000, subsample_freq=0)
+2025-12-02 11:56:41,031:INFO:tune_model() successfully completed......................................
+2025-12-02 11:56:41,161:INFO:Initializing create_model()
+2025-12-02 11:56:41,161:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=lr, fold=None, round=4, cross_validation=True, predict=True, fit_kwargs=None, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=True, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-12-02 11:56:41,161:INFO:Checking exceptions
+2025-12-02 11:56:41,175:INFO:Importing libraries
+2025-12-02 11:56:41,176:INFO:Copying training dataset
+2025-12-02 11:56:41,370:INFO:Defining folds
+2025-12-02 11:56:41,370:INFO:Declaring metric variables
+2025-12-02 11:56:41,373:INFO:Importing untrained model
+2025-12-02 11:56:41,378:INFO:Logistic Regression Imported successfully
+2025-12-02 11:56:41,385:INFO:Starting cross validation
+2025-12-02 11:56:41,392:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 11:56:48,526:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+
+2025-12-02 11:56:48,533:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+
+2025-12-02 11:56:49,561:INFO:Calculating mean and std
+2025-12-02 11:56:49,562:INFO:Creating metrics dataframe
+2025-12-02 11:56:49,568:INFO:Finalizing model
+2025-12-02 11:56:50,077:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:56:50,094:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.014545 seconds.
+2025-12-02 11:56:50,094:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 11:56:50,094:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 11:56:50,095:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 11:56:50,096:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:56:50,096:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:56:50,795:INFO:Uploading results into container
+2025-12-02 11:56:50,796:INFO:Uploading model into container now
+2025-12-02 11:56:50,807:INFO:_master_model_container: 33
+2025-12-02 11:56:50,808:INFO:_display_container: 24
+2025-12-02 11:56:50,808:INFO:LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=1000,
+                   multi_class='auto', n_jobs=None, penalty='l2',
+                   random_state=23, solver='lbfgs', tol=0.0001, verbose=0,
+                   warm_start=False)
+2025-12-02 11:56:50,809:INFO:create_model() successfully completed......................................
+2025-12-02 11:56:50,941:INFO:Initializing tune_model()
+2025-12-02 11:56:50,941:INFO:tune_model(estimator=LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=1000,
+                   multi_class='auto', n_jobs=None, penalty='l2',
+                   random_state=23, solver='lbfgs', tol=0.0001, verbose=0,
+                   warm_start=False), fold=None, round=4, n_iter=10, custom_grid={'C': [48.99128351532987], 'class_weight': ['balanced'], 'max_iter': [250], 'penalty': ['l2'], 'solver': ['lbfgs'], 'random_state': [23], 'n_jobs': [-1]}, optimize=Accuracy, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>)
+2025-12-02 11:56:50,941:INFO:Checking exceptions
+2025-12-02 11:56:51,029:INFO:Copying training dataset
+2025-12-02 11:56:51,178:INFO:Checking base model
+2025-12-02 11:56:51,178:INFO:Base model : Logistic Regression
+2025-12-02 11:56:51,182:INFO:Declaring metric variables
+2025-12-02 11:56:51,185:INFO:Defining Hyperparameters
+2025-12-02 11:56:51,318:INFO:custom_grid: {'actual_estimator__C': [48.99128351532987], 'actual_estimator__class_weight': ['balanced'], 'actual_estimator__max_iter': [250], 'actual_estimator__penalty': ['l2'], 'actual_estimator__solver': ['lbfgs'], 'actual_estimator__random_state': [23], 'actual_estimator__n_jobs': [-1]}
+2025-12-02 11:56:51,318:INFO:Tuning with n_jobs=-1
+2025-12-02 11:56:51,318:INFO:Initializing RandomizedSearchCV
+2025-12-02 11:56:59,428:INFO:best_params: {'actual_estimator__solver': 'lbfgs', 'actual_estimator__random_state': 23, 'actual_estimator__penalty': 'l2', 'actual_estimator__n_jobs': -1, 'actual_estimator__max_iter': 250, 'actual_estimator__class_weight': 'balanced', 'actual_estimator__C': 48.99128351532987}
+2025-12-02 11:56:59,428:INFO:Hyperparameter search completed
+2025-12-02 11:56:59,429:INFO:SubProcess create_model() called ==================================
+2025-12-02 11:56:59,430:INFO:Initializing create_model()
+2025-12-02 11:56:59,430:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=1000,
+                   multi_class='auto', n_jobs=None, penalty='l2',
+                   random_state=23, solver='lbfgs', tol=0.0001, verbose=0,
+                   warm_start=False), fold=StratifiedKFold(n_splits=10, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001FA068207C0>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'solver': 'lbfgs', 'random_state': 23, 'penalty': 'l2', 'n_jobs': -1, 'max_iter': 250, 'class_weight': 'balanced', 'C': 48.99128351532987})
+2025-12-02 11:56:59,430:INFO:Checking exceptions
+2025-12-02 11:56:59,430:INFO:Importing libraries
+2025-12-02 11:56:59,430:INFO:Copying training dataset
+2025-12-02 11:56:59,626:INFO:Defining folds
+2025-12-02 11:56:59,626:INFO:Declaring metric variables
+2025-12-02 11:56:59,630:INFO:Importing untrained model
+2025-12-02 11:56:59,631:INFO:Declaring custom model
+2025-12-02 11:56:59,636:INFO:Logistic Regression Imported successfully
+2025-12-02 11:56:59,645:INFO:Starting cross validation
+2025-12-02 11:56:59,652:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 11:57:08,065:INFO:Calculating mean and std
+2025-12-02 11:57:08,066:INFO:Creating metrics dataframe
+2025-12-02 11:57:08,072:INFO:Finalizing model
+2025-12-02 11:57:08,577:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:57:08,587:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.009232 seconds.
+2025-12-02 11:57:08,587:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 11:57:08,588:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 11:57:08,588:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 11:57:08,589:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:57:08,590:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:57:10,393:INFO:Uploading results into container
+2025-12-02 11:57:10,394:INFO:Uploading model into container now
+2025-12-02 11:57:10,395:INFO:_master_model_container: 34
+2025-12-02 11:57:10,395:INFO:_display_container: 25
+2025-12-02 11:57:10,396:INFO:LogisticRegression(C=48.99128351532987, class_weight='balanced', dual=False,
+                   fit_intercept=True, intercept_scaling=1, l1_ratio=None,
+                   max_iter=250, multi_class='auto', n_jobs=-1, penalty='l2',
+                   random_state=23, solver='lbfgs', tol=0.0001, verbose=0,
+                   warm_start=False)
+2025-12-02 11:57:10,396:INFO:create_model() successfully completed......................................
+2025-12-02 11:57:10,522:INFO:SubProcess create_model() end ==================================
+2025-12-02 11:57:10,522:INFO:choose_better activated
+2025-12-02 11:57:10,526:INFO:SubProcess create_model() called ==================================
+2025-12-02 11:57:10,527:INFO:Initializing create_model()
+2025-12-02 11:57:10,527:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=1000,
+                   multi_class='auto', n_jobs=None, penalty='l2',
+                   random_state=23, solver='lbfgs', tol=0.0001, verbose=0,
+                   warm_start=False), fold=StratifiedKFold(n_splits=10, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-12-02 11:57:10,527:INFO:Checking exceptions
+2025-12-02 11:57:10,529:INFO:Importing libraries
+2025-12-02 11:57:10,529:INFO:Copying training dataset
+2025-12-02 11:57:10,724:INFO:Defining folds
+2025-12-02 11:57:10,724:INFO:Declaring metric variables
+2025-12-02 11:57:10,724:INFO:Importing untrained model
+2025-12-02 11:57:10,724:INFO:Declaring custom model
+2025-12-02 11:57:10,725:INFO:Logistic Regression Imported successfully
+2025-12-02 11:57:10,725:INFO:Starting cross validation
+2025-12-02 11:57:10,731:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 11:57:18,010:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\sklearn\metrics\_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 due to no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+
+2025-12-02 11:57:19,061:INFO:Calculating mean and std
+2025-12-02 11:57:19,061:INFO:Creating metrics dataframe
+2025-12-02 11:57:19,063:INFO:Finalizing model
+2025-12-02 11:57:19,558:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:57:19,568:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.009139 seconds.
+2025-12-02 11:57:19,568:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 11:57:19,568:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 11:57:19,568:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 11:57:19,569:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:57:19,569:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:57:20,192:INFO:Uploading results into container
+2025-12-02 11:57:20,193:INFO:Uploading model into container now
+2025-12-02 11:57:20,193:INFO:_master_model_container: 35
+2025-12-02 11:57:20,193:INFO:_display_container: 26
+2025-12-02 11:57:20,194:INFO:LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=1000,
+                   multi_class='auto', n_jobs=None, penalty='l2',
+                   random_state=23, solver='lbfgs', tol=0.0001, verbose=0,
+                   warm_start=False)
+2025-12-02 11:57:20,194:INFO:create_model() successfully completed......................................
+2025-12-02 11:57:20,318:INFO:SubProcess create_model() end ==================================
+2025-12-02 11:57:20,319:INFO:LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=1000,
+                   multi_class='auto', n_jobs=None, penalty='l2',
+                   random_state=23, solver='lbfgs', tol=0.0001, verbose=0,
+                   warm_start=False) result for Accuracy is 0.9989
+2025-12-02 11:57:20,319:INFO:LogisticRegression(C=48.99128351532987, class_weight='balanced', dual=False,
+                   fit_intercept=True, intercept_scaling=1, l1_ratio=None,
+                   max_iter=250, multi_class='auto', n_jobs=-1, penalty='l2',
+                   random_state=23, solver='lbfgs', tol=0.0001, verbose=0,
+                   warm_start=False) result for Accuracy is 0.9154
+2025-12-02 11:57:20,319:INFO:LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=1000,
+                   multi_class='auto', n_jobs=None, penalty='l2',
+                   random_state=23, solver='lbfgs', tol=0.0001, verbose=0,
+                   warm_start=False) is best model
+2025-12-02 11:57:20,319:INFO:choose_better completed
+2025-12-02 11:57:20,319:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-12-02 11:57:20,330:INFO:_master_model_container: 35
+2025-12-02 11:57:20,330:INFO:_display_container: 25
+2025-12-02 11:57:20,330:INFO:LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                   intercept_scaling=1, l1_ratio=None, max_iter=1000,
+                   multi_class='auto', n_jobs=None, penalty='l2',
+                   random_state=23, solver='lbfgs', tol=0.0001, verbose=0,
+                   warm_start=False)
+2025-12-02 11:57:20,331:INFO:tune_model() successfully completed......................................
+2025-12-02 11:57:20,464:INFO:Initializing create_model()
+2025-12-02 11:57:20,464:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=rf, fold=None, round=4, cross_validation=True, predict=True, fit_kwargs=None, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=True, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-12-02 11:57:20,464:INFO:Checking exceptions
+2025-12-02 11:57:20,477:INFO:Importing libraries
+2025-12-02 11:57:20,477:INFO:Copying training dataset
+2025-12-02 11:57:20,691:INFO:Defining folds
+2025-12-02 11:57:20,691:INFO:Declaring metric variables
+2025-12-02 11:57:20,695:INFO:Importing untrained model
+2025-12-02 11:57:20,699:INFO:Random Forest Classifier Imported successfully
+2025-12-02 11:57:20,707:INFO:Starting cross validation
+2025-12-02 11:57:20,715:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 11:58:37,807:INFO:Calculating mean and std
+2025-12-02 11:58:37,808:INFO:Creating metrics dataframe
+2025-12-02 11:58:37,814:INFO:Finalizing model
+2025-12-02 11:58:38,318:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 11:58:38,328:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.008920 seconds.
+2025-12-02 11:58:38,328:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 11:58:38,328:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 11:58:38,329:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 11:58:38,330:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 11:58:38,330:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 11:58:47,338:INFO:Uploading results into container
+2025-12-02 11:58:47,339:INFO:Uploading model into container now
+2025-12-02 11:58:47,348:INFO:_master_model_container: 36
+2025-12-02 11:58:47,349:INFO:_display_container: 26
+2025-12-02 11:58:47,349:INFO:RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight=None,
+                       criterion='gini', max_depth=None, max_features='sqrt',
+                       max_leaf_nodes=None, max_samples=None,
+                       min_impurity_decrease=0.0, min_samples_leaf=1,
+                       min_samples_split=2, min_weight_fraction_leaf=0.0,
+                       monotonic_cst=None, n_estimators=100, n_jobs=-1,
+                       oob_score=False, random_state=23, verbose=0,
+                       warm_start=False)
+2025-12-02 11:58:47,349:INFO:create_model() successfully completed......................................
+2025-12-02 11:58:47,476:INFO:Initializing tune_model()
+2025-12-02 11:58:47,476:INFO:tune_model(estimator=RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight=None,
+                       criterion='gini', max_depth=None, max_features='sqrt',
+                       max_leaf_nodes=None, max_samples=None,
+                       min_impurity_decrease=0.0, min_samples_leaf=1,
+                       min_samples_split=2, min_weight_fraction_leaf=0.0,
+                       monotonic_cst=None, n_estimators=100, n_jobs=-1,
+                       oob_score=False, random_state=23, verbose=0,
+                       warm_start=False), fold=None, round=4, n_iter=10, custom_grid={'bootstrap': [True], 'class_weight': ['balanced'], 'criterion': ['entropy'], 'max_depth': [10], 'max_features': [None], 'min_samples_leaf': [9], 'min_samples_split': [3], 'n_estimators': [200], 'random_state': [23], 'n_jobs': [-1]}, optimize=Accuracy, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>)
+2025-12-02 11:58:47,476:INFO:Checking exceptions
+2025-12-02 11:58:47,576:INFO:Copying training dataset
+2025-12-02 11:58:47,702:INFO:Checking base model
+2025-12-02 11:58:47,703:INFO:Base model : Random Forest Classifier
+2025-12-02 11:58:47,707:INFO:Declaring metric variables
+2025-12-02 11:58:47,711:INFO:Defining Hyperparameters
+2025-12-02 11:58:47,838:INFO:custom_grid: {'actual_estimator__bootstrap': [True], 'actual_estimator__class_weight': ['balanced'], 'actual_estimator__criterion': ['entropy'], 'actual_estimator__max_depth': [10], 'actual_estimator__max_features': [None], 'actual_estimator__min_samples_leaf': [9], 'actual_estimator__min_samples_split': [3], 'actual_estimator__n_estimators': [200], 'actual_estimator__random_state': [23], 'actual_estimator__n_jobs': [-1]}
+2025-12-02 11:58:47,838:INFO:Tuning with n_jobs=-1
+2025-12-02 11:58:47,838:INFO:Initializing RandomizedSearchCV
+2025-12-02 12:03:08,780:INFO:best_params: {'actual_estimator__random_state': 23, 'actual_estimator__n_jobs': -1, 'actual_estimator__n_estimators': 200, 'actual_estimator__min_samples_split': 3, 'actual_estimator__min_samples_leaf': 9, 'actual_estimator__max_features': None, 'actual_estimator__max_depth': 10, 'actual_estimator__criterion': 'entropy', 'actual_estimator__class_weight': 'balanced', 'actual_estimator__bootstrap': True}
+2025-12-02 12:03:08,781:INFO:Hyperparameter search completed
+2025-12-02 12:03:08,781:INFO:SubProcess create_model() called ==================================
+2025-12-02 12:03:08,782:INFO:Initializing create_model()
+2025-12-02 12:03:08,783:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight=None,
+                       criterion='gini', max_depth=None, max_features='sqrt',
+                       max_leaf_nodes=None, max_samples=None,
+                       min_impurity_decrease=0.0, min_samples_leaf=1,
+                       min_samples_split=2, min_weight_fraction_leaf=0.0,
+                       monotonic_cst=None, n_estimators=100, n_jobs=-1,
+                       oob_score=False, random_state=23, verbose=0,
+                       warm_start=False), fold=StratifiedKFold(n_splits=10, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=False, add_to_model_list=True, metrics=None, display=<pycaret.internal.display.display.CommonDisplay object at 0x000001FA034400D0>, model_only=True, return_train_score=False, error_score=0.0, kwargs={'random_state': 23, 'n_jobs': -1, 'n_estimators': 200, 'min_samples_split': 3, 'min_samples_leaf': 9, 'max_features': None, 'max_depth': 10, 'criterion': 'entropy', 'class_weight': 'balanced', 'bootstrap': True})
+2025-12-02 12:03:08,783:INFO:Checking exceptions
+2025-12-02 12:03:08,783:INFO:Importing libraries
+2025-12-02 12:03:08,783:INFO:Copying training dataset
+2025-12-02 12:03:08,981:INFO:Defining folds
+2025-12-02 12:03:08,981:INFO:Declaring metric variables
+2025-12-02 12:03:08,986:INFO:Importing untrained model
+2025-12-02 12:03:08,986:INFO:Declaring custom model
+2025-12-02 12:03:08,991:INFO:Random Forest Classifier Imported successfully
+2025-12-02 12:03:08,998:INFO:Starting cross validation
+2025-12-02 12:03:09,005:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 12:07:32,452:INFO:Calculating mean and std
+2025-12-02 12:07:32,453:INFO:Creating metrics dataframe
+2025-12-02 12:07:32,459:INFO:Finalizing model
+2025-12-02 12:07:32,927:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 12:07:32,937:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.009401 seconds.
+2025-12-02 12:07:32,937:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 12:07:32,937:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 12:07:32,937:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 12:07:32,938:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 12:07:32,938:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 12:08:03,559:INFO:Uploading results into container
+2025-12-02 12:08:03,560:INFO:Uploading model into container now
+2025-12-02 12:08:03,561:INFO:_master_model_container: 37
+2025-12-02 12:08:03,561:INFO:_display_container: 27
+2025-12-02 12:08:03,561:INFO:RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight='balanced',
+                       criterion='entropy', max_depth=10, max_features=None,
+                       max_leaf_nodes=None, max_samples=None,
+                       min_impurity_decrease=0.0, min_samples_leaf=9,
+                       min_samples_split=3, min_weight_fraction_leaf=0.0,
+                       monotonic_cst=None, n_estimators=200, n_jobs=-1,
+                       oob_score=False, random_state=23, verbose=0,
+                       warm_start=False)
+2025-12-02 12:08:03,561:INFO:create_model() successfully completed......................................
+2025-12-02 12:08:03,688:INFO:SubProcess create_model() end ==================================
+2025-12-02 12:08:03,688:INFO:choose_better activated
+2025-12-02 12:08:03,692:INFO:SubProcess create_model() called ==================================
+2025-12-02 12:08:03,693:INFO:Initializing create_model()
+2025-12-02 12:08:03,693:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight=None,
+                       criterion='gini', max_depth=None, max_features='sqrt',
+                       max_leaf_nodes=None, max_samples=None,
+                       min_impurity_decrease=0.0, min_samples_leaf=1,
+                       min_samples_split=2, min_weight_fraction_leaf=0.0,
+                       monotonic_cst=None, n_estimators=100, n_jobs=-1,
+                       oob_score=False, random_state=23, verbose=0,
+                       warm_start=False), fold=StratifiedKFold(n_splits=10, random_state=None, shuffle=False), round=4, cross_validation=True, predict=True, fit_kwargs={}, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=False, system=False, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-12-02 12:08:03,694:INFO:Checking exceptions
+2025-12-02 12:08:03,696:INFO:Importing libraries
+2025-12-02 12:08:03,696:INFO:Copying training dataset
+2025-12-02 12:08:03,888:INFO:Defining folds
+2025-12-02 12:08:03,888:INFO:Declaring metric variables
+2025-12-02 12:08:03,889:INFO:Importing untrained model
+2025-12-02 12:08:03,889:INFO:Declaring custom model
+2025-12-02 12:08:03,889:INFO:Random Forest Classifier Imported successfully
+2025-12-02 12:08:03,889:INFO:Starting cross validation
+2025-12-02 12:08:03,895:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 12:09:30,639:INFO:Calculating mean and std
+2025-12-02 12:09:30,640:INFO:Creating metrics dataframe
+2025-12-02 12:09:30,642:INFO:Finalizing model
+2025-12-02 12:09:31,163:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 12:09:31,179:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.015078 seconds.
+2025-12-02 12:09:31,179:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 12:09:31,180:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 12:09:31,180:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 12:09:31,182:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 12:09:31,182:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 12:09:40,236:INFO:Uploading results into container
+2025-12-02 12:09:40,237:INFO:Uploading model into container now
+2025-12-02 12:09:40,237:INFO:_master_model_container: 38
+2025-12-02 12:09:40,237:INFO:_display_container: 28
+2025-12-02 12:09:40,238:INFO:RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight=None,
+                       criterion='gini', max_depth=None, max_features='sqrt',
+                       max_leaf_nodes=None, max_samples=None,
+                       min_impurity_decrease=0.0, min_samples_leaf=1,
+                       min_samples_split=2, min_weight_fraction_leaf=0.0,
+                       monotonic_cst=None, n_estimators=100, n_jobs=-1,
+                       oob_score=False, random_state=23, verbose=0,
+                       warm_start=False)
+2025-12-02 12:09:40,238:INFO:create_model() successfully completed......................................
+2025-12-02 12:09:40,360:INFO:SubProcess create_model() end ==================================
+2025-12-02 12:09:40,360:INFO:RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight=None,
+                       criterion='gini', max_depth=None, max_features='sqrt',
+                       max_leaf_nodes=None, max_samples=None,
+                       min_impurity_decrease=0.0, min_samples_leaf=1,
+                       min_samples_split=2, min_weight_fraction_leaf=0.0,
+                       monotonic_cst=None, n_estimators=100, n_jobs=-1,
+                       oob_score=False, random_state=23, verbose=0,
+                       warm_start=False) result for Accuracy is 0.9992
+2025-12-02 12:09:40,361:INFO:RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight='balanced',
+                       criterion='entropy', max_depth=10, max_features=None,
+                       max_leaf_nodes=None, max_samples=None,
+                       min_impurity_decrease=0.0, min_samples_leaf=9,
+                       min_samples_split=3, min_weight_fraction_leaf=0.0,
+                       monotonic_cst=None, n_estimators=200, n_jobs=-1,
+                       oob_score=False, random_state=23, verbose=0,
+                       warm_start=False) result for Accuracy is 0.9984
+2025-12-02 12:09:40,361:INFO:RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight=None,
+                       criterion='gini', max_depth=None, max_features='sqrt',
+                       max_leaf_nodes=None, max_samples=None,
+                       min_impurity_decrease=0.0, min_samples_leaf=1,
+                       min_samples_split=2, min_weight_fraction_leaf=0.0,
+                       monotonic_cst=None, n_estimators=100, n_jobs=-1,
+                       oob_score=False, random_state=23, verbose=0,
+                       warm_start=False) is best model
+2025-12-02 12:09:40,361:INFO:choose_better completed
+2025-12-02 12:09:40,361:INFO:Original model was better than the tuned model, hence it will be returned. NOTE: The display metrics are for the tuned model (not the original one).
+2025-12-02 12:09:40,371:INFO:_master_model_container: 38
+2025-12-02 12:09:40,372:INFO:_display_container: 27
+2025-12-02 12:09:40,372:INFO:RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight=None,
+                       criterion='gini', max_depth=None, max_features='sqrt',
+                       max_leaf_nodes=None, max_samples=None,
+                       min_impurity_decrease=0.0, min_samples_leaf=1,
+                       min_samples_split=2, min_weight_fraction_leaf=0.0,
+                       monotonic_cst=None, n_estimators=100, n_jobs=-1,
+                       oob_score=False, random_state=23, verbose=0,
+                       warm_start=False)
+2025-12-02 12:09:40,373:INFO:tune_model() successfully completed......................................
+2025-12-02 12:09:40,497:INFO:Initializing create_model()
+2025-12-02 12:09:40,497:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=sgd, fold=None, round=4, cross_validation=True, predict=True, fit_kwargs=None, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=True, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-12-02 12:09:40,497:INFO:Checking exceptions
+2025-12-02 12:14:30,176:INFO:Initializing create_model()
+2025-12-02 12:14:30,176:INFO:create_model(self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>, estimator=mlp, fold=None, round=4, cross_validation=True, predict=True, fit_kwargs=None, groups=None, refit=True, probability_threshold=None, experiment_custom_tags=None, verbose=True, system=True, add_to_model_list=True, metrics=None, display=None, model_only=True, return_train_score=False, error_score=0.0, kwargs={})
+2025-12-02 12:14:30,176:INFO:Checking exceptions
+2025-12-02 12:14:30,198:INFO:Importing libraries
+2025-12-02 12:14:30,198:INFO:Copying training dataset
+2025-12-02 12:14:30,454:INFO:Defining folds
+2025-12-02 12:14:30,454:INFO:Declaring metric variables
+2025-12-02 12:14:30,458:INFO:Importing untrained model
+2025-12-02 12:14:30,462:INFO:MLP Classifier Imported successfully
+2025-12-02 12:14:30,471:INFO:Starting cross validation
+2025-12-02 12:14:30,478:INFO:Cross validating with StratifiedKFold(n_splits=10, random_state=None, shuffle=False), n_jobs=-1
+2025-12-02 12:14:36,256:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 12:14:36,299:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 12:14:36,327:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 12:14:36,336:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 12:14:36,463:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 12:14:36,603:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 12:14:36,661:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 12:14:36,757:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 12:14:36,938:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 12:14:57,750:INFO:Calculating mean and std
+2025-12-02 12:14:57,752:INFO:Creating metrics dataframe
+2025-12-02 12:14:57,757:INFO:Finalizing model
+2025-12-02 12:14:58,250:INFO:[LightGBM] [Info] Number of positive: 344, number of negative: 199020
+2025-12-02 12:14:58,254:INFO:[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.009191 seconds.
+2025-12-02 12:14:58,254:INFO:You can set `force_col_wise=true` to remove the overhead.
+2025-12-02 12:14:58,254:INFO:[LightGBM] [Info] Total Bins 7395
+2025-12-02 12:14:58,254:INFO:[LightGBM] [Info] Number of data points in the train set: 199364, number of used features: 29
+2025-12-02 12:14:58,254:INFO:[LightGBM] [Info] [binary:BoostFromScore]: pavg=0.001725 -> initscore=-6.360519
+2025-12-02 12:14:58,254:INFO:[LightGBM] [Info] Start training from score -6.360519
+2025-12-02 12:15:08,842:INFO:Uploading results into container
+2025-12-02 12:15:08,843:INFO:Uploading model into container now
+2025-12-02 12:15:08,852:INFO:_master_model_container: 39
+2025-12-02 12:15:08,852:INFO:_display_container: 28
+2025-12-02 12:15:08,852:INFO:MLPClassifier(activation='relu', alpha=0.0001, batch_size='auto', beta_1=0.9,
+              beta_2=0.999, early_stopping=False, epsilon=1e-08,
+              hidden_layer_sizes=(100,), learning_rate='constant',
+              learning_rate_init=0.001, max_fun=15000, max_iter=500,
+              momentum=0.9, n_iter_no_change=10, nesterovs_momentum=True,
+              power_t=0.5, random_state=23, shuffle=True, solver='adam',
+              tol=0.0001, validation_fraction=0.1, verbose=False,
+              warm_start=False)
+2025-12-02 12:15:08,852:INFO:create_model() successfully completed......................................
+2025-12-02 12:15:08,984:INFO:Initializing tune_model()
+2025-12-02 12:15:08,984:INFO:tune_model(estimator=MLPClassifier(activation='relu', alpha=0.0001, batch_size='auto', beta_1=0.9,
+              beta_2=0.999, early_stopping=False, epsilon=1e-08,
+              hidden_layer_sizes=(100,), learning_rate='constant',
+              learning_rate_init=0.001, max_fun=15000, max_iter=500,
+              momentum=0.9, n_iter_no_change=10, nesterovs_momentum=True,
+              power_t=0.5, random_state=23, shuffle=True, solver='adam',
+              tol=0.0001, validation_fraction=0.1, verbose=False,
+              warm_start=False), fold=None, round=4, n_iter=10, custom_grid={'hidden_layer_sizes': [(64, 32)], 'activation': ['relu'], 'solver': ['adam'], 'alpha': [0.0001], 'batch_size': [256], 'learning_rate': ['adaptive'], 'learning_rate_init': [0.001], 'max_iter': [50]}, optimize=Accuracy, custom_scorer=None, search_library=scikit-learn, search_algorithm=None, early_stopping=False, early_stopping_max_iters=10, choose_better=True, fit_kwargs=None, groups=None, return_tuner=False, verbose=True, tuner_verbose=True, return_train_score=False, kwargs={}, self=<pycaret.classification.oop.ClassificationExperiment object at 0x000001FA364B8760>)
+2025-12-02 12:15:08,984:INFO:Checking exceptions
+2025-12-02 12:15:09,071:INFO:Copying training dataset
+2025-12-02 12:15:09,196:INFO:Checking base model
+2025-12-02 12:15:09,196:INFO:Base model : MLP Classifier
+2025-12-02 12:15:09,196:INFO:Model has a special tunable class, using that
+2025-12-02 12:15:09,200:INFO:Declaring metric variables
+2025-12-02 12:15:09,201:INFO:Defining Hyperparameters
+2025-12-02 12:15:09,317:INFO:custom_grid: {'actual_estimator__hidden_layer_sizes': [(64, 32)], 'actual_estimator__activation': ['relu'], 'actual_estimator__solver': ['adam'], 'actual_estimator__alpha': [0.0001], 'actual_estimator__batch_size': [256], 'actual_estimator__learning_rate': ['adaptive'], 'actual_estimator__learning_rate_init': [0.001], 'actual_estimator__max_iter': [50]}
+2025-12-02 12:15:09,317:INFO:Tuning with n_jobs=-1
+2025-12-02 12:15:09,317:INFO:Initializing RandomizedSearchCV
+2025-12-02 12:15:16,304:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+
+2025-12-02 12:15:16,991:WARNING:c:\ProgramData\anaconda3\envs\pycaret_env\lib\site-packages\_distutils_hack\__init__.py:30: UserWarning: Setuptools is replacing distutils. Support for replacing an already imported distutils is deprecated. In the future, this condition will fail. Register concerns at https://github.com/pypa/setuptools/issues/new?template=distutils-deprecation.yml
+  warnings.warn(
+

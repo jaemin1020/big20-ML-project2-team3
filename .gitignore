@@ -29,3 +29,5 @@ build/
 mine/
 models/
 catboost_info/
+
+*.log
