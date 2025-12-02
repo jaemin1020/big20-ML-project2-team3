@@ -1,0 +1,931 @@
+======================================================================
+클러스터 유사도 분석 결과
+======================================================================
+
+분석 시간: 2025-12-02 18:33:43
+문서 수: 51
+
+======================================================================
+K-Means
+======================================================================
+
+### 클러스터 내부 유사도 ###
+
+Cluster 0 (크기: 3)
+  - 평균: 0.4133
+  - 표준편차: 0.0981
+  - 범위: [0.2972, 0.5371]
+
+Cluster 1 (크기: 13)
+  - 평균: 0.2939
+  - 표준편차: 0.2273
+  - 범위: [0.0365, 0.9241]
+
+Cluster 2 (크기: 9)
+  - 평균: 0.2300
+  - 표준편차: 0.2461
+  - 범위: [0.0351, 0.9644]
+
+Cluster 3 (크기: 3)
+  - 평균: 0.3939
+  - 표준편차: 0.3998
+  - 범위: [0.0807, 0.9581]
+
+Cluster 4 (크기: 7)
+  - 평균: 0.1466
+  - 표준편차: 0.1018
+  - 범위: [0.0373, 0.4386]
+
+Cluster 5 (크기: 7)
+  - 평균: 0.1896
+  - 표준편차: 0.1468
+  - 범위: [0.0224, 0.6893]
+
+Cluster 6 (크기: 9)
+  - 평균: 0.1721
+  - 표준편차: 0.2466
+  - 범위: [0.0112, 0.8934]
+
+### 클러스터별 대표 문서 ###
+
+Cluster 0:
+  1. size_asus_netbook_1005ha (거리: 0.5601)
+     미리보기:  A few other things I'd like to point out is that you must push the micro, sized right angle end of the ac adapter until it snaps in place or the battery may not charge .
+ The full size right shift ke...
+  2. keyboard_netbook_1005ha (거리: 0.6213)
+     미리보기: ,  I think the new keyboard rivals the great hp mini keyboards .
+Since the battery life difference is minimum, the only reason to upgrade would be to get the better keyboard .
+ The keyboard is now as ...
+  3. screen_netbook_1005ha (거리: 0.6882)
+     미리보기:  Keep in mind that once you get in a room full of light or step outdoors screen reflections could become annoying .
+ I've used mine outside on a sunny day, and the screen is still very much legible .
+...
+
+Cluster 1:
+  1. service_holiday_inn_london (거리: 0.6649)
+     미리보기: not customer, oriented hotelvery low service levelboor reception
+The room was quiet, clean, the bed and pillows were comfortable, and the service was adequate .
+ There were no service issues to speak ...
+  2. room_holiday_inn_london (거리: 0.6878)
+     미리보기: We arrived at 23,30 hours and they could not recommend a restaurant so we decided to go to Tesco, with very limited choices but when you are hingry you do not careNext day they rang the bell at 8,00 h...
+  3. service_swissotel_hotel_chicago (거리: 0.6887)
+     미리보기:  Mediocre room and service for a very extravagant price .
+ The accomodations and support services are phenomenal .
+ no robes in the rooms, ice machines are not on every floor  , no turn down service a...
+
+Cluster 2:
+  1. comfort_toyota_camry_2007 (거리: 0.6956)
+     미리보기:  Ride seems comfortable and gas mileage fairly good averaging 26 city and 30 open road .
+ Seats are fine, in fact of all the smaller sedans this is the most comfortable I found for the price as I am 6...
+  2. comfort_honda_accord_2008 (거리: 0.7043)
+     미리보기:  Drivers seat not comfortable, the car itself compared to other models of similar class .
+ It's very comfortable, remarkably large inside and just an overall great vehicle .
+ Front seats are very unco...
+  3. interior_honda_accord_2008 (거리: 0.7924)
+     미리보기:  I love the new body style and the interior is a simple pleasure except for the center dash .
+ However, there are a couple of things that kill it for me 1 terrible driver seat comfort, kills my back 2...
+
+Cluster 3:
+  1. staff_bestwestern_hotel_sfo (거리: 0.4419)
+     미리보기:  Staff are friendly and helpful   .
+ The staff in the morning seemed to need another cup of coffee as they weren't excited to see us .
+A perfect hotel a perfect location perfect staff !
+ The front des...
+  2. staff_swissotel_chicago (거리: 0.4865)
+     미리보기:  The staff at Swissotel were not particularly nice .
+ Each time I waited at the counter for staff   for several minutes and then was waved to the desk upon my turn with no hello or anything, or apolog...
+  3. free_bestwestern_hotel_sfo (거리: 0.8833)
+     미리보기: The wine reception is a great idea as it is nice to meet other travellers and great having access to the free Internet access in our room .
+ They also have a computer available with free internet whic...
+
+Cluster 4:
+  1. directions_garmin_nuvi_255W_gps (거리: 0.8093)
+     미리보기:  You also get upscale features like spoken directions including street names and programmable POIs .
+ I used to hesitate to go out of my directions but not any more .
+ the directions didn't tell me an...
+  2. accuracy_garmin_nuvi_255W_gps (거리: 0.8152)
+     미리보기: , and is very, very accurate .
+ but for the most part, we find that the Garmin software provides accurate directions, whereever we intend to go .
+ This function is not accurate if you don't leave it i...
+  3. display_garmin_nuvi_255W_gps (거리: 0.8203)
+     미리보기: 3 quot  widescreen display was a bonus .
+ This made for smoother graphics on the 255w of the vehicle moving along displayed roads, where the 750's display was more of a  jerky  movement .
+ I also foun...
+
+Cluster 5:
+  1. eyesight-issues_amazon_kindle (거리: 0.7994)
+     미리보기:  It feels as easy to read as the K1 but doesn't seem any crisper to my eyes   .
+ the white is really GREY, and to avoid considerable eye, strain I had to refresh pages   every other page .
+ The dream ...
+  2. navigation_amazon_kindle (거리: 0.8013)
+     미리보기:  In fact, the entire navigation structure has been completely revised ,  I'm still getting used to it but it's a huge step forward .
+Navigation is a huge improvement .
+ Clearly, Amazon was hard at wor...
+  3. screen_garmin_nuvi_255W_gps (거리: 0.8188)
+     미리보기:   It is easy to read and when touching the screen it works great !
+ and zoom out   buttons on the 255w to the same side of the screen which makes it a bit easier .
+ On the 750 the zoom buttons are on ...
+
+Cluster 6:
+  1. battery-life_ipod_nano_8gb (거리: 0.7121)
+     미리보기:  short battery life  I moved up from an 8gb .
+I love this ipod except for the battery life .
+ long battery  scratch resistant
+ Battery drains even if I don't use it .
+ I only wonder why the battery se...
+  2. battery-life_netbook_1005ha (거리: 0.7229)
+     미리보기: 6GHz 533FSB cpu, glossy display, 3, Cell 23Wh Li, ion Battery  , and a 1 .
+ Not to mention that as of now Asus will not sell you a spare 3 or 6, cell Li, Ion battery .
+ It also features a N270 cpu, 6,...
+  3. battery-life_amazon_kindle (거리: 0.7488)
+     미리보기:  After I plugged it in to my USB hub on my computer to charge the battery the charging cord design is very clever !
+ After you have paged tru a 500, page book one, page, at, a, time to get from Chapte...
+
+
+======================================================================
+Birch
+======================================================================
+
+### 클러스터 내부 유사도 ###
+
+Cluster 0 (크기: 7)
+  - 평균: 0.1466
+  - 표준편차: 0.1018
+  - 범위: [0.0373, 0.4386]
+
+Cluster 1 (크기: 15)
+  - 평균: 0.2554
+  - 표준편차: 0.2207
+  - 범위: [0.0365, 0.9581]
+
+Cluster 2 (크기: 12)
+  - 평균: 0.2038
+  - 표준편차: 0.2306
+  - 범위: [0.0112, 0.8934]
+
+Cluster 3 (크기: 4)
+  - 평균: 0.2561
+  - 표준편차: 0.1097
+  - 범위: [0.1565, 0.4171]
+
+Cluster 4 (크기: 9)
+  - 평균: 0.2300
+  - 표준편차: 0.2461
+  - 범위: [0.0351, 0.9644]
+
+Cluster 5 (크기: 2)
+  - 평균: 0.4714
+  - 표준편차: 0.0000
+  - 범위: [0.4714, 0.4714]
+
+Cluster 6 (크기: 2)
+  - 평균: 0.2523
+  - 표준편차: 0.0000
+  - 범위: [0.2523, 0.2523]
+
+### 클러스터별 대표 문서 ###
+
+Cluster 0:
+  1. directions_garmin_nuvi_255W_gps (거리: 0.8093)
+     미리보기:  You also get upscale features like spoken directions including street names and programmable POIs .
+ I used to hesitate to go out of my directions but not any more .
+ the directions didn't tell me an...
+  2. accuracy_garmin_nuvi_255W_gps (거리: 0.8152)
+     미리보기: , and is very, very accurate .
+ but for the most part, we find that the Garmin software provides accurate directions, whereever we intend to go .
+ This function is not accurate if you don't leave it i...
+  3. display_garmin_nuvi_255W_gps (거리: 0.8203)
+     미리보기: 3 quot  widescreen display was a bonus .
+ This made for smoother graphics on the 255w of the vehicle moving along displayed roads, where the 750's display was more of a  jerky  movement .
+ I also foun...
+
+Cluster 1:
+  1. service_holiday_inn_london (거리: 0.6930)
+     미리보기: not customer, oriented hotelvery low service levelboor reception
+The room was quiet, clean, the bed and pillows were comfortable, and the service was adequate .
+ There were no service issues to speak ...
+  2. service_swissotel_hotel_chicago (거리: 0.7024)
+     미리보기:  Mediocre room and service for a very extravagant price .
+ The accomodations and support services are phenomenal .
+ no robes in the rooms, ice machines are not on every floor  , no turn down service a...
+  3. rooms_bestwestern_hotel_sfo (거리: 0.7104)
+     미리보기: Great Location ,  Nice   Rooms ,  Helpless Concierge
+ The rooms were bright, clean and the windows open .
+ Another odd thing we noticed is a majority of the room doors opened OUT into the hallway, rat...
+
+Cluster 2:
+  1. battery-life_ipod_nano_8gb (거리: 0.7636)
+     미리보기:  short battery life  I moved up from an 8gb .
+I love this ipod except for the battery life .
+ long battery  scratch resistant
+ Battery drains even if I don't use it .
+ I only wonder why the battery se...
+  2. screen_netbook_1005ha (거리: 0.7658)
+     미리보기:  Keep in mind that once you get in a room full of light or step outdoors screen reflections could become annoying .
+ I've used mine outside on a sunny day, and the screen is still very much legible .
+...
+  3. battery-life_netbook_1005ha (거리: 0.7690)
+     미리보기: 6GHz 533FSB cpu, glossy display, 3, Cell 23Wh Li, ion Battery  , and a 1 .
+ Not to mention that as of now Asus will not sell you a spare 3 or 6, cell Li, Ion battery .
+ It also features a N270 cpu, 6,...
+
+Cluster 3:
+  1. eyesight-issues_amazon_kindle (거리: 0.7358)
+     미리보기:  It feels as easy to read as the K1 but doesn't seem any crisper to my eyes   .
+ the white is really GREY, and to avoid considerable eye, strain I had to refresh pages   every other page .
+ The dream ...
+  2. navigation_amazon_kindle (거리: 0.7363)
+     미리보기:  In fact, the entire navigation structure has been completely revised ,  I'm still getting used to it but it's a huge step forward .
+Navigation is a huge improvement .
+ Clearly, Amazon was hard at wor...
+  3. fonts_amazon_kindle (거리: 0.7517)
+     미리보기: Being able to change the font sizes is awesome !
+ For whatever reason, Amazon decided to make the Font on the Home Screen   than on the K1 .
+ I found myself constantly changing the angle of the body, ...
+
+Cluster 4:
+  1. comfort_toyota_camry_2007 (거리: 0.6956)
+     미리보기:  Ride seems comfortable and gas mileage fairly good averaging 26 city and 30 open road .
+ Seats are fine, in fact of all the smaller sedans this is the most comfortable I found for the price as I am 6...
+  2. comfort_honda_accord_2008 (거리: 0.7043)
+     미리보기:  Drivers seat not comfortable, the car itself compared to other models of similar class .
+ It's very comfortable, remarkably large inside and just an overall great vehicle .
+ Front seats are very unco...
+  3. interior_honda_accord_2008 (거리: 0.7924)
+     미리보기:  I love the new body style and the interior is a simple pleasure except for the center dash .
+ However, there are a couple of things that kill it for me 1 terrible driver seat comfort, kills my back 2...
+
+Cluster 5:
+  1. price_holiday_inn_london (거리: 0.5141)
+     미리보기: All in all, a normal chain hotel on a nice location  , I will be back if I do not find anthing closer to Picadilly for a better price .
+Great Price Terrific Location .
+Our main focus before booking wa...
+  2. price_amazon_kindle (거리: 0.5141)
+     미리보기:  If a case was included, as with the Kindle 1, that would have been reflected in a higher price .
+ lower overall price, with nice leather cover .
+If you have the first Kindle and are deciding whether ...
+
+Cluster 6:
+  1. features_windows7 (거리: 0.6114)
+     미리보기:  I had to uninstall anti, virus and selected other programs, some of which did not have listings in the  Programs and Features  Control Panel section .
+ This review briefly touches upon some of the ke...
+  2. speed_windows7 (거리: 0.6114)
+     미리보기: Windows 7 is quite simply faster, more stable, boots faster, goes to sleep faster, comes back from sleep faster, manages your files better and on top of that it's beautiful to look at and easy to use ...
+
+
+======================================================================
+Agglomerative
+======================================================================
+
+### 클러스터 내부 유사도 ###
+
+Cluster 0 (크기: 13)
+  - 평균: 0.2215
+  - 표준편차: 0.2173
+  - 범위: [0.0119, 0.9581]
+
+Cluster 1 (크기: 19)
+  - 평균: 0.0606
+  - 표준편차: 0.0919
+  - 범위: [0.0057, 0.6944]
+
+Cluster 2 (크기: 5)
+  - 평균: 0.4487
+  - 표준편차: 0.2661
+  - 범위: [0.1390, 0.9397]
+
+Cluster 3 (크기: 3)
+  - 평균: 0.8565
+  - 표준편차: 0.0362
+  - 범위: [0.8074, 0.8934]
+
+Cluster 4 (크기: 5)
+  - 평균: 0.4253
+  - 표준편차: 0.2395
+  - 범위: [0.1248, 0.8012]
+
+Cluster 5 (크기: 4)
+  - 평균: 0.6581
+  - 표준편차: 0.2457
+  - 범위: [0.3471, 0.9241]
+
+Cluster 6 (크기: 2)
+  - 평균: 0.9644
+  - 표준편차: 0.0000
+  - 범위: [0.9644, 0.9644]
+
+### 클러스터별 대표 문서 ###
+
+Cluster 0:
+  1. service_bestwestern_hotel_sfo (거리: 0.6971)
+     미리보기:  Both of us having worked in tourism for over 14 years were very disappointed at the level of service provided by this gentleman .
+ The service was good, very friendly staff and we loved the free wine...
+  2. service_holiday_inn_london (거리: 0.7012)
+     미리보기: not customer, oriented hotelvery low service levelboor reception
+The room was quiet, clean, the bed and pillows were comfortable, and the service was adequate .
+ There were no service issues to speak ...
+  3. service_swissotel_hotel_chicago (거리: 0.7234)
+     미리보기:  Mediocre room and service for a very extravagant price .
+ The accomodations and support services are phenomenal .
+ no robes in the rooms, ice machines are not on every floor  , no turn down service a...
+
+Cluster 1:
+  1. display_garmin_nuvi_255W_gps (거리: 0.9112)
+     미리보기: 3 quot  widescreen display was a bonus .
+ This made for smoother graphics on the 255w of the vehicle moving along displayed roads, where the 750's display was more of a  jerky  movement .
+ I also foun...
+  2. directions_garmin_nuvi_255W_gps (거리: 0.9202)
+     미리보기:  You also get upscale features like spoken directions including street names and programmable POIs .
+ I used to hesitate to go out of my directions but not any more .
+ the directions didn't tell me an...
+  3. navigation_amazon_kindle (거리: 0.9268)
+     미리보기:  In fact, the entire navigation structure has been completely revised ,  I'm still getting used to it but it's a huge step forward .
+Navigation is a huge improvement .
+ Clearly, Amazon was hard at wor...
+
+Cluster 2:
+  1. comfort_honda_accord_2008 (거리: 0.5591)
+     미리보기:  Drivers seat not comfortable, the car itself compared to other models of similar class .
+ It's very comfortable, remarkably large inside and just an overall great vehicle .
+ Front seats are very unco...
+  2. comfort_toyota_camry_2007 (거리: 0.6143)
+     미리보기:  Ride seems comfortable and gas mileage fairly good averaging 26 city and 30 open road .
+ Seats are fine, in fact of all the smaller sedans this is the most comfortable I found for the price as I am 6...
+  3. interior_honda_accord_2008 (거리: 0.6697)
+     미리보기:  I love the new body style and the interior is a simple pleasure except for the center dash .
+ However, there are a couple of things that kill it for me 1 terrible driver seat comfort, kills my back 2...
+
+Cluster 3:
+  1. battery-life_netbook_1005ha (거리: 0.2508)
+     미리보기: 6GHz 533FSB cpu, glossy display, 3, Cell 23Wh Li, ion Battery  , and a 1 .
+ Not to mention that as of now Asus will not sell you a spare 3 or 6, cell Li, Ion battery .
+ It also features a N270 cpu, 6,...
+  2. battery-life_amazon_kindle (거리: 0.3222)
+     미리보기:  After I plugged it in to my USB hub on my computer to charge the battery the charging cord design is very clever !
+ After you have paged tru a 500, page book one, page, at, a, time to get from Chapte...
+  3. battery-life_ipod_nano_8gb (거리: 0.3468)
+     미리보기:  short battery life  I moved up from an 8gb .
+I love this ipod except for the battery life .
+ long battery  scratch resistant
+ Battery drains even if I don't use it .
+ I only wonder why the battery se...
+
+Cluster 4:
+  1. screen_netbook_1005ha (거리: 0.4916)
+     미리보기:  Keep in mind that once you get in a room full of light or step outdoors screen reflections could become annoying .
+ I've used mine outside on a sunny day, and the screen is still very much legible .
+...
+  2. screen_ipod_nano_8gb (거리: 0.6312)
+     미리보기:  As always, the video screen is sharp and bright .
+2, inch screen   and a glossy, polished aluminum finish that one CNET editor described as looking like a Christmas tree ornament .
+ Still, video fans...
+  3. screen_garmin_nuvi_255W_gps (거리: 0.6333)
+     미리보기:   It is easy to read and when touching the screen it works great !
+ and zoom out   buttons on the 255w to the same side of the screen which makes it a bit easier .
+ On the 750 the zoom buttons are on ...
+
+Cluster 5:
+  1. room_holiday_inn_london (거리: 0.3005)
+     미리보기: We arrived at 23,30 hours and they could not recommend a restaurant so we decided to go to Tesco, with very limited choices but when you are hingry you do not careNext day they rang the bell at 8,00 h...
+  2. rooms_bestwestern_hotel_sfo (거리: 0.3661)
+     미리보기: Great Location ,  Nice   Rooms ,  Helpless Concierge
+ The rooms were bright, clean and the windows open .
+ Another odd thing we noticed is a majority of the room doors opened OUT into the hallway, rat...
+  3. rooms_swissotel_chicago (거리: 0.4279)
+     미리보기: The Swissotel is one of our favorite hotels in Chicago and the corner rooms have the most fantastic views in the city .
+ The rooms look like they were just remodled and upgraded, there was an HD TV an...
+
+Cluster 6:
+  1. gas_mileage_toyota_camry_2007 (거리: 0.1334)
+     미리보기:  Ride seems comfortable and gas mileage fairly good averaging 26 city and 30 open road .
+ It gets great gas mileage   .
+ Being a mother who drives a lot I wanted a safe vehicle with good gas mileage a...
+  2. mileage_honda_accord_2008 (거리: 0.1334)
+     미리보기:  It's quiet, get good gas mileage and looks clean inside and out .
+ The mileage is great, and I've had to get used to stopping less for gas .
+ Thought gas mileage would be better .
+There are trade off...
+
+
+======================================================================
+Affinity Propagation
+======================================================================
+
+### 클러스터 내부 유사도 ###
+
+Cluster 0 (크기: 3)
+  - 평균: 0.8565
+  - 표준편차: 0.0362
+  - 범위: [0.8074, 0.8934]
+
+Cluster 1 (크기: 3)
+  - 평균: 0.6734
+  - 표준편차: 0.1442
+  - 범위: [0.5053, 0.8573]
+
+Cluster 2 (크기: 4)
+  - 평균: 0.1631
+  - 표준편차: 0.1089
+  - 범위: [0.0380, 0.3455]
+
+Cluster 3 (크기: 3)
+  - 평균: 0.2479
+  - 표준편차: 0.1425
+  - 범위: [0.0961, 0.4386]
+
+Cluster 4 (크기: 2)
+  - 평균: 0.4171
+  - 표준편차: 0.0000
+  - 범위: [0.4171, 0.4171]
+
+Cluster 5 (크기: 2)
+  - 평균: 0.2523
+  - 표준편차: 0.0000
+  - 범위: [0.2523, 0.2523]
+
+Cluster 6 (크기: 2)
+  - 평균: 0.8821
+  - 표준편차: 0.0000
+  - 범위: [0.8821, 0.8821]
+
+Cluster 7 (크기: 3)
+  - 평균: 0.3718
+  - 표준편차: 0.4190
+  - 범위: [0.0680, 0.9644]
+
+Cluster 8 (크기: 2)
+  - 평균: 0.9397
+  - 표준편차: 0.0000
+  - 범위: [0.9397, 0.9397]
+
+Cluster 9 (크기: 3)
+  - 평균: 0.5005
+  - 표준편차: 0.1534
+  - 범위: [0.3379, 0.7062]
+
+Cluster 10 (크기: 3)
+  - 평균: 0.2538
+  - 표준편차: 0.1099
+  - 범위: [0.1318, 0.3982]
+
+Cluster 11 (크기: 2)
+  - 평균: 0.6944
+  - 표준편차: 0.0000
+  - 범위: [0.6944, 0.6944]
+
+Cluster 12 (크기: 4)
+  - 평균: 0.6581
+  - 표준편차: 0.2457
+  - 범위: [0.3471, 0.9241]
+
+Cluster 13 (크기: 5)
+  - 평균: 0.4253
+  - 표준편차: 0.2395
+  - 범위: [0.1248, 0.8012]
+
+Cluster 14 (크기: 5)
+  - 평균: 0.3636
+  - 표준편차: 0.3531
+  - 범위: [0.1029, 0.9140]
+
+Cluster 15 (크기: 3)
+  - 평균: 0.2135
+  - 표준편차: 0.1145
+  - 범위: [0.0544, 0.3192]
+
+Cluster 16 (크기: 2)
+  - 평균: 0.9581
+  - 표준편차: 0.0000
+  - 범위: [0.9581, 0.9581]
+
+### 클러스터별 대표 문서 ###
+
+Cluster 0:
+  1. battery-life_netbook_1005ha (거리: 0.2508)
+     미리보기: 6GHz 533FSB cpu, glossy display, 3, Cell 23Wh Li, ion Battery  , and a 1 .
+ Not to mention that as of now Asus will not sell you a spare 3 or 6, cell Li, Ion battery .
+ It also features a N270 cpu, 6,...
+  2. battery-life_amazon_kindle (거리: 0.3222)
+     미리보기:  After I plugged it in to my USB hub on my computer to charge the battery the charging cord design is very clever !
+ After you have paged tru a 500, page book one, page, at, a, time to get from Chapte...
+  3. battery-life_ipod_nano_8gb (거리: 0.3468)
+     미리보기:  short battery life  I moved up from an 8gb .
+I love this ipod except for the battery life .
+ long battery  scratch resistant
+ Battery drains even if I don't use it .
+ I only wonder why the battery se...
+
+Cluster 1:
+  1. comfort_honda_accord_2008 (거리: 0.3251)
+     미리보기:  Drivers seat not comfortable, the car itself compared to other models of similar class .
+ It's very comfortable, remarkably large inside and just an overall great vehicle .
+ Front seats are very unco...
+  2. comfort_toyota_camry_2007 (거리: 0.4552)
+     미리보기:  Ride seems comfortable and gas mileage fairly good averaging 26 city and 30 open road .
+ Seats are fine, in fact of all the smaller sedans this is the most comfortable I found for the price as I am 6...
+  3. seats_honda_accord_2008 (거리: 0.5834)
+     미리보기:  Front seats are very uncomfortable .
+ No memory seats, no trip computer, can only display outside temp with trip odometer .
+ needs power seats on the passenger side .
+ I haven't had any back pain fro...
+
+Cluster 2:
+  1. directions_garmin_nuvi_255W_gps (거리: 0.7123)
+     미리보기:  You also get upscale features like spoken directions including street names and programmable POIs .
+ I used to hesitate to go out of my directions but not any more .
+ the directions didn't tell me an...
+  2. accuracy_garmin_nuvi_255W_gps (거리: 0.7708)
+     미리보기: , and is very, very accurate .
+ but for the most part, we find that the Garmin software provides accurate directions, whereever we intend to go .
+ This function is not accurate if you don't leave it i...
+  3. voice_garmin_nuvi_255W_gps (거리: 0.8117)
+     미리보기:   The voice prompts and maps are wonderful especially when driving after dark .
+I also thought the the voice prompts of the 750 where more pleasant sounding than the 255w's .
+ The 750 sounds more like...
+
+Cluster 3:
+  1. display_garmin_nuvi_255W_gps (거리: 0.6327)
+     미리보기: 3 quot  widescreen display was a bonus .
+ This made for smoother graphics on the 255w of the vehicle moving along displayed roads, where the 750's display was more of a  jerky  movement .
+ I also foun...
+  2. speed_garmin_nuvi_255W_gps (거리: 0.6895)
+     미리보기: Another feature on the 255w is a display of the posted speed limit on the road which you are currently on right above your current displayed speed .
+ I found myself not even looking at my car speedome...
+  3. updates_garmin_nuvi_255W_gps (거리: 0.7928)
+     미리보기: Another thing to consider was that I paid $50 less for the 750 and it came with the FM transmitter cable and a USB cord to connect it to your computer for updates and downloads .
+ update and reroute m...
+
+Cluster 4:
+  1. fonts_amazon_kindle (거리: 0.5399)
+     미리보기: Being able to change the font sizes is awesome !
+ For whatever reason, Amazon decided to make the Font on the Home Screen   than on the K1 .
+ I found myself constantly changing the angle of the body, ...
+  2. eyesight-issues_amazon_kindle (거리: 0.5399)
+     미리보기:  It feels as easy to read as the K1 but doesn't seem any crisper to my eyes   .
+ the white is really GREY, and to avoid considerable eye, strain I had to refresh pages   every other page .
+ The dream ...
+
+Cluster 5:
+  1. features_windows7 (거리: 0.6114)
+     미리보기:  I had to uninstall anti, virus and selected other programs, some of which did not have listings in the  Programs and Features  Control Panel section .
+ This review briefly touches upon some of the ke...
+  2. speed_windows7 (거리: 0.6114)
+     미리보기: Windows 7 is quite simply faster, more stable, boots faster, goes to sleep faster, comes back from sleep faster, manages your files better and on top of that it's beautiful to look at and easy to use ...
+
+Cluster 6:
+  1. food_swissotel_chicago (거리: 0.2428)
+     미리보기:  The food for our event was delicious .
+ The food in the lounge was great and very fresh, , , salads, sandwiches etc .
+ As far as food, walk a few blocks toward Michigan Ave turn left or right and the...
+  2. food_holiday_inn_london (거리: 0.2428)
+     미리보기:  The room was packed to capacity with queues at the food buffets .
+ The over zealous   staff cleared our unfinished drinks while we were collecting cooked food and movement around the room with plates...
+
+Cluster 7:
+  1. gas_mileage_toyota_camry_2007 (거리: 0.4650)
+     미리보기:  Ride seems comfortable and gas mileage fairly good averaging 26 city and 30 open road .
+ It gets great gas mileage   .
+ Being a mother who drives a lot I wanted a safe vehicle with good gas mileage a...
+  2. mileage_honda_accord_2008 (거리: 0.4757)
+     미리보기:  It's quiet, get good gas mileage and looks clean inside and out .
+ The mileage is great, and I've had to get used to stopping less for gas .
+ Thought gas mileage would be better .
+There are trade off...
+  3. transmission_toyota_camry_2007 (거리: 0.9021)
+     미리보기:  After slowing down, transmission has to be  kicked  to speed up .
+ I wonder if the people who have problems with rattles and transmission were built in the US .
+ The transmission, I don't know what t...
+
+Cluster 8:
+  1. interior_toyota_camry_2007 (거리: 0.1737)
+     미리보기:  First of all, the interior has way too many cheap plastic parts like the cheap plastic center piece that houses the clock .
+ 3 blown struts at 30,000 miles, interior trim coming loose and rattling sq...
+  2. interior_honda_accord_2008 (거리: 0.1737)
+     미리보기:  I love the new body style and the interior is a simple pleasure except for the center dash .
+ However, there are a couple of things that kill it for me 1 terrible driver seat comfort, kills my back 2...
+
+Cluster 9:
+  1. location_holiday_inn_london (거리: 0.4740)
+     미리보기:  Great location for tube and we crammed in a fair amount of sightseeing in a short time .
+All in all, a normal chain hotel on a nice location  , I will be back if I do not find anthing closer to Picad...
+  2. location_bestwestern_hotel_sfo (거리: 0.5515)
+     미리보기: Good Value good location ,  ideal choice .
+Great Location ,  Nice   Rooms ,  Helpless Concierge
+ The location is good, and the overall decor is nice, but there was nothing that I can really rave about...
+  3. price_holiday_inn_london (거리: 0.6857)
+     미리보기: All in all, a normal chain hotel on a nice location  , I will be back if I do not find anthing closer to Picadilly for a better price .
+Great Price Terrific Location .
+Our main focus before booking wa...
+
+Cluster 10:
+  1. navigation_amazon_kindle (거리: 0.6451)
+     미리보기:  In fact, the entire navigation structure has been completely revised ,  I'm still getting used to it but it's a huge step forward .
+Navigation is a huge improvement .
+ Clearly, Amazon was hard at wor...
+  2. buttons_amazon_kindle (거리: 0.6946)
+     미리보기: I thought it would be fitting to christen my Kindle with the Stephen King novella UR, so went to the Amazon site on my computer and clicked on the button to buy it .
+ As soon as I'd clicked the button...
+  3. price_amazon_kindle (거리: 0.7705)
+     미리보기:  If a case was included, as with the Kindle 1, that would have been reflected in a higher price .
+ lower overall price, with nice leather cover .
+If you have the first Kindle and are deciding whether ...
+
+Cluster 11:
+  1. performance_honda_accord_2008 (거리: 0.3909)
+     미리보기: Very happy with my 08 Accord, performance is quite adequate it has nice looks and is a great long,  distance cruiser .
+ 6, 4, 3 eco engine has poor performance and gas mileage of 22 highway .
+ Overall...
+  2. performance_netbook_1005ha (거리: 0.3909)
+     미리보기:  The Eee Super Hybrid Engine utility lets users overclock or underclock their Eee PC's to boost performance or provide better battery life depending on their immediate requirements .
+ In Super Perform...
+
+Cluster 12:
+  1. room_holiday_inn_london (거리: 0.3005)
+     미리보기: We arrived at 23,30 hours and they could not recommend a restaurant so we decided to go to Tesco, with very limited choices but when you are hingry you do not careNext day they rang the bell at 8,00 h...
+  2. rooms_bestwestern_hotel_sfo (거리: 0.3661)
+     미리보기: Great Location ,  Nice   Rooms ,  Helpless Concierge
+ The rooms were bright, clean and the windows open .
+ Another odd thing we noticed is a majority of the room doors opened OUT into the hallway, rat...
+  3. rooms_swissotel_chicago (거리: 0.4279)
+     미리보기: The Swissotel is one of our favorite hotels in Chicago and the corner rooms have the most fantastic views in the city .
+ The rooms look like they were just remodled and upgraded, there was an HD TV an...
+
+Cluster 13:
+  1. screen_netbook_1005ha (거리: 0.4916)
+     미리보기:  Keep in mind that once you get in a room full of light or step outdoors screen reflections could become annoying .
+ I've used mine outside on a sunny day, and the screen is still very much legible .
+...
+  2. screen_ipod_nano_8gb (거리: 0.6312)
+     미리보기:  As always, the video screen is sharp and bright .
+2, inch screen   and a glossy, polished aluminum finish that one CNET editor described as looking like a Christmas tree ornament .
+ Still, video fans...
+  3. screen_garmin_nuvi_255W_gps (거리: 0.6333)
+     미리보기:   It is easy to read and when touching the screen it works great !
+ and zoom out   buttons on the 255w to the same side of the screen which makes it a bit easier .
+ On the 750 the zoom buttons are on ...
+
+Cluster 14:
+  1. service_bestwestern_hotel_sfo (거리: 0.4929)
+     미리보기:  Both of us having worked in tourism for over 14 years were very disappointed at the level of service provided by this gentleman .
+ The service was good, very friendly staff and we loved the free wine...
+  2. service_swissotel_hotel_chicago (거리: 0.5138)
+     미리보기:  Mediocre room and service for a very extravagant price .
+ The accomodations and support services are phenomenal .
+ no robes in the rooms, ice machines are not on every floor  , no turn down service a...
+  3. service_holiday_inn_london (거리: 0.5297)
+     미리보기: not customer, oriented hotelvery low service levelboor reception
+The room was quiet, clean, the bed and pillows were comfortable, and the service was adequate .
+ There were no service issues to speak ...
+
+Cluster 15:
+  1. sound_ipod_nano_8gb (거리: 0.6468)
+     미리보기:  headphone jack i got a clear case for it and it  i got a clear case for it and it like prvents me from being able to put the jack all the way in so the sound can b messsed up or i can get it in there...
+  2. video_ipod_nano_8gb (거리: 0.7483)
+     미리보기: I bought the 8, gig Ipod Nano that has the built, in video camera .
+  Itunes has an on, line store, where you may purchase and download music and videos which will install onto the ipod .
+I have lots ...
+  3. quality_toyota_camry_2007 (거리: 0.7712)
+     미리보기:  I previously owned a Toyota 4Runner which had incredible build quality and reliability .
+I bought the Camry because of Toyota reliability and quality .
+I purchased a 2007 Camry because of the looks o...
+
+Cluster 16:
+  1. staff_swissotel_chicago (거리: 0.1447)
+     미리보기:  The staff at Swissotel were not particularly nice .
+ Each time I waited at the counter for staff   for several minutes and then was waved to the desk upon my turn with no hello or anything, or apolog...
+  2. staff_bestwestern_hotel_sfo (거리: 0.1447)
+     미리보기:  Staff are friendly and helpful   .
+ The staff in the morning seemed to need another cup of coffee as they weren't excited to see us .
+A perfect hotel a perfect location perfect staff !
+ The front des...
+
+
+======================================================================
+DBSCAN
+======================================================================
+
+### 클러스터 내부 유사도 ###
+
+Cluster -1 (크기: 51)
+  - 평균: 0.0659
+  - 표준편차: 0.1286
+  - 범위: [0.0037, 0.9644]
+
+### 클러스터별 대표 문서 ###
+
+Cluster -1:
+  1. room_holiday_inn_london (거리: 0.8945)
+     미리보기: We arrived at 23,30 hours and they could not recommend a restaurant so we decided to go to Tesco, with very limited choices but when you are hingry you do not careNext day they rang the bell at 8,00 h...
+  2. service_holiday_inn_london (거리: 0.8948)
+     미리보기: not customer, oriented hotelvery low service levelboor reception
+The room was quiet, clean, the bed and pillows were comfortable, and the service was adequate .
+ There were no service issues to speak ...
+  3. rooms_bestwestern_hotel_sfo (거리: 0.8965)
+     미리보기: Great Location ,  Nice   Rooms ,  Helpless Concierge
+ The rooms were bright, clean and the windows open .
+ Another odd thing we noticed is a majority of the room doors opened OUT into the hallway, rat...
+
+
+======================================================================
+Spectral Clustering
+======================================================================
+
+### 클러스터 내부 유사도 ###
+
+Cluster 0 (크기: 4)
+  - 평균: 0.6581
+  - 표준편차: 0.2457
+  - 범위: [0.3471, 0.9241]
+
+Cluster 1 (크기: 5)
+  - 평균: 0.5437
+  - 표준편차: 0.2895
+  - 범위: [0.2496, 0.9140]
+
+Cluster 2 (크기: 30)
+  - 평균: 0.0639
+  - 표준편차: 0.1076
+  - 범위: [0.0037, 0.8012]
+
+Cluster 3 (크기: 3)
+  - 평균: 0.8565
+  - 표준편차: 0.0362
+  - 범위: [0.8074, 0.8934]
+
+Cluster 4 (크기: 2)
+  - 평균: 0.9644
+  - 표준편차: 0.0000
+  - 범위: [0.9644, 0.9644]
+
+Cluster 5 (크기: 5)
+  - 평균: 0.4487
+  - 표준편차: 0.2661
+  - 범위: [0.1390, 0.9397]
+
+Cluster 6 (크기: 2)
+  - 평균: 0.9581
+  - 표준편차: 0.0000
+  - 범위: [0.9581, 0.9581]
+
+### 클러스터별 대표 문서 ###
+
+Cluster 0:
+  1. room_holiday_inn_london (거리: 0.3005)
+     미리보기: We arrived at 23,30 hours and they could not recommend a restaurant so we decided to go to Tesco, with very limited choices but when you are hingry you do not careNext day they rang the bell at 8,00 h...
+  2. rooms_bestwestern_hotel_sfo (거리: 0.3661)
+     미리보기: Great Location ,  Nice   Rooms ,  Helpless Concierge
+ The rooms were bright, clean and the windows open .
+ Another odd thing we noticed is a majority of the room doors opened OUT into the hallway, rat...
+  3. rooms_swissotel_chicago (거리: 0.4279)
+     미리보기: The Swissotel is one of our favorite hotels in Chicago and the corner rooms have the most fantastic views in the city .
+ The rooms look like they were just remodled and upgraded, there was an HD TV an...
+
+Cluster 1:
+  1. service_holiday_inn_london (거리: 0.4928)
+     미리보기: not customer, oriented hotelvery low service levelboor reception
+The room was quiet, clean, the bed and pillows were comfortable, and the service was adequate .
+ There were no service issues to speak ...
+  2. service_bestwestern_hotel_sfo (거리: 0.5177)
+     미리보기:  Both of us having worked in tourism for over 14 years were very disappointed at the level of service provided by this gentleman .
+ The service was good, very friendly staff and we loved the free wine...
+  3. service_swissotel_hotel_chicago (거리: 0.5379)
+     미리보기:  Mediocre room and service for a very extravagant price .
+ The accomodations and support services are phenomenal .
+ no robes in the rooms, ice machines are not on every floor  , no turn down service a...
+
+Cluster 2:
+  1. screen_garmin_nuvi_255W_gps (거리: 0.8662)
+     미리보기:   It is easy to read and when touching the screen it works great !
+ and zoom out   buttons on the 255w to the same side of the screen which makes it a bit easier .
+ On the 750 the zoom buttons are on ...
+  2. screen_ipod_nano_8gb (거리: 0.8838)
+     미리보기:  As always, the video screen is sharp and bright .
+2, inch screen   and a glossy, polished aluminum finish that one CNET editor described as looking like a Christmas tree ornament .
+ Still, video fans...
+  3. screen_netbook_1005ha (거리: 0.8842)
+     미리보기:  Keep in mind that once you get in a room full of light or step outdoors screen reflections could become annoying .
+ I've used mine outside on a sunny day, and the screen is still very much legible .
+...
+
+Cluster 3:
+  1. battery-life_netbook_1005ha (거리: 0.2508)
+     미리보기: 6GHz 533FSB cpu, glossy display, 3, Cell 23Wh Li, ion Battery  , and a 1 .
+ Not to mention that as of now Asus will not sell you a spare 3 or 6, cell Li, Ion battery .
+ It also features a N270 cpu, 6,...
+  2. battery-life_amazon_kindle (거리: 0.3222)
+     미리보기:  After I plugged it in to my USB hub on my computer to charge the battery the charging cord design is very clever !
+ After you have paged tru a 500, page book one, page, at, a, time to get from Chapte...
+  3. battery-life_ipod_nano_8gb (거리: 0.3468)
+     미리보기:  short battery life  I moved up from an 8gb .
+I love this ipod except for the battery life .
+ long battery  scratch resistant
+ Battery drains even if I don't use it .
+ I only wonder why the battery se...
+
+Cluster 4:
+  1. gas_mileage_toyota_camry_2007 (거리: 0.1334)
+     미리보기:  Ride seems comfortable and gas mileage fairly good averaging 26 city and 30 open road .
+ It gets great gas mileage   .
+ Being a mother who drives a lot I wanted a safe vehicle with good gas mileage a...
+  2. mileage_honda_accord_2008 (거리: 0.1334)
+     미리보기:  It's quiet, get good gas mileage and looks clean inside and out .
+ The mileage is great, and I've had to get used to stopping less for gas .
+ Thought gas mileage would be better .
+There are trade off...
+
+Cluster 5:
+  1. comfort_honda_accord_2008 (거리: 0.5591)
+     미리보기:  Drivers seat not comfortable, the car itself compared to other models of similar class .
+ It's very comfortable, remarkably large inside and just an overall great vehicle .
+ Front seats are very unco...
+  2. comfort_toyota_camry_2007 (거리: 0.6143)
+     미리보기:  Ride seems comfortable and gas mileage fairly good averaging 26 city and 30 open road .
+ Seats are fine, in fact of all the smaller sedans this is the most comfortable I found for the price as I am 6...
+  3. interior_honda_accord_2008 (거리: 0.6697)
+     미리보기:  I love the new body style and the interior is a simple pleasure except for the center dash .
+ However, there are a couple of things that kill it for me 1 terrible driver seat comfort, kills my back 2...
+
+Cluster 6:
+  1. staff_swissotel_chicago (거리: 0.1447)
+     미리보기:  The staff at Swissotel were not particularly nice .
+ Each time I waited at the counter for staff   for several minutes and then was waved to the desk upon my turn with no hello or anything, or apolog...
+  2. staff_bestwestern_hotel_sfo (거리: 0.1447)
+     미리보기:  Staff are friendly and helpful   .
+ The staff in the morning seemed to need another cup of coffee as they weren't excited to see us .
+A perfect hotel a perfect location perfect staff !
+ The front des...
+
+
+======================================================================
+OPTICS
+======================================================================
+
+### 클러스터 내부 유사도 ###
+
+Cluster -1 (크기: 37)
+  - 평균: 0.0674
+  - 표준편차: 0.1235
+  - 범위: [0.0037, 0.9644]
+
+Cluster 0 (크기: 14)
+  - 평균: 0.3021
+  - 표준편차: 0.2189
+  - 범위: [0.0426, 0.9581]
+
+### 클러스터별 대표 문서 ###
+
+Cluster -1:
+  1. screen_garmin_nuvi_255W_gps (거리: 0.8949)
+     미리보기:   It is easy to read and when touching the screen it works great !
+ and zoom out   buttons on the 255w to the same side of the screen which makes it a bit easier .
+ On the 750 the zoom buttons are on ...
+  2. screen_netbook_1005ha (거리: 0.8950)
+     미리보기:  Keep in mind that once you get in a room full of light or step outdoors screen reflections could become annoying .
+ I've used mine outside on a sunny day, and the screen is still very much legible .
+...
+  3. screen_ipod_nano_8gb (거리: 0.8984)
+     미리보기:  As always, the video screen is sharp and bright .
+2, inch screen   and a glossy, polished aluminum finish that one CNET editor described as looking like a Christmas tree ornament .
+ Still, video fans...
+
+Cluster 0:
+  1. service_holiday_inn_london (거리: 0.6726)
+     미리보기: not customer, oriented hotelvery low service levelboor reception
+The room was quiet, clean, the bed and pillows were comfortable, and the service was adequate .
+ There were no service issues to speak ...
+  2. service_swissotel_hotel_chicago (거리: 0.6923)
+     미리보기:  Mediocre room and service for a very extravagant price .
+ The accomodations and support services are phenomenal .
+ no robes in the rooms, ice machines are not on every floor  , no turn down service a...
+  3. rooms_bestwestern_hotel_sfo (거리: 0.6989)
+     미리보기: Great Location ,  Nice   Rooms ,  Helpless Concierge
+ The rooms were bright, clean and the windows open .
+ Another odd thing we noticed is a majority of the room doors opened OUT into the hallway, rat...
+
+
+======================================================================
+Mean Shift
+======================================================================
+
+### 클러스터 내부 유사도 ###
+
+Cluster 0 (크기: 51)
+  - 평균: 0.0659
+  - 표준편차: 0.1286
+  - 범위: [0.0037, 0.9644]
+
+### 클러스터별 대표 문서 ###
+
+Cluster 0:
+  1. room_holiday_inn_london (거리: 0.8945)
+     미리보기: We arrived at 23,30 hours and they could not recommend a restaurant so we decided to go to Tesco, with very limited choices but when you are hingry you do not careNext day they rang the bell at 8,00 h...
+  2. service_holiday_inn_london (거리: 0.8948)
+     미리보기: not customer, oriented hotelvery low service levelboor reception
+The room was quiet, clean, the bed and pillows were comfortable, and the service was adequate .
+ There were no service issues to speak ...
+  3. rooms_bestwestern_hotel_sfo (거리: 0.8965)
+     미리보기: Great Location ,  Nice   Rooms ,  Helpless Concierge
+ The rooms were bright, clean and the windows open .
+ Another odd thing we noticed is a majority of the room doors opened OUT into the hallway, rat...
+
+
