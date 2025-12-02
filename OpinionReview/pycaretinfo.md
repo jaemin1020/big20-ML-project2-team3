@@ -6,9 +6,7 @@ PyCaret은 자연어 처리(NLP)를 위한 모듈을 제공하며, 이를 활용
 
 PyCaret을 사용하려면 먼저 해당 모듈을 불러오고 데이터를 준비해야 합니다. NLP의 경우 `pycaret.nlp` 모듈을 사용합니다.
 
-**Python**
-
-```
+``` pyton
 # 1. 라이브러리 설치 (최초 1회)
 # !pip install pycaret[full]
 
