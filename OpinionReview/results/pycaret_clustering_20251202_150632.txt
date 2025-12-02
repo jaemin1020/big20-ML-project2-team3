@@ -38,7 +38,10 @@ Model ID: ap
 Silhouette Score: 0.2434
 Calinski-Harabasz: 3.1388
 Davies-Bouldin: 1.3826
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> 8e8c64370792e913d94da45dd1df092cadc48c3d
