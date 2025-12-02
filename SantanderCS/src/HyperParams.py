@@ -1,5 +1,5 @@
 # 모델별 최종 HyperParamers
-import numpy as np 
+import numpy as np
 
 # RF
 rf_best_param = {
@@ -39,17 +39,16 @@ lgbm_best_param = {
     'reg_alpha' : 0.6,
     'reg_lambda' : 0.2,
     'class_weight' : {0:1, 1:10},
-    'n_jobs' : -1    
-    
+    'n_jobs' : -1
 }
 
 # LR
 meta_best_params = {
     "random_state": 23,
-    'C': 0.029, 
-    'max_iter': 1000, 
-    'penalty': 'l2', 
+    'C': 0.029,
+    'max_iter': 1000,
+    'penalty': 'l2',
     'solver': 'lbfgs',
-    'class_weight': 'balanced', 
-    "n_jobs": -1     
+    'class_weight': 'balanced',
+    "n_jobs": -1
 }
