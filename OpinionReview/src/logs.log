@@ -1732,3 +1732,29 @@ Alternately, you can install this by running `pip install pycaret[models]`
 2025-12-02 16:07:46,444:WARNING:
 'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
 Alternately, you can install this by running `pip install pycaret[models]`
+2025-12-02 16:10:24,484:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 16:10:24,484:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 16:10:24,484:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 16:10:24,484:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2025-12-02 16:10:56,481:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-12-02 16:10:56,481:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-12-02 16:10:56,482:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-12-02 16:10:56,482:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-12-02 16:10:58,988:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
+2025-12-02 16:10:58,988:WARNING:
+'kmodes' is a soft dependency and not included in the pycaret installation. Please run: `pip install kmodes` to install.
+Alternately, you can install this by running `pip install pycaret[models]`
