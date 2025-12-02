@@ -105,18 +105,27 @@ def get_clf_eval(
     precision = precision_score(y_test, pred)
     recall = recall_score(y_test, pred)
     f1 = f1_score(y_test, pred)
-    roc_auc = roc_auc_score(y_test, pred_proba)
     f2 = fbeta_score(y_test, pred, beta=2)
 
+    # pred_proba가 None이 아닐 때만 AUC 계산
+    if pred_proba is not None:
+        roc_auc = roc_auc_score(y_test, pred_proba)
+    else:
+        roc_auc = None
+        print(f"⚠️  {model_name}: 확률 예측이 없어 AUC를 계산할 수 없습니다.")
+        
     result_data = {}
     result_text = {        
-        "AUC": round(roc_auc, 4),
         "정확도": round(accuracy, 4),
         "정밀도": round(precision, 4),
         "재현율": round(recall, 4),
         "F1": round(f1, 4),
         "F2": round(f2, 4)
     }
+    # AUC가 있을 때만 추가
+    if roc_auc is not None:
+        result_text["AUC"] = round(roc_auc, 4)
+            
     result_data['result_dict'] = result_text
     result_data['오차행렬'] = confusion.tolist()
     
