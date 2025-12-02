@@ -105,12 +105,18 @@ def get_clf_eval(
     precision = precision_score(y_test, pred)
     recall = recall_score(y_test, pred)
     f1 = f1_score(y_test, pred)
-    roc_auc = roc_auc_score(y_test, pred_proba)
     f2 = fbeta_score(y_test, pred, beta=2)
 
+    # pred_proba가 None이 아닐 때만 AUC 계산
+    if pred_proba is not None:
+        roc_auc = roc_auc_score(y_test, pred_proba)
+    else:
+        roc_auc = roc_auc = 0.0
+        print(f"⚠️  {model_name}: 확률 예측이 없어 AUC를 계산할 수 없습니다.")
+        
     result_data = {}
-    result_text = {        
-        "AUC": round(roc_auc, 4),
+    result_text = {      
+        "AUC": round(roc_auc, 4),  # 항상 포함 (0.0 또는 실제 값)  
         "정확도": round(accuracy, 4),
         "정밀도": round(precision, 4),
         "재현율": round(recall, 4),
@@ -191,6 +197,7 @@ def get_model_train_eval(
             pred_proba = None
     except:
         pred_proba = None
+        
     pbar.update(1)
     
     end_time = time.time()
@@ -216,9 +223,15 @@ def get_model_train_eval(
     # hyperopt_params를 직렬화 가능한 형태로 변환
     serializable_params = convert_to_serializable(hyperopt_params) if hyperopt_params else "None"
 
+    # results 생성 - AUC는 항상 포함 (0.0 또는 실제 값)
+    if pred_proba is not None:
+        auc_score = round(roc_auc_score(y_test, pred_proba), 4)
+    else:
+        auc_score = 0.0
+
     results = {
         'result_dict': {
-            "AUC": round(roc_auc_score(y_test, pred_proba), 4),
+            "AUC": auc_score,
             "정밀도": round(precision_score(y_test, pred), 4),
             "재현율": round(recall_score(y_test, pred), 4),
             "F1": round(f1_score(y_test, pred), 4),
@@ -258,7 +271,14 @@ def get_model_train_eval(
                         except:
                             base_pred_proba = None
                         
+                        # AUC 계산 (없으면 0.0)
+                        if base_pred_proba is not None:
+                            base_auc = round(roc_auc_score(y_test, base_pred_proba), 4)
+                        else:
+                            base_auc = 0.0
+                                                    
                         results["Base Estimators"][name] = {
+                            "AUC": base_auc,
                             "정밀도": round(precision_score(y_test, base_pred), 4),
                             "재현율": round(recall_score(y_test, base_pred), 4),
                             "F1": round(f1_score(y_test, base_pred), 4),
