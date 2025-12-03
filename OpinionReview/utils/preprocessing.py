@@ -37,7 +37,7 @@ warnings.filterwarnings("ignore")
 DATA_PATH = '../data'
 OUTPUT_DIR = '../results'
 IMAGE_DIR = '../images'
-    
+
 # =============================================================================
 # 데이터 로드
 # =============================================================================
@@ -47,9 +47,9 @@ def load_file_data():
     all_files = glob.glob(os.path.join(DATA_PATH, "*.data"))
     if not all_files:
         raise FileNotFoundError(f"No .data files found in {DATA_PATH}")
-    
+
     print(f"📂 {len(all_files)}개 파일 발견")
-    
+
     data_list = []
     if not all_files or not isinstance(all_files, list):
         raise ValueError("path는 파일 경로의 list여야 합니다.")
@@ -62,7 +62,7 @@ def load_file_data():
             data_list.append({'filename': filename, 'opinion_text': text_content})
         except Exception as e:
             print(f"❌ Error reading {file_}: {e}")
-            
+
     return pd.DataFrame(data_list)
 # eof : End of Function --------------------------------------------------------- #
 
@@ -268,8 +268,8 @@ def get_default_data():
     Returns:
         pd.DataFrame: 전처리된 텍스트를 포함한 DataFrame (컬럼: 'filename', 'processed_text')
     """
-    
-    # 데이터 로드 
+
+    # 데이터 로드
     document_df = load_file_data()
 
     # 전처리 설정 및 실행
