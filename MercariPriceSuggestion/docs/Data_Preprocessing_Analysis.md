@@ -155,3 +155,36 @@ s = setup(data = df,
           transform_target=True,
           log_experiment=True)
 ```
+
+### 방법 2 : 방법1 적용 + 추가 전처리
+
+```python
+import numpy as np
+
+# ... (이전 코드 생략) ...
+# df = pd.read_csv(...)
+
+# 1. 브랜드 결측값 및 피처 처리
+df['has_brand'] = df['brand_name'].notna().astype(int) # 브랜드 유무 (1/0)
+df['brand_name'].fillna('No Brand', inplace=True)      # 결측값을 'No Brand' 문자열로 대체
+
+# 2. 카테고리 계층 분리
+df[['main_cat', 'sub_cat_1', 'sub_cat_2']] = df['category_name'].astype(str).str.split('/', expand=True)
+df['main_cat'].fillna('missing', inplace=True)
+df['sub_cat_1'].fillna('missing', inplace=True)
+df['sub_cat_2'].fillna('missing', inplace=True)
+
+# 3. 설명 길이 피처 추출
+df['desc_len'] = df['item_description'].astype(str).apply(len)
+
+# 4. PyCaret setup 실행 시 새로운 피처들 포함
+s = setup(data = df, 
+          target = 'price', 
+          session_id = 123,
+          # 새로 추가된 범주형 피처와 수치형 피처를 포함시킵니다.
+          categorical_features=['main_cat', 'sub_cat_1', 'sub_cat_2', 'brand_name'],
+          numeric_features=['desc_len', 'has_brand'],
+          text_features=['full_text'], # 결합된 텍스트
+          transform_target=True,
+          log_experiment=True)
+```
