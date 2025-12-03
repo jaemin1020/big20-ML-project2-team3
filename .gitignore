@@ -31,3 +31,4 @@ models/
 catboost_info/
 
 *.log
+.vscode/settings.json
