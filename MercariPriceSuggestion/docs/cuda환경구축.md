@@ -16,7 +16,7 @@
 * CUDA 버전에 맞는 cuDNN 버전을 선택.
 * 압축 해제 후 `bin`, `include`, `lib` 폴더를 CUDA 설치 경로에 복사.
 
-4. 환경 변수 설정
+4. 환경 변수 설정 (자동 설정됨)
 
 * **시스템 환경 변수**에 CUDA와 cuDNN 경로 추가:
 * `CUDA_PATH` → `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vXX.X`
