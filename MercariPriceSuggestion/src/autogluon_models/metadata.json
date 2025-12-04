@@ -15,7 +15,10 @@
     "blis": "1.3.3",
     "boto3": "1.42.2",
     "botocore": "1.42.2",
+<<<<<<< HEAD
     "catalogue": "2.0.10",
+=======
+>>>>>>> 03fe81914be403cd1818fa03aa166a3843dc70eb
     "catboost": "1.2.8",
     "certifi": "2025.11.12",
     "charset-normalizer": "3.4.4",
@@ -32,6 +35,7 @@
     "decorator": "5.2.1",
     "exceptiongroup": "1.3.1",
     "executing": "2.2.1",
+<<<<<<< HEAD
     "fastai": "2.8.5",
     "fastcore": "1.8.16",
     "fastdownload": "0.0.7",
@@ -40,6 +44,11 @@
     "filelock": "3.19.1",
     "fonttools": "4.61.0",
     "fsspec": "2025.9.0",
+=======
+    "filelock": "3.20.0",
+    "fonttools": "4.61.0",
+    "fsspec": "2025.12.0",
+>>>>>>> 03fe81914be403cd1818fa03aa166a3843dc70eb
     "graphviz": "0.21",
     "idna": "3.11",
     "ipykernel": "7.1.0",
@@ -54,6 +63,7 @@
     "jupyter_core": "5.9.1",
     "kiwisolver": "1.4.9",
     "lightgbm": "4.6.0",
+<<<<<<< HEAD
     "markdown-it-py": "4.0.0",
     "markupsafe": "2.1.5",
     "matplotlib": "3.10.7",
@@ -63,6 +73,14 @@
     "murmurhash": "1.0.15",
     "narwhals": "2.13.0",
     "nest-asyncio": "1.6.0",
+=======
+    "markupsafe": "3.0.3",
+    "matplotlib": "3.10.7",
+    "matplotlib-inline": "0.2.1",
+    "mpmath": "1.3.0",
+    "narwhals": "2.13.0",
+    "nest_asyncio": "1.6.0",
+>>>>>>> 03fe81914be403cd1818fa03aa166a3843dc70eb
     "networkx": "3.4.2",
     "numpy": "2.2.6",
     "packaging": "25.0",
@@ -72,8 +90,11 @@
     "pip": "25.3",
     "platformdirs": "4.5.0",
     "plotly": "6.5.0",
+<<<<<<< HEAD
     "plum-dispatch": "2.6.0",
     "preshed": "3.0.12",
+=======
+>>>>>>> 03fe81914be403cd1818fa03aa166a3843dc70eb
     "prompt_toolkit": "3.0.52",
     "psutil": "7.0.0",
     "pure_eval": "0.2.3",
@@ -93,6 +114,7 @@
     "scipy": "1.15.3",
     "setuptools": "80.9.0",
     "six": "1.17.0",
+<<<<<<< HEAD
     "smart_open": "7.5.0",
     "spacy": "3.8.11",
     "spacy-legacy": "3.0.12",
@@ -104,6 +126,12 @@
     "threadpoolctl": "3.6.0",
     "torch": "2.9.1+cpu",
     "torchvision": "0.24.1",
+=======
+    "stack_data": "0.6.3",
+    "sympy": "1.14.0",
+    "threadpoolctl": "3.6.0",
+    "torch": "2.9.1",
+>>>>>>> 03fe81914be403cd1818fa03aa166a3843dc70eb
     "tornado": "6.5.2",
     "tqdm": "4.67.1",
     "traitlets": "5.14.3",
@@ -116,8 +144,13 @@
     "wcwidth": "0.2.14",
     "weasel": "0.4.3",
     "wheel": "0.45.1",
+<<<<<<< HEAD
     "widgetsnbextension": "4.0.15",
     "wrapt": "2.0.1",
     "xgboost": "3.1.2"
+=======
+    "xgboost": "3.0.5",
+    "zipp": "3.23.0"
+>>>>>>> 03fe81914be403cd1818fa03aa166a3843dc70eb
   }
 }
