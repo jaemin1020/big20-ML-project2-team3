@@ -33,3 +33,7 @@ catboost_info/
 
 *.log
 .vscode/settings.json
+
+# autogluon
+autogluon_models/
+autogluon_models/*.pkl
