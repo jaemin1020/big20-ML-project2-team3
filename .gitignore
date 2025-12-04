@@ -36,5 +36,4 @@ catboost_info/
 
 # autogluon
 autogluon_models/
-autogluon_models/*.pkl
 autogluon_models_bestq/
