@@ -30,10 +30,12 @@ build/
 mine/
 models/
 catboost_info/
+# autogluon
+autogluon_models/
 
 *.log
 .vscode/settings.json
 
 # autogluon
 autogluon_models/
-autogluon_models/*.pkl
+autogluon_models_bestqual/
