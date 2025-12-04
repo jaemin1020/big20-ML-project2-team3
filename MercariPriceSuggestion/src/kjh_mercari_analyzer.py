@@ -110,6 +110,95 @@ class MercariPyCaretAnalyzer:
             f"\n✅ 데이터 로드 완료: train {self.train.shape}, test {self.test.shape}"
         )
 
+    # ------------------ Undersampling 기능 ------------------
+    def apply_undersampling(
+        self,
+        method="random",
+        target_size=None,
+        sampling_ratio=0.5,
+        n_bins=10,
+        random_state=23,
+    ):
+        """
+        가격 데이터에 대한 undersampling 적용
+
+        Parameters:
+        -----------
+        method : str
+            'random' : 무작위 샘플링
+            'stratified' : 가격 구간별 층화 샘플링
+            'top_n' : 상위 N개만 선택
+        target_size : int, optional
+            목표 샘플 수 (None이면 sampling_ratio 사용)
+        sampling_ratio : float
+            샘플링 비율 (0 < ratio <= 1)
+        n_bins : int
+            stratified 방식 사용 시 가격 구간 수
+        random_state : int
+            재현성을 위한 random seed
+        """
+        if self.train is None:
+            raise ValueError("먼저 load_data()를 실행하세요.")
+
+        original_size = len(self.train)
+
+        # target_size 결정
+        if target_size is None:
+            target_size = int(original_size * sampling_ratio)
+        else:
+            target_size = min(target_size, original_size)
+
+        print(f"\n🎯 Undersampling 시작...")
+        print(f"   방법: {method}")
+        print(f"   원본 크기: {original_size:,}")
+        print(f"   목표 크기: {target_size:,}")
+        print(f"   샘플링 비율: {target_size/original_size:.2%}")
+
+        if method == "random":
+            # 무작위 샘플링
+            sampled_indices = np.random.RandomState(random_state).choice(
+                self.train.index, size=target_size, replace=False
+            )
+            self.train = self.train.loc[sampled_indices].reset_index(drop=True)
+
+        elif method == "stratified":
+            # 가격 구간별 층화 샘플링
+            self.train["price_bin"] = pd.qcut(
+                self.train["price"], q=n_bins, labels=False, duplicates="drop"
+            )
+
+            # 각 구간에서 동일 비율로 샘플링
+            sampled = self.train.groupby("price_bin", group_keys=False).apply(
+                lambda x: x.sample(
+                    n=max(1, int(len(x) * sampling_ratio)), random_state=random_state
+                )
+            )
+
+            self.train = sampled.drop(columns=["price_bin"]).reset_index(drop=True)
+
+        elif method == "top_n":
+            # 상위 N개만 선택 (정렬 기준은 price)
+            self.train = self.train.nlargest(target_size, "price").reset_index(
+                drop=True
+            )
+
+        else:
+            raise ValueError(f"지원하지 않는 method: {method}")
+
+        final_size = len(self.train)
+        print(f"✅ Undersampling 완료")
+        print(f"   최종 크기: {final_size:,}")
+        print(f"   실제 샘플링 비율: {final_size/original_size:.2%}")
+        print(f"   제거된 샘플: {original_size - final_size:,}")
+
+        # 가격 분포 통계 출력
+        print(f"\n📊 샘플링 후 가격 분포:")
+        print(f"   평균: {self.train['price'].mean():.4f}")
+        print(f"   중앙값: {self.train['price'].median():.4f}")
+        print(f"   표준편차: {self.train['price'].std():.4f}")
+        print(f"   최소: {self.train['price'].min():.4f}")
+        print(f"   최대: {self.train['price'].max():.4f}")
+
     # ------------------ TF-IDF / CountVectorizer + 차원 축소 ------------------
     def vectorize_text(
         self,
