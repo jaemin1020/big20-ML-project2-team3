@@ -16,7 +16,6 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
-
 class MercariPyCaretAnalyzer:
     """
     Mercari Price Suggestion Challenge용 PyCaret 분석기
@@ -33,10 +32,12 @@ class MercariPyCaretAnalyzer:
         data_dir="../data",
         images_dir="../images",
         results_dir="../results",
+        use_gpu=True,
     ):
         self.data_dir = data_dir
         self.images_dir = images_dir
         self.results_dir = results_dir
+        self.use_gpu = use_gpu
 
         self.train = None
         self.test = None
@@ -46,6 +47,9 @@ class MercariPyCaretAnalyzer:
 
         os.makedirs(self.images_dir, exist_ok=True)
         os.makedirs(self.results_dir, exist_ok=True)
+
+        # GPU 가용성 체크
+        self._check_gpu_availability()
 
     # ------------------ 데이터 로딩 ------------------
     def load_data(self, train_file="train.tsv", test_file="test.tsv", sep="\t"):
@@ -109,7 +113,52 @@ class MercariPyCaretAnalyzer:
         print(
             f"\n✅ 데이터 로드 완료: train {self.train.shape}, test {self.test.shape}"
         )
+      # ------------------ gpu 사용가능 여부 확인 ------------------
+    def _check_gpu_availability(self):
+        """GPU 사용 가능 여부 확인"""
+        if not self.use_gpu:
+            print("🖥️  CPU 모드로 실행")
+            return
 
+        print("🔍 GPU 가용성 체크 중...")
+        gpu_available = False
+
+        # CUDA 체크
+        try:
+            import torch
+            if torch.cuda.is_available():
+                print(f"✅ CUDA 사용 가능: {torch.cuda.get_device_name(0)}")
+                print(f"   GPU 메모리: {torch.cuda.get_device_properties(0).total_memory / 1e9:.2f} GB")
+                gpu_available = True
+        except ImportError:
+            pass
+
+        # XGBoost GPU 체크
+        try:
+            import xgboost as xgb
+            print(f"✅ XGBoost 버전: {xgb.__version__}")
+        except ImportError:
+            print("⚠️  XGBoost 미설치")
+
+        # LightGBM GPU 체크
+        try:
+            import lightgbm as lgb
+            print(f"✅ LightGBM 버전: {lgb.__version__}")
+        except ImportError:
+            print("⚠️  LightGBM 미설치")
+
+        # CatBoost 체크
+        try:
+            import catboost
+            print(f"✅ CatBoost 버전: {catboost.__version__}")
+        except ImportError:
+            print("⚠️  CatBoost 미설치")
+
+        if not gpu_available:
+            print("⚠️  GPU를 찾을 수 없습니다. CPU 모드로 전환합니다.")
+            self.use_gpu = False
+        else:
+            print("🚀 GPU 가속 활성화")
     # ------------------ Undersampling 기능 ------------------
     def apply_undersampling(
         self,
@@ -294,7 +343,7 @@ class MercariPyCaretAnalyzer:
         )
 
     # ------------------ PyCaret setup ------------------
-    def setup_pycaret(self, session_id=23):
+    def setup_pycaret(self, session_id=23, experiment_name='mercari_gpu'):
         if not hasattr(self, "train_vectorized"):
             raise ValueError("먼저 vectorize_text()를 실행하세요.")
 
@@ -312,28 +361,143 @@ class MercariPyCaretAnalyzer:
         ]
 
         # 이미 price를 log1p로 변환해둔 상태라 transformation=False로 설정
-        self.setup_result = setup(
-            data=self.train_vectorized.assign(
+        # GPU 사용 설정
+        setup_params = {
+            'data': self.train_vectorized.assign(
                 price=self.train["price"].reset_index(drop=True)
             ),
-            target="price",
-            session_id=session_id,
-            categorical_features=existing_categorical if existing_categorical else None,
-            normalize=True,
-            transformation=False,  # 이미 로그 변환했으므로 추가 변환 X.
-            verbose=True,
-        )
+            'target': 'price',
+            'session_id': session_id,
+            'experiment_name': experiment_name,
+            'categorical_features': existing_categorical if existing_categorical else None,
+            'normalize': True,
+            'transformation': False,  # 이미 로그 변환했으므로 추가 변환 X
+            'verbose': True,
+        }
+
+        # GPU 사용 시 추가 설정
+        if self.use_gpu:
+            print("🚀 GPU 가속 설정 활성화")
+            setup_params['use_gpu'] = True
+            
+            # n_jobs를 -1로 설정하여 모든 CPU 코어 사용
+            setup_params['n_jobs'] = -1
+
+        self.setup_result = setup(**setup_params)
         print("✅ PyCaret setup 완료")
 
-    # ------------------ Base model 탐색 ------------------
-    def find_base_model(self, sort_metric="R2"):
+    # ------------------ Base model 탐색 (GPU Enhanced) ------------------
+    def find_base_model(self, sort_metric="R2", include_models=None, exclude_models=None):
+        """
+        Base model 탐색 with GPU support
+        
+        Parameters:
+        -----------
+        sort_metric : str
+            정렬 기준 메트릭
+        include_models : list, optional
+            포함할 모델 리스트 (None이면 전체)
+        exclude_models : list, optional
+            제외할 모델 리스트
+        """
         if self.setup_result is None:
             raise ValueError("먼저 setup_pycaret()를 실행하세요.")
 
         print("🔍 Base model 탐색 시작...")
-        self.best_model = compare_models(sort=sort_metric, n_select=1)
+        
+        compare_params = {
+            'sort': sort_metric,
+            'n_select': 1,
+        }
+        
+        if include_models:
+            compare_params['include'] = include_models
+        if exclude_models:
+            compare_params['exclude'] = exclude_models
+
+        self.best_model = compare_models(**compare_params)
         print(f"🏆 Best model 선택 완료: {self.best_model}")
         return self.best_model
+
+    # ------------------ GPU 최적화된 특정 모델 생성 ------------------
+    def create_gpu_model(self, model_name='lightgbm', **kwargs):
+        """
+        GPU 최적화된 특정 모델 생성
+        
+        Parameters:
+        -----------
+        model_name : str
+            'lightgbm', 'xgboost', 'catboost' 등
+        **kwargs : 
+            모델별 추가 파라미터
+        """
+        if self.setup_result is None:
+            raise ValueError("먼저 setup_pycaret()를 실행하세요.")
+
+        print(f"🎯 {model_name} 모델 생성 중 (GPU 최적화)...")
+
+        # GPU 특화 파라미터 설정
+        gpu_params = {}
+        
+        if model_name.lower() == 'lightgbm':
+            if self.use_gpu:
+                gpu_params = {
+                    'device': 'gpu',
+                    'gpu_platform_id': 0,
+                    'gpu_device_id': 0,
+                }
+        
+        elif model_name.lower() == 'xgboost':
+            if self.use_gpu:
+                gpu_params = {
+                    'tree_method': 'gpu_hist',
+                    'gpu_id': 0,
+                    'predictor': 'gpu_predictor',
+                }
+        
+        elif model_name.lower() == 'catboost':
+            if self.use_gpu:
+                gpu_params = {
+                    'task_type': 'GPU',
+                    'devices': '0',
+                }
+
+        # 사용자 파라미터와 GPU 파라미터 병합
+        final_params = {**gpu_params, **kwargs}
+
+        self.best_model = create_model(model_name, **final_params)
+        print(f"✅ {model_name} 모델 생성 완료")
+        return self.best_model
+    
+    # ------------------ 모델 튜닝 (GPU Enhanced) ------------------
+    def tune_model(self, n_iter=10, optimize='R2', search_library='scikit-learn'):
+        """
+        모델 하이퍼파라미터 튜닝 (GPU 지원)
+        
+        Parameters:
+        -----------
+        n_iter : int
+            튜닝 반복 횟수
+        optimize : str
+            최적화할 메트릭
+        search_library : str
+            'optuna', 'scikit-learn', 'scikit-optimize'
+        """
+        if self.best_model is None:
+            raise ValueError("먼저 모델을 생성하세요.")
+
+        print(f"⚙️ 모델 튜닝 시작 (n_iter={n_iter}, optimize={optimize})...")
+        
+        self.best_model = tune_model(
+            self.best_model,
+            n_iter=n_iter,
+            optimize=optimize,
+            search_library=search_library,
+        )
+        
+        print("✅ 모델 튜닝 완료")
+        return self.best_model
+
 
     # ------------------ 모델 성능 저장 ------------------
     def save_metrics(self, metrics_dict=None, model_name=None):
