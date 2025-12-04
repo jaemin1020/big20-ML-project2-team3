@@ -30,6 +30,8 @@ build/
 mine/
 models/
 catboost_info/
+# autogluon
+autogluon_models/
 
 *.log
 .vscode/settings.json
