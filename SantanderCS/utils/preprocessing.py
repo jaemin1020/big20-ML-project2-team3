@@ -45,8 +45,8 @@ def remove_zero_columns(df, threshold_rate=0.99, save_report=True):
 
     row_count = df.shape[0]
 
-    print(f'\n{"="*102}')
-    print(f"Current Data Status :  (Threshold: {threshold_rate*100}% )")
+    print(f"\n{'=' * 102}")
+    print(f"Current Data Status :  (Threshold: {threshold_rate * 100}% )")
     print("=" * 102)
     print(f"Total rows: {row_count:,}")
     print(f"Total columns: {len(df.columns):,}")
@@ -88,7 +88,7 @@ def remove_zero_columns(df, threshold_rate=0.99, save_report=True):
         "zero_count",
         "zero_count_rate_display",
     ]
-    print(f'\n{"Summary 정보 (zero_count 내림차순)":^102}')
+    print(f"\n{'Summary 정보 (zero_count 내림차순)':^102}")
     print("=" * 102)
     print(
         summary_df[display_cols]
@@ -117,18 +117,18 @@ def remove_zero_columns(df, threshold_rate=0.99, save_report=True):
     if len(remove_cols) > 0:
         clean_df = df.drop(remove_cols, axis=1)
 
-        print(f'\n{"="*102}')
+        print(f"\n{'=' * 102}")
         print(f"결과 요약")
         print("=" * 102)
-        print(f"Threshold: {threshold_rate*100}%")
+        print(f"Threshold: {threshold_rate * 100}%")
         print(f"제거된 컬럼 수: {len(remove_cols):,}")
         print(f"남은 컬럼 수: {clean_df.shape[1]:,}")
         print(f"원본 shape: {df.shape}")
         print(f"정제 후 shape: {clean_df.shape}")
-        print(f"제거 비율: {len(remove_cols)/len(df.columns)*100:.2f}%")
+        print(f"제거 비율: {len(remove_cols) / len(df.columns) * 100:.2f}%")
         print("=" * 102)
     else:
-        print(f"\n✓ Threshold({threshold_rate*100}%)를 초과하는 컬럼이 없습니다.")
+        print(f"\n✓ Threshold({threshold_rate * 100}%)를 초과하는 컬럼이 없습니다.")
         clean_df = df.copy()
 
     return clean_df
@@ -169,8 +169,8 @@ def remove_zero_columns2(train_df, test_df, threshold_rate=0.99, save_report=Tru
 
     row_count = train_df.shape[0]
 
-    print(f'\n{"="*102}')
-    print(f"Train Data Analysis (Threshold: {threshold_rate*100}% )")
+    print(f"\n{'=' * 102}")
+    print(f"Train Data Analysis (Threshold: {threshold_rate * 100}% )")
     print("=" * 102)
     print(f"Train rows: {train_df.shape[0]:,}, columns: {train_df.shape[1]:,}")
     print(f"Test rows: {test_df.shape[0]:,}, columns: {test_df.shape[1]:,}")
@@ -216,7 +216,7 @@ def remove_zero_columns2(train_df, test_df, threshold_rate=0.99, save_report=Tru
         "zero_count",
         "zero_count_rate_display",
     ]
-    print(f'\n{"Train Summary (zero_count 내림차순)":^102}')
+    print(f"\n{'Train Summary (zero_count 내림차순)':^102}")
     print("=" * 102)
     print(
         summary_df[display_cols]
@@ -246,10 +246,10 @@ def remove_zero_columns2(train_df, test_df, threshold_rate=0.99, save_report=Tru
         clean_train_df = train_df.drop(remove_cols, axis=1)
         clean_test_df = test_df.drop(remove_cols, axis=1)
 
-        print(f'\n{"="*102}')
+        print(f"\n{'=' * 102}")
         print(f"결과 요약")
         print("=" * 102)
-        print(f"Threshold: {threshold_rate*100}%")
+        print(f"Threshold: {threshold_rate * 100}%")
         print(f"제거된 컬럼 수: {len(remove_cols):,}")
         print(f"\nTrain 데이터:")
         print(f"  원본 shape: {train_df.shape}")
@@ -257,10 +257,10 @@ def remove_zero_columns2(train_df, test_df, threshold_rate=0.99, save_report=Tru
         print(f"\nTest 데이터:")
         print(f"  원본 shape: {test_df.shape}")
         print(f"  정제 후 shape: {clean_test_df.shape}")
-        print(f"\n제거 비율: {len(remove_cols)/len(train_df.columns)*100:.2f}%")
+        print(f"\n제거 비율: {len(remove_cols) / len(train_df.columns) * 100:.2f}%")
         print("=" * 102)
     else:
-        print(f"\n✓ Threshold({threshold_rate*100}%)를 초과하는 컬럼이 없습니다.")
+        print(f"\n✓ Threshold({threshold_rate * 100}%)를 초과하는 컬럼이 없습니다.")
         clean_train_df = train_df.copy()
         clean_test_df = test_df.copy()
 
@@ -284,7 +284,32 @@ def split_features_target(train_df, target_col="TARGET"):
 # eof ----------------------------------------------------------- #
 
 
+# scale+data --------------------------------------------------------- #
 def scale_data(X_train, X_test):
+    """
+    학습용 데이터와 테스트 데이터를 StandardScaler로 정규화합니다.
+
+    이 함수는 학습 데이터에 대해 StandardScaler를 학습(fit)하여
+    평균과 표준편차를 계산한 뒤, 학습 데이터와 테스트 데이터 모두에
+    동일한 변환을 적용합니다. 이를 통해 테스트 데이터가 학습 데이터와
+    같은 기준으로 스케일링되도록 보장합니다.
+
+    매개변수
+    ----------
+    X_train : array-like, shape (n_samples, n_features)
+        학습용 데이터. 스케일러를 학습(fit)하고 변환(transform)하는 데 사용됩니다.
+    X_test : array-like, shape (n_samples, n_features)
+        테스트 데이터. 학습된 스케일러로 변환(transform)됩니다.
+
+    반환값
+    -------
+    X_train_scaled : ndarray, shape (n_samples, n_features)
+        스케일링된 학습 데이터.
+    X_test_scaled : ndarray, shape (n_samples, n_features)
+        스케일링된 테스트 데이터.
+    scaler : StandardScaler 객체
+        학습된 StandardScaler 인스턴스. 새로운 데이터 변환 시 재사용할 수 있습니다.
+    """
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
