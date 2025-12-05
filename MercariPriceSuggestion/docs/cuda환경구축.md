@@ -3,34 +3,40 @@
 1. NVIDIA 드라이버 설치
 
 * [NVIDIA 공식 드라이버 다운로드 페이지](https://www.nvidia.com/Download/index.aspx)에서 GPU 모델에 맞는 최신 드라이버 설치.
+  => https://www.nvidia.com/en-us/drivers/details/258946/ GRD 다운로드 받음
 * 설치 후 재부팅.
 
 2. CUDA Toolkit 설치
 
 * [CUDA Toolkit 다운로드](https://developer.nvidia.com/cuda-downloads)에서 운영체제와 GPU에 맞는 버전 선택.
+
+  ![1764897536383](image/cuda환경구축/1764897536383.png)
 * 설치 시 기본 경로(`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vXX.X`) 그대로 두는 것이 안정적.
+  ==> C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.1
 
 3. cuDNN 설치
 
-* [NVIDIA cuDNN 라이브러리](https://developer.nvidia.com/cudnn) 다운로드 (회원가입 필요).
-* CUDA 버전에 맞는 cuDNN 버전을 선택.
-* 압축 해제 후 `bin`, `include`, `lib` 폴더를 CUDA 설치 경로에 복사.
+- [NVIDIA cuDNN 라이브러리](https://developer.nvidia.com/cudnn) 다운로드 (회원가입 필요).
+- CUDA 버전에 맞는 cuDNN 버전을 선택.
+  conda install nvidia::cudnn cuda-version=12 로 설치
+- 압축 해제 후 `bin`, `include`, `lib` 폴더를 CUDA 설치 경로에 복사.
 
 4. 환경 변수 설정 (자동 설정됨)
 
-* **시스템 환경 변수**에 CUDA와 cuDNN 경로 추가:
-* `CUDA_PATH` → `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vXX.X`
-* `PATH` → `...\CUDA\vXX.X\bin` 및 `...\CUDA\vXX.X\libnvvp`
+- **시스템 환경 변수**에 CUDA와 cuDNN 경로 추가:
+- `CUDA_PATH` → `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vXX.X`
+- `PATH` → `...\CUDA\vXX.X\bin` 및 `...\CUDA\vXX.X\libnvvp`
 
 5. Python 환경 준비
 
-* 가상환경 생성 후 PyTorch 또는 TensorFlow 설치:
+- 가상환경 생성 후 PyTorch 또는 TensorFlow 설치:
+  => pycaret_env 사용
 
 ```
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 ```
 
-6. GPU 인식 확인
+1. GPU 인식 확인
 
 * Python에서 다음 코드 실행:
 
