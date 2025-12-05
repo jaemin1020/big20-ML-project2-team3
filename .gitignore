@@ -30,8 +30,9 @@ build/
 mine/
 models/
 catboost_info/
-# autogluon
-autogluon_models/
+
+# pkl 파일 제외
+*.pkl
 
 *.log
 .vscode/settings.json
