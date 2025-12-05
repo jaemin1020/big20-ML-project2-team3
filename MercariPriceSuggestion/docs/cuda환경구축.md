@@ -3,18 +3,20 @@
 1. NVIDIA 드라이버 설치
 
 * [NVIDIA 공식 드라이버 다운로드 페이지](https://www.nvidia.com/Download/index.aspx)에서 GPU 모델에 맞는 최신 드라이버 설치.
+  => https://www.nvidia.com/en-us/drivers/details/258946/ GRD 다운로드 받음
 * 설치 후 재부팅.
 
 
 3. Python 환경 준비
 
-* 가상환경 생성 후 PyTorch 또는 TensorFlow 설치:
+- 가상환경 생성 후 PyTorch 또는 TensorFlow 설치:
+  => pycaret_env 사용
 
 ```conda
 conda install pytorch torchvision torchaudio cudatoolkit=11.8 -c pytorch -c nvidia
 ```
 
-6. GPU 인식 확인
+1. GPU 인식 확인
 
 * Python에서 다음 코드 실행:
 
