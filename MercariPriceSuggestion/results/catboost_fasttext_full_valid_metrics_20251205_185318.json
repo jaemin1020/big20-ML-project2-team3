@@ -1,0 +1,9 @@
+{
+    "model": "CatBoost_fasttext_fullTrain",
+    "valid": {
+        "R2": 0.45546801522549096,
+        "RMSE": 26.641399082234837,
+        "MAE": 10.565305897131923
+    },
+    "note": "full train\uc73c\ub85c \uc7ac\ud559\uc2b5\ud55c CatBoost \ubaa8\ub378\uc744 \uac19\uc740 Valid \uc14b\uc5d0 \ud3c9\uac00\ud55c \uacb0\uacfc"
+}
