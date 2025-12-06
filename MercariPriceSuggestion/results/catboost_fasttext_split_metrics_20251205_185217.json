@@ -1,0 +1,14 @@
+{
+    "model": "CatBoost_fasttext_tuned",
+    "train": {
+        "R2": 0.4103397398371329,
+        "RMSE": 29.903678337201146,
+        "MAE": 10.790846980329043
+    },
+    "valid": {
+        "R2": 0.4273812025159204,
+        "RMSE": 27.31983872519525,
+        "MAE": 10.826942411287746
+    },
+    "note": "PyCaret CatBoost + fastText, 90/10 stratified split, target=log1p(price)"
+}
