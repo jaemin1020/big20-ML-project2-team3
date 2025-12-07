@@ -1,0 +1,16 @@
+{
+  "timestamp": "20251207_175239",
+  "models": [
+    "et",
+    "lightgbm",
+    "rf",
+    "xgboost"
+  ],
+  "weights": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+  ],
+  "submission": "../results\\20251207_175239_blend.csv"
+}
