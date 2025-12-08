@@ -1,0 +1,62 @@
+[
+    {
+        "sub_cat": "Strollers",
+        "abs_err": 5.38482220963353
+    },
+    {
+        "sub_cat": "Computers & Tablets",
+        "abs_err": 5.083493464011027
+    },
+    {
+        "sub_cat": "Cameras & Photography",
+        "abs_err": 4.022611542607077
+    },
+    {
+        "sub_cat": "Bags and Purses",
+        "abs_err": 2.7238040635119076
+    },
+    {
+        "sub_cat": "Furniture",
+        "abs_err": 2.07123985147733
+    },
+    {
+        "sub_cat": "Women's Handbags",
+        "abs_err": 2.0655013901746098
+    },
+    {
+        "sub_cat": "Golf",
+        "abs_err": 2.036177531295271
+    },
+    {
+        "sub_cat": "Home Appliances",
+        "abs_err": 1.862672424965612
+    },
+    {
+        "sub_cat": "Safety",
+        "abs_err": 1.8548108611332152
+    },
+    {
+        "sub_cat": "TV, Audio & Surveillance",
+        "abs_err": 1.72573528210518
+    },
+    {
+        "sub_cat": "Car Seats & Accessories",
+        "abs_err": 1.6270532289180872
+    },
+    {
+        "sub_cat": "Suits",
+        "abs_err": 1.6003276434301288
+    },
+    {
+        "sub_cat": "Musical instruments",
+        "abs_err": 1.5369956761056105
+    },
+    {
+        "sub_cat": "Car Audio, Video & GPS",
+        "abs_err": 1.4880177723302432
+    },
+    {
+        "sub_cat": "Jewelry",
+        "abs_err": 1.4611431187705994
+    }
+]
