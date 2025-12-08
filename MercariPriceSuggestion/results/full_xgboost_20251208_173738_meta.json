@@ -1,0 +1,12 @@
+{
+    "model_name": "xgboost",
+    "start_time": "2025-12-08T17:37:38.221275",
+    "end_time": "2025-12-08T17:42:30.177585",
+    "elapsed_sec": 291.95631,
+    "elapsed_min": 4.8659384999999995,
+    "create_model_kwargs": {
+        "n_jobs": 4,
+        "tree_method": "hist"
+    },
+    "cv_metrics": {}
+}
