@@ -38,5 +38,4 @@ catboost_info/
 .vscode/settings.json
 
 # autogluon
-autogluon_models/
-autogluon_models_bestqual/
+autogluon_*/
