@@ -25,6 +25,7 @@ build/
 # 데이터 파일 제외
 *.csv
 *.tsv
+data/*.txt
 
 # git 제외 폴더
 mine/
@@ -39,3 +40,4 @@ catboost_info/
 
 # autogluon
 autogluon_*/
+
