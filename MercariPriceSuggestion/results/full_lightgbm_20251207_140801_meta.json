@@ -1,0 +1,12 @@
+{
+    "model_name": "lightgbm",
+    "start_time": "2025-12-07T14:08:01.513731",
+    "end_time": "2025-12-07T14:09:44.313391",
+    "elapsed_sec": 102.79966,
+    "elapsed_min": 1.7133276666666668,
+    "create_model_kwargs": {
+        "gpu": true,
+        "n_jobs": 4
+    },
+    "cv_metrics": {}
+}
