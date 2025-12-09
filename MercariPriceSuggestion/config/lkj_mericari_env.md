@@ -17,3 +17,6 @@ pip install matplotlib seaborn
 
 conda env export > mercari.yml
 
+---
+conda activate mercari
+conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
