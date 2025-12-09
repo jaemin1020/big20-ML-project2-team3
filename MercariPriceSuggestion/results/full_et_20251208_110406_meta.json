@@ -1,0 +1,14 @@
+{
+    "model_name": "et",
+    "start_time": "2025-12-08T11:04:06.302449",
+    "end_time": "2025-12-08T12:05:42.102557",
+    "elapsed_sec": 3695.800108,
+    "elapsed_min": 61.596668466666664,
+    "create_model_kwargs": {
+        "n_estimators": 200,
+        "max_depth": 15,
+        "min_samples_leaf": 3,
+        "n_jobs": 4
+    },
+    "cv_metrics": {}
+}
