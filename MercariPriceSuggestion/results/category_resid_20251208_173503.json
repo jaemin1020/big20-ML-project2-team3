@@ -1,0 +1,62 @@
+[
+    {
+        "sub_sub_cat": "75 To 100 Years",
+        "abs_err": 65.03332321601152
+    },
+    {
+        "sub_sub_cat": "Tires & Wheels",
+        "abs_err": 44.27129513007664
+    },
+    {
+        "sub_sub_cat": "Laptop",
+        "abs_err": 24.657986643672533
+    },
+    {
+        "sub_sub_cat": "Desktops & All-In-Ones",
+        "abs_err": 21.164226146325603
+    },
+    {
+        "sub_sub_cat": "Travel Systems",
+        "abs_err": 18.422031638795566
+    },
+    {
+        "sub_sub_cat": "Laptops & Netbooks",
+        "abs_err": 11.340504539120548
+    },
+    {
+        "sub_sub_cat": "Wind & Woodwind Instruments",
+        "abs_err": 10.699743335424577
+    },
+    {
+        "sub_sub_cat": "Car Security & Convenience",
+        "abs_err": 9.410523116467573
+    },
+    {
+        "sub_sub_cat": "Bedroom Furniture",
+        "abs_err": 7.876783795769996
+    },
+    {
+        "sub_sub_cat": "Vacuums & Floor Care",
+        "abs_err": 7.86995428438888
+    },
+    {
+        "sub_sub_cat": "Standard",
+        "abs_err": 7.580777769293167
+    },
+    {
+        "sub_sub_cat": "Clutch",
+        "abs_err": 7.535009464603481
+    },
+    {
+        "sub_sub_cat": "Bass Guitars",
+        "abs_err": 7.508029336282828
+    },
+    {
+        "sub_sub_cat": "Women's Golf Clubs",
+        "abs_err": 7.20265547962947
+    },
+    {
+        "sub_sub_cat": "Lightweight",
+        "abs_err": 7.198284457638147
+    }
+]

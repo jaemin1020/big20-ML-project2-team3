@@ -1,0 +1,82 @@
+[
+    {
+        "brand_name": "Apple",
+        "abs_err": 2.7111536304882624
+    },
+    {
+        "brand_name": "Michael Kors",
+        "abs_err": 1.3332733703280226
+    },
+    {
+        "brand_name": "Sony",
+        "abs_err": 1.3209287469772195
+    },
+    {
+        "brand_name": "Adidas",
+        "abs_err": 1.124689696619958
+    },
+    {
+        "brand_name": "Rae Dunn",
+        "abs_err": 1.0252992110635042
+    },
+    {
+        "brand_name": "Funko",
+        "abs_err": 0.9469069367972428
+    },
+    {
+        "brand_name": "Coach",
+        "abs_err": 0.9385588813191493
+    },
+    {
+        "brand_name": "Nintendo",
+        "abs_err": 0.9049667380172413
+    },
+    {
+        "brand_name": "Lululemon",
+        "abs_err": 0.8230242472803918
+    },
+    {
+        "brand_name": "Disney",
+        "abs_err": 0.6637278657036467
+    },
+    {
+        "brand_name": "LuLaRoe",
+        "abs_err": 0.633315694455356
+    },
+    {
+        "brand_name": "PINK",
+        "abs_err": 0.6274748719548627
+    },
+    {
+        "brand_name": "Sephora",
+        "abs_err": 0.5432604656225427
+    },
+    {
+        "brand_name": "Nike",
+        "abs_err": 0.5233928171135247
+    },
+    {
+        "brand_name": "Victoria's Secret",
+        "abs_err": 0.5233610677560302
+    },
+    {
+        "brand_name": "Bath & Body Works",
+        "abs_err": 0.48144622147784044
+    },
+    {
+        "brand_name": "Unknown",
+        "abs_err": 0.4301282517594075
+    },
+    {
+        "brand_name": "American Eagle",
+        "abs_err": 0.36991250397579767
+    },
+    {
+        "brand_name": "Under Armour",
+        "abs_err": 0.3293880860388112
+    },
+    {
+        "brand_name": "Hollister",
+        "abs_err": 0.2914523493270968
+    }
+]

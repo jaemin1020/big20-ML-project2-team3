@@ -1,0 +1,46 @@
+[
+    {
+        "main_cat": "Electronics",
+        "abs_err": 1.3043995871376692
+    },
+    {
+        "main_cat": "missing",
+        "abs_err": 1.0460341103645827
+    },
+    {
+        "main_cat": "Men",
+        "abs_err": 0.963331403917564
+    },
+    {
+        "main_cat": "Vintage & Collectibles",
+        "abs_err": 0.8658155037105486
+    },
+    {
+        "main_cat": "Women",
+        "abs_err": 0.7974828303970874
+    },
+    {
+        "main_cat": "Sports & Outdoors",
+        "abs_err": 0.6136802244897098
+    },
+    {
+        "main_cat": "Home",
+        "abs_err": 0.5839527257317182
+    },
+    {
+        "main_cat": "Other",
+        "abs_err": 0.5539272245280487
+    },
+    {
+        "main_cat": "Kids",
+        "abs_err": 0.4778793931805843
+    },
+    {
+        "main_cat": "Beauty",
+        "abs_err": 0.44066032514656706
+    },
+    {
+        "main_cat": "Handmade",
+        "abs_err": 0.3727247730383738
+    }
+]
