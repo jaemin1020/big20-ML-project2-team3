@@ -1,0 +1,15 @@
+{
+    "model_name": "rf",
+    "start_time": "2025-12-08T15:03:16.728383",
+    "end_time": "2025-12-08T15:57:19.303563",
+    "elapsed_sec": 3242.57518,
+    "elapsed_min": 54.04291966666666,
+    "create_model_kwargs": {
+        "n_estimators": 400,
+        "max_depth": 20,
+        "min_samples_leaf": 3,
+        "max_features": "sqrt",
+        "n_jobs": -1
+    },
+    "cv_metrics": {}
+}
