@@ -1,0 +1,13 @@
+{
+    "LGBM_best_params" : {
+  "colsample_bytree": 0.7551993654354837,
+  "learning_rate": 0.10605458696204315,
+  "max_depth": 8.0,
+  "min_child_samples": 80.0,
+  "n_estimators": 850.0,
+  "num_leaves": 95.0,
+  "reg_alpha": 8.151263339314912,
+  "reg_lambda": 0.02172290056033077,
+  "subsample": 0.7699180699701549,
+  "random_state": 23}
+}
