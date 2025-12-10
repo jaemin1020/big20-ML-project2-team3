@@ -1,0 +1,19 @@
+{
+    "model_name": "ExtraTreesRegressor",
+    "metrics": {
+        "rmse": 37.58852334058417,
+        "mae": 14.834245317046328,
+        "r2": 0.01012596886452577,
+        "rmsle": 0.67287040952877
+    },
+    "학습 시간": 182.67009830474854,
+    "하이퍼파라미터": {
+        "n_estimators": 200,
+        "max_depth": 15,
+        "max_features": "log2",
+        "random_state": 23,
+        "n_jobs": -1
+    },
+    "target_is_log1p": true,
+    "timestamp": "2025-12-10 18:13:36"
+}
