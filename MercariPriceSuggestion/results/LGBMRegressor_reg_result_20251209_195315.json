@@ -1,0 +1,21 @@
+{
+    "model_name": "LGBMRegressor",
+    "metrics": {
+        "rmse": 29.707620650173666,
+        "mae": 11.176314584625342,
+        "r2": 0.38169160894537935,
+        "rmsle": 0.49630679194444305
+    },
+    "학습 시간": 157.20248007774353,
+    "하이퍼파라미터": {
+        "learning_rate": 0.09372825546785564,
+        "n_estimators": 900,
+        "num_leaves": 206,
+        "random_state": 23,
+        "device": "gpu",
+        "gpu_platform_id": 0,
+        "gpu_device_id": 0
+    },
+    "target_is_log1p": true,
+    "timestamp": "2025-12-09 19:53:15"
+}

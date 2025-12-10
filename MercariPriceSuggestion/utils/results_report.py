@@ -13,6 +13,9 @@ import seaborn as sns
 import platform
 import numpy as np
 
+plt.rcParams['font.family'] = 'Malgun Gothic'
+plt.rcParams['axes.unicode_minus'] = False
+
 
 # set_korean_font start ###########################
 def set_korean_font():
@@ -282,7 +285,6 @@ def plot_model_comparison(df, metrics=None, top_n=10, figsize=(16, 10), save_pat
     - RMSLE 기준 상위 N개 선택
     """
     
-    set_korean_font()
     
     if df.empty:
         print("⚠️  DataFrame이 비어있습니다.")
@@ -318,6 +320,8 @@ def plot_model_comparison(df, metrics=None, top_n=10, figsize=(16, 10), save_pat
     # 그래프 설정
     plt.style.use('seaborn-v0_8-whitegrid')
     sns.set_palette("Set2")
+    
+    set_korean_font()
     
     n_metrics = len(available_metrics)
     n_cols = 2
@@ -427,7 +431,7 @@ def plot_metric_heatmap(df, metrics=None, top_n=10, figsize=(10, 8), save_path="
     fig : matplotlib figure object
     """
     
-    set_korean_font()
+    # set_korean_font()
     
     if df.empty:
         print("⚠️  DataFrame이 비어있습니다.")
@@ -549,7 +553,7 @@ def plot_rmsle_ranking(df, top_n=15, save_path="../images/result_rmsle_ranking.p
     save_path : str, optional
         저장 경로
     """
-    set_korean_font()
+    # set_korean_font()
     
     if 'RMSLE' not in df.columns:
         print("⚠️  RMSLE 컬럼이 없습니다.")
@@ -878,7 +882,7 @@ def plot_learning_curve(df, metric='RMSLE', save_path=None):
     - 파일명에서 타임스탬프 추출하여 시간순 정렬
     - 모델 성능 개선 추이 시각화
     """
-    set_korean_font()
+    # set_korean_font()
     
     if metric not in df.columns:
         print(f"⚠️  '{metric}' 컬럼이 없습니다.")
