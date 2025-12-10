@@ -8,6 +8,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import platform
 
+plt.rcParams['font.family'] = 'Malgun Gothic'
+plt.rcParams['axes.unicode_minus'] = False
+
+
 # 한글 폰트 설정 ##############################################################
 def set_korean_font():
     """
@@ -217,7 +221,7 @@ def plot_model_comparison(df, metrics=None, top_n=20, figsize=(16, 12), save_pat
     """
     
     # 한글 폰트 설정
-    set_korean_font()
+    # set_korean_font()
     
     if df.empty:
         print("⚠️  DataFrame이 비어있습니다.")
@@ -376,7 +380,7 @@ def plot_metric_heatmap(df, metrics=None, top_n=20, figsize=(12, 10), save_path=
     """
     
     # 한글 폰트 설정
-    set_korean_font()
+    # set_korean_font()
     
     if df.empty:
         print("⚠️  DataFrame이 비어있습니다.")
