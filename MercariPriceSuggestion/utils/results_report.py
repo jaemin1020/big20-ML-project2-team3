@@ -1,6 +1,6 @@
 # result_report.py - Mercari Price Prediction 회귀 결과 분석 12.09 
 # ============================================================================
-# results 폴더의 JSON 파일을 읽어 회귀 모델 성능 비교표 및 시각화 ㅜ생성
+# results 폴더의 JSON 파일을 읽어 회귀 모델 성능 비교표 및 시각화 생성
 # ============================================================================
 
 import os
@@ -594,3 +594,410 @@ def plot_rmsle_ranking(df, top_n=15, save_path="../images/result_rmsle_ranking.p
     
     return fig
 # plot_rmsle_ranking end ======================================
+
+# ==================== 사용 예시 ====================
+
+if __name__ == "__main__":
+    
+    # 1️⃣ 회귀 결과 로드
+    print("="*80)
+    print("🔍 Mercari 회귀 모델 결과 로드")
+    print("="*80 + "\n")
+    
+    df_reg = load_results_to_df(
+        folder_path='../results',
+        filter_pattern='reg',  # _reg 포함 파일만 (또는 None)
+        sort_by='RMSLE',
+        ascending=True  # 낮을수록 좋음
+    )
+    
+    if not df_reg.empty:
+        # 데이터 품질 체크
+        check_data_quality(df_reg)
+        
+        # 상위 10개 출력
+        print("\n📊 상위 10개 모델 (RMSLE 기준):")
+        display_cols = ['model_name', 'RMSLE', 'RMSE', 'MAE', 'R2']
+        available_cols = [col for col in display_cols if col in df_reg.columns]
+        print(df_reg[available_cols].head(10).to_string(index=False))
+        
+        # 통계 요약
+        print("\n📈 통계 요약:")
+        stats_cols = ['RMSLE', 'RMSE', 'MAE', 'R2']
+        available_stats = [col for col in stats_cols if col in df_reg.columns]
+        if available_stats:
+            print(df_reg[available_stats].describe().round(6))
+        
+        # 2️⃣ 시각화 생성
+        print("\n" + "="*80)
+        print("📊 시각화 생성 중...")
+        print("="*80 + "\n")
+        
+        # 막대 그래프 (4개 메트릭 비교)
+        fig1, axes1 = plot_model_comparison(
+            df_reg,
+            metrics=['RMSLE', 'RMSE', 'MAE', 'R2'],
+            top_n=10,
+            figsize=(16, 10),
+            save_path='../images/mercari_regression_comparison.png'
+        )
+        
+        # 히트맵
+        fig2 = plot_metric_heatmap(
+            df_reg,
+            metrics=['RMSLE', 'RMSE', 'MAE', 'R2'],
+            top_n=10,
+            figsize=(10, 8),
+            save_path='../images/mercari_regression_heatmap.png'
+        )
+        
+        # RMSLE 순위 그래프 (Kaggle용)
+        fig3 = plot_rmsle_ranking(
+            df_reg,
+            top_n=15,
+            save_path='../images/mercari_rmsle_ranking.png'
+        )
+        
+        plt.show()
+        
+        # 3️⃣ CSV 저장
+        csv_path = '../results/mercari_regression_results.csv'
+        df_reg.to_csv(csv_path, index=False, encoding='utf-8-sig')
+        print(f"\n💾 결과 CSV 저장: {csv_path}")
+        
+        # 4️⃣ 최종 리포트 출력
+        print("\n" + "="*80)
+        print("🏆 최종 리포트")
+        print("="*80)
+        
+        if len(df_reg) > 0:
+            best_model = df_reg.iloc[0]
+            print(f"\n✨ Best Model: {best_model['model_name']}")
+            print(f"   - RMSLE: {best_model['RMSLE']:.6f} ⭐ (Kaggle 평가지표)")
+            print(f"   - RMSE:  {best_model['RMSE']:.2f}")
+            print(f"   - MAE:   {best_model['MAE']:.2f}")
+            print(f"   - R²:    {best_model['R2']:.4f}")
+            
+            if 'file_name' in best_model:
+                print(f"   - 파일:  {best_model['file_name']}")
+        
+        print("\n💡 생성된 파일:")
+        print("   - ../images/mercari_regression_comparison.png")
+        print("   - ../images/mercari_regression_heatmap.png")
+        print("   - ../images/mercari_rmsle_ranking.png")
+        print("   - ../results/mercari_regression_results.csv")
+        
+        print("\n" + "="*80)
+    
+    else:
+        print("\n⚠️  로드된 데이터가 없습니다.")
+        print("   - ../results/ 폴더에 JSON 파일이 있는지 확인하세요.")
+        print("   - filter_pattern 설정을 확인하세요.")
+
+
+# ==================== 추가 유틸리티 함수 ====================
+
+# compare_models start ###########################
+def compare_models(df, model_names, metrics=None):
+    """
+    특정 모델들만 비교
+    
+    Parameters:
+    -----------
+    df : pd.DataFrame
+        전체 결과 DataFrame
+    model_names : list
+        비교할 모델명 리스트
+    metrics : list, optional
+        비교할 메트릭
+    
+    Returns:
+    --------
+    pd.DataFrame : 비교 결과
+    
+    Examples:
+    ---------
+    >>> compare_models(df_reg, ['lgb', 'xgb', 'stacking'])
+    """
+    if metrics is None:
+        metrics = ['RMSLE', 'RMSE', 'MAE', 'R2']
+    
+    # 모델명 필터링 (부분 일치)
+    mask = df['model_name'].str.contains('|'.join(model_names), case=False, na=False)
+    df_filtered = df[mask].copy()
+    
+    if df_filtered.empty:
+        print(f"⚠️  해당 모델을 찾을 수 없습니다: {model_names}")
+        return pd.DataFrame()
+    
+    cols = ['model_name'] + [m for m in metrics if m in df_filtered.columns]
+    result = df_filtered[cols].sort_values('RMSLE', ascending=True)
+    
+    print(f"\n🔍 모델 비교 ({len(result)}개):")
+    print(result.to_string(index=False))
+    
+    return result
+# compare_models end ======================================
+
+
+# find_best_by_metric start ###########################
+def find_best_by_metric(df, metric='RMSLE', top_n=5):
+    """
+    특정 메트릭 기준 상위 모델 찾기
+    
+    Parameters:
+    -----------
+    df : pd.DataFrame
+        결과 DataFrame
+    metric : str
+        기준 메트릭 ('RMSLE', 'RMSE', 'MAE', 'R2')
+    top_n : int
+        상위 N개
+    
+    Returns:
+    --------
+    pd.DataFrame : 상위 N개 모델
+    
+    Examples:
+    ---------
+    >>> # R2 기준 상위 5개
+    >>> find_best_by_metric(df_reg, metric='R2', top_n=5)
+    """
+    if metric not in df.columns:
+        print(f"⚠️  '{metric}' 컬럼이 없습니다.")
+        return pd.DataFrame()
+    
+    # R2는 높을수록 좋고, 나머지는 낮을수록 좋음
+    ascending = False if metric == 'R2' else True
+    
+    df_sorted = df.dropna(subset=[metric]).sort_values(metric, ascending=ascending)
+    result = df_sorted.head(top_n).copy()
+    
+    direction = "높을수록" if metric == 'R2' else "낮을수록"
+    print(f"\n🏆 {metric} 기준 상위 {top_n}개 ({direction} 좋음):")
+    
+    display_cols = ['model_name', metric] + [c for c in ['RMSLE', 'RMSE', 'MAE', 'R2'] 
+                                              if c in result.columns and c != metric]
+    print(result[display_cols].to_string(index=False))
+    
+    return result
+# find_best_by_metric end ======================================
+
+
+# export_for_kaggle start ###########################
+def export_for_kaggle(df, model_name, output_path='../results/kaggle_submission_info.txt'):
+    """
+    Kaggle 제출용 정보 추출 및 저장
+    
+    Parameters:
+    -----------
+    df : pd.DataFrame
+        결과 DataFrame
+    model_name : str
+        제출할 모델명 (부분 일치)
+    output_path : str
+        저장 경로
+    
+    Examples:
+    ---------
+    >>> export_for_kaggle(df_reg, 'stacking')
+    """
+    # 모델 찾기
+    mask = df['model_name'].str.contains(model_name, case=False, na=False)
+    model_info = df[mask]
+    
+    if model_info.empty:
+        print(f"⚠️  '{model_name}' 모델을 찾을 수 없습니다.")
+        return
+    
+    if len(model_info) > 1:
+        print(f"⚠️  여러 모델이 발견되었습니다. 첫 번째 모델 사용:")
+        print(model_info['model_name'].tolist())
+    
+    model = model_info.iloc[0]
+    
+    # 제출 정보 작성
+    info_text = f"""
+{'='*80}
+Kaggle Mercari Price Suggestion - 제출 정보
+{'='*80}
+
+모델명: {model['model_name']}
+파일명: {model.get('file_name', 'N/A')}
+
+{'='*80}
+성능 지표 (검증 세트)
+{'='*80}
+  RMSLE (Kaggle 평가지표): {model.get('RMSLE', 'N/A'):.6f} ⭐
+  RMSE:  {model.get('RMSE', 'N/A'):.2f}
+  MAE:   {model.get('MAE', 'N/A'):.2f}
+  R²:    {model.get('R2', 'N/A'):.4f}
+
+{'='*80}
+제출 파일
+{'='*80}
+  - submission CSV를 ../results/ 폴더에서 찾으세요
+  - 파일명 패턴: submission_*{model['model_name']}*.csv
+  
+{'='*80}
+예상 Public LB 점수
+{'='*80}
+  Local RMSLE: {model.get('RMSLE', 0):.6f}
+  예상 범위: {model.get('RMSLE', 0)*0.95:.6f} ~ {model.get('RMSLE', 0)*1.05:.6f}
+  (보통 local보다 ±5% 범위 내)
+
+{'='*80}
+"""
+    
+    # 파일 저장
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(info_text)
+    
+    print(info_text)
+    print(f"💾 제출 정보 저장: {output_path}")
+# export_for_kaggle end ======================================
+
+
+# plot_learning_curve start ###########################
+def plot_learning_curve(df, metric='RMSLE', save_path=None):
+    """
+    모델 개선 추이 그래프 (시간순)
+    
+    Parameters:
+    -----------
+    df : pd.DataFrame
+        결과 DataFrame (file_name에 타임스탬프 포함 필요)
+    metric : str
+        추적할 메트릭
+    save_path : str, optional
+        저장 경로
+    
+    Notes:
+    ------
+    - 파일명에서 타임스탬프 추출하여 시간순 정렬
+    - 모델 성능 개선 추이 시각화
+    """
+    set_korean_font()
+    
+    if metric not in df.columns:
+        print(f"⚠️  '{metric}' 컬럼이 없습니다.")
+        return None
+    
+    if 'file_name' not in df.columns:
+        print("⚠️  'file_name' 컬럼이 없습니다.")
+        return None
+    
+    # 타임스탬프 추출
+    df_plot = df.copy()
+    df_plot['timestamp'] = df_plot['file_name'].str.extract(r'(\d{8}_\d{6})')
+    df_plot = df_plot.dropna(subset=['timestamp', metric])
+    
+    if df_plot.empty:
+        print("⚠️  타임스탬프가 있는 파일이 없습니다.")
+        return None
+    
+    # 시간순 정렬
+    df_plot = df_plot.sort_values('timestamp')
+    df_plot['순번'] = range(1, len(df_plot) + 1)
+    
+    # 그래프
+    fig, ax = plt.subplots(figsize=(14, 6))
+    
+    ax.plot(df_plot['순번'], df_plot[metric], marker='o', linewidth=2, markersize=8, 
+            color='steelblue', label=metric)
+    
+    # 최소값 표시
+    min_idx = df_plot[metric].idxmin()
+    min_val = df_plot.loc[min_idx, metric]
+    min_x = df_plot.loc[min_idx, '순번']
+    
+    ax.scatter([min_x], [min_val], color='red', s=200, zorder=5, 
+               label=f'Best: {min_val:.6f}', edgecolors='black', linewidths=2)
+    
+    ax.set_xlabel('실험 순번 (시간순)', fontsize=12, fontweight='bold')
+    ax.set_ylabel(f'{metric}', fontsize=12, fontweight='bold')
+    ax.set_title(f'{metric} 개선 추이 (낮을수록 좋음)', fontsize=14, fontweight='bold', pad=15)
+    ax.legend(fontsize=11)
+    ax.grid(alpha=0.3, linestyle='--')
+    
+    plt.tight_layout()
+    
+    if save_path:
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+        print(f"💾 학습 곡선 저장: {save_path}")
+    
+    return fig
+# plot_learning_curve end ======================================
+
+
+# ==================== 빠른 실행 함수 ====================
+
+# quick_report start ###########################
+def quick_report(folder_path='../results', filter_pattern=None, top_n=10):
+    """
+    빠른 리포트 생성 (한 번에 실행)
+    
+    Parameters:
+    -----------
+    folder_path : str
+        결과 폴더 경로
+    filter_pattern : str or list
+        필터 패턴
+    top_n : int
+        상위 N개 모델
+    
+    Examples:
+    ---------
+    >>> # 전체 결과 빠른 리포트
+    >>> quick_report('../results', top_n=10)
+    
+    >>> # 특정 모델만
+    >>> quick_report('../results', filter_pattern='stacking', top_n=5)
+    """
+    print("\n" + "🚀"*40)
+    print("  Mercari Price Prediction - Quick Report")
+    print("🚀"*40 + "\n")
+    
+    # 데이터 로드
+    df = load_results_to_df(folder_path, filter_pattern=filter_pattern, sort_by='RMSLE', ascending=True)
+    
+    if df.empty:
+        print("⚠️  데이터가 없습니다.")
+        return None
+    
+    # 품질 체크
+    check_data_quality(df)
+    
+    # 상위 모델 출력
+    print(f"\n{'='*80}")
+    print(f"🏆 상위 {min(top_n, len(df))}개 모델")
+    print(f"{'='*80}")
+    display_cols = ['model_name', 'RMSLE', 'RMSE', 'MAE', 'R2']
+    available = [c for c in display_cols if c in df.columns]
+    print(df[available].head(top_n).to_string(index=False))
+    
+    # 시각화
+    print(f"\n📊 시각화 생성 중...")
+    plot_model_comparison(df, top_n=top_n, save_path='../images/quick_comparison.png')
+    plot_rmsle_ranking(df, top_n=top_n, save_path='../images/quick_rmsle_ranking.png')
+    
+    # CSV 저장
+    csv_path = '../results/quick_report.csv'
+    df.to_csv(csv_path, index=False, encoding='utf-8-sig')
+    print(f"\n💾 CSV 저장: {csv_path}")
+    
+    plt.show()
+    
+    return df
+# quick_report end ======================================
+
+
+print("\n✅ result_report.py 로드 완료!")
+print("""
+사용법:
+  1. 기본: df = load_results_to_df('../results')
+  2. 빠른 리포트: quick_report('../results', top_n=10)
+  3. 특정 모델 비교: compare_models(df, ['lgb', 'xgb', 'stacking'])
+  4. Kaggle 제출: export_for_kaggle(df, 'stacking')
+""")
