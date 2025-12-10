@@ -1,0 +1,18 @@
+{
+    "model_name": "XGBRegressor",
+    "metrics": {
+        "rmse": 30.118987716489382,
+        "mae": 11.205177532563447,
+        "r2": 0.3644493841211843,
+        "rmsle": 0.4994761859768738
+    },
+    "학습 시간": 2352.159303665161,
+    "하이퍼파라미터": {
+        "learning_rate": 0.09372825546785564,
+        "max_depth": 11,
+        "n_estimators": 800,
+        "random_state": 23
+    },
+    "target_is_log1p": true,
+    "timestamp": "2025-12-10 13:43:37"
+}
