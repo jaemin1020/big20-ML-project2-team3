@@ -13,10 +13,15 @@ pip install gensim sentence-transformers
 
 pip install matplotlib seaborn
 
+pip uninstall lightgbm -y
+
+pip install lightgbm
+
 ---
 
 conda env export > mercari.yml
 
 ---
+
 conda activate mercari
 conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
