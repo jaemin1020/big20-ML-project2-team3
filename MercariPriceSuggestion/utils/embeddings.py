@@ -118,3 +118,48 @@ class FastTextEmbedding(BaseEmbedding):
         if len(vectors) == 0:
             return np.zeros(self.vector_size)
         return np.mean(vectors, axis=0)
+    
+    
+# ---------------------------------------------------------------
+# GloVe Embedding
+# ---------------------------------------------------------------
+import numpy as np
+
+class GloVeEmbedding(BaseEmbedding):
+    def __init__(self, glove_path="../data/glove.6B.100d.txt", vector_size=100):
+        """
+        glove_path: GloVe 파일 경로 (예: glove.6B.100d.txt)
+        vector_size: 임베딩 차원 (50, 100, 200, 300 중 선택)
+        """
+        self.glove_path = glove_path
+        self.vector_size = vector_size
+        self.embeddings_index = {}
+        self.is_sparse = False
+        self._load_glove()
+
+    def _load_glove(self):
+        print(f"Loading GloVe vectors from {self.glove_path}...")
+        with open(self.glove_path, encoding="utf8") as f:
+            for line in f:
+                values = line.split()
+                word = values[0]
+                coefs = np.asarray(values[1:], dtype="float32")
+                self.embeddings_index[word] = coefs
+        print(f"Loaded {len(self.embeddings_index)} word vectors.")
+
+    def _sent_vec(self, tokens):
+        vectors = [self.embeddings_index[w] for w in tokens if w in self.embeddings_index]
+        if len(vectors) == 0:
+            return np.zeros(self.vector_size)
+        return np.mean(vectors, axis=0)
+
+    def fit_transform(self, texts):
+        """
+        texts: list of strings
+        """
+        tokenized = [t.split() for t in texts]
+        return np.vstack([self._sent_vec(t) for t in tokenized])
+
+    def transform(self, texts):
+        tokenized = [t.split() for t in texts]
+        return np.vstack([self._sent_vec(t) for t in tokenized])
