@@ -49,7 +49,8 @@ def load_results_to_df(
     sort_by='RMSLE',  # 회귀: RMSLE 기준
     ascending=True,   # 회귀: 낮을수록 좋음
     filter_pattern=None,
-    exclude_patterns=None
+    exclude_patterns=None,
+    isShow=True,
 ):
     """
     results 폴더의 JSON 파일을 읽어서 DataFrame으로 변환 (회귀 버전)
@@ -243,7 +244,8 @@ def load_results_to_df(
             print(f"⚠️  메트릭 없는 파일: {len(no_metrics)}개")
         print(f"{'='*80}\n")
         
-        df # 일부러 print 걸지 않음(양식 깨지니까)
+        if isShow:
+            df # 일부러 print 걸지 않음(양식 깨지니까)
         
         return df
     else:
@@ -938,7 +940,7 @@ def plot_learning_curve(df, metric='RMSLE', save_path=None):
 # ==================== 빠른 실행 함수 ====================
 
 # quick_report start ###########################
-def quick_report(folder_path='../results', filter_pattern=None, top_n=10):
+def quick_report(folder_path='../results', filter_pattern=None, isShow=True, top_n=10):
     """
     빠른 리포트 생성 (한 번에 실행)
     
@@ -971,7 +973,8 @@ def quick_report(folder_path='../results', filter_pattern=None, top_n=10):
         return None
     
     # 품질 체크
-    check_data_quality(df)
+    if isShow:
+        check_data_quality(df)
     
     # 상위 모델 출력
     print(f"\n{'='*80}")
