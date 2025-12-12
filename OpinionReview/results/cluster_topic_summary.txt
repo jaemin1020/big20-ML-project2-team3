@@ -1,0 +1,38 @@
+
+===== KMEANS =====
+Cluster Cluster 0: Top Topic 5
+    Keywords: screen, keyboard, button, size, page, feature, faster, kindle, battery, eye
+Cluster Cluster 1: Top Topic 2
+    Keywords: room, mileage, comfortable, interior, seat, gas, car, clean, bathroom, transmission
+Cluster Cluster 2: Top Topic 1
+    Keywords: location, battery, hotel, life, price, service, room, tube, wharf, hour
+
+===== AP =====
+Cluster Cluster 0: Top Topic 2
+    Keywords: room, mileage, comfortable, interior, seat, gas, car, clean, bathroom, transmission
+Cluster Cluster 1: Top Topic 1
+    Keywords: location, battery, hotel, life, price, service, room, tube, wharf, hour
+Cluster Cluster 2: Top Topic 4
+    Keywords: staff, room, service, hotel, food, friendly, helpful, parking, clean, desk
+Cluster Cluster 3: Top Topic 6
+    Keywords: free, wine, coffee, morning, hotel, internet, reception, biscotti, hour, evening
+Cluster Cluster 4: Top Topic 5
+    Keywords: screen, keyboard, button, size, page, feature, faster, kindle, battery, eye
+Cluster Cluster 5: Top Topic 3
+    Keywords: video, direction, sound, voice, speed, camera, price, map, turn, screen
+
+===== SC =====
+Cluster Cluster 0: Top Topic 2
+    Keywords: room, mileage, comfortable, interior, seat, gas, car, clean, bathroom, transmission
+Cluster Cluster 1: Top Topic 3
+    Keywords: video, direction, sound, voice, speed, camera, price, map, turn, screen
+Cluster Cluster 2: Top Topic 5
+    Keywords: screen, keyboard, button, size, page, feature, faster, kindle, battery, eye
+
+===== HCLUST =====
+Cluster Cluster 0: Top Topic 2
+    Keywords: room, mileage, comfortable, interior, seat, gas, car, clean, bathroom, transmission
+Cluster Cluster 1: Top Topic 5
+    Keywords: screen, keyboard, button, size, page, feature, faster, kindle, battery, eye
+Cluster Cluster 2: Top Topic 3
+    Keywords: video, direction, sound, voice, speed, camera, price, map, turn, screen
