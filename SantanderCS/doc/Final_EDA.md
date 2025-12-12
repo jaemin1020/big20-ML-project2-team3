@@ -2,26 +2,23 @@
 
 ### 데이터 전처리
 
-371개 train.csv 를 읽어서
+ train.csv 를 읽어서 371개의 Feature중
+
 1. ID와 TARGET Feature 삭제
-
 2. 각 Feature의 값들의 zero_count_rate > 99%인 Feature 삭제 : 220개 - remove_cols_0.99.txt
-
 3. 결측치로 예상되는 Feature "var3" 는  최빈값인 '2' 로 치환
-``` python
+
+```python
     # var3 처리
     X_features['var3'] = X_features['var3'].replace(-999999, 2)
     X_test['var3'] = X_test['var3'].replace(-999999, 2)
 
     # var15처리 5개 컬럼
-    X_features['var15'] = X_features['var15'].clip(upper=100)    
-```    
+    X_features['var15'] = X_features['var15'].clip(upper=100)  
+```
 
 4. 각 Feataure긴 상관관계 계산해서 > 95% 이상인 Feature 삭제 : 283개 - remove_train_0.95.txt
-
 5. 이상치 값들이 있는 Features 중에 왜도를 계산해서 > 10 큰 컬럼 71개 log1p로 변환 - Log1pColumns.txt
-
 6. StandardScaler 적용
 
 위 작업 후 최종 StackingModel 사용함.
-
