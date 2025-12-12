@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1장. 프로젝트 개요 및 머신러닝</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            color: #2d3748;
+            background: #f7fafc;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 60px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-radius: 10px;
+        }
+        
+        /* 헤더 */
+        .chapter-header {
+            border-left: 6px solid #667eea;
+            padding-left: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .chapter-number {
+            font-size: 18px;
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .chapter-title {
+            font-size: 36px;
+            font-weight: 900;
+            color: #1a202c;
+            margin-bottom: 10px;
+        }
+        
+        .chapter-subtitle {
+            font-size: 18px;
+            color: #718096;
+            font-weight: 400;
+        }
+        
+        /* 섹션 */
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e2e8f0;
+        }
+        
+        .subsection {
+            margin-bottom: 40px;
+        }
+        
+        .subsection-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #4a5568;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .subsection-title::before {
+            content: "▪";
+            color: #667eea;
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .subsubsection-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin: 25px 0 15px 0;
+            padding-left: 15px;
+            border-left: 3px solid #cbd5e0;
+        }
+        
+        /* 본문 */
+        .content {
+            font-size: 16px;
+            line-height: 1.9;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        .content p {
+            margin-bottom: 15px;
+        }
+        
+        /* 리스트 */
+        ul {
+            margin: 15px 0 15px 30px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        li::marker {
+            color: #667eea;
+            font-weight: 700;
+        }
+        
+        /* 강조 박스 */
+        .highlight-box {
+            background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .highlight-box h4 {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        /* 수식 박스 */
+        .formula-box {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            color: #2d3748;
+        }
+        
+        /* 표 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        tr:hover {
+            background: #f7fafc;
+        }
+        
+        /* 코드 */
+        code {
+            background: #2d3748;
+            color: #68d391;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        /* 인쇄 스타일 */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 40px;
+            }
+        }
+        
+        /* 버튼 */
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            z-index: 1000;
+        }
+        
+        .print-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        @media print {
+            .print-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">📄 인쇄/PDF 저장</button>
+    
+    <div class="container">
+        <!-- 챕터 헤더 -->
+        <div class="chapter-header">
+            <div class="chapter-number">CHAPTER 01</div>
+            <h1 class="chapter-title">프로젝트 개요 및 머신러닝에 대하여</h1>
+            <p class="chapter-subtitle">Project Overview and Introduction to Machine Learning</p>
+        </div>
+
+        <!-- 1.1 개요 -->
+        <div class="section">
+            <h2 class="section-title">1.1 개요</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">1.1.1 머신러닝의 기본 개념 및 목표</h3>
+                <div class="content">
+                    <p>머신러닝(Machine Learning)은 명시적인 프로그래밍 없이 컴퓨터가 데이터로부터 학습하여 패턴을 발견하고 예측을 수행하는 인공지능의 한 분야입니다. 1959년 Arthur Samuel이 "명시적으로 프로그래밍하지 않고도 컴퓨터에게 학습 능력을 부여하는 연구 분야"라고 정의한 이래, 현대 산업의 핵심 기술로 자리잡았습니다.</p>
+                    
+                    <div class="highlight-box">
+                        <h4>💡 머신러닝의 3가지 주요 학습 방식</h4>
+                        <ul>
+                            <li><strong>지도 학습 (Supervised Learning)</strong>: 정답(레이블)이 있는 데이터로 학습하여 예측 모델을 만드는 방식. 분류(Classification)와 회귀(Regression)가 대표적입니다.</li>
+                            <li><strong>비지도 학습 (Unsupervised Learning)</strong>: 정답 없이 데이터의 패턴이나 구조를 발견하는 방식. 군집화(Clustering), 차원 축소 등이 있습니다.</li>
+                            <li><strong>강화 학습 (Reinforcement Learning)</strong>: 환경과의 상호작용을 통해 보상을 최대화하는 방향으로 학습하는 방식입니다.</li>
+                        </ul>
+                    </div>
+                    
+                    <p>본 프로젝트에서는 <strong>지도 학습</strong>을 중심으로 4가지 실제 데이터셋을 분석합니다. 머신러닝의 궁극적 목표는 단순히 학습 데이터에 잘 맞는 모델이 아닌, <strong>새로운 데이터(test data)에 대해서도 정확한 예측</strong>을 수행하는 <strong>일반화(Generalization) 능력</strong>을 갖춘 모델을 개발하는 것입니다.</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">1.1.2 정형 데이터 분류 문제 이해</h3>
+                <div class="content">
+                    <p>정형 데이터(Structured Data)는 행과 열로 구성된 테이블 형태의 데이터로, CSV, Excel, 데이터베이스 등에 저장됩니다. 비정형 데이터(이미지, 텍스트, 음성)와 달리 명확한 구조를 가지며, 통계적 분석과 머신러닝에 직접 활용할 수 있습니다.</p>
+                    
+                    <p><strong>분류 문제(Classification)</strong>는 주어진 입력 데이터를 미리 정의된 범주(클래스) 중 하나로 예측하는 문제입니다:</p>
+                    
+                    <table>
+                        <tr>
+                            <th>분류 유형</th>
+                            <th>설명</th>
+                            <th>프로젝트 예시</th>
+                        </tr>
+                        <tr>
+                            <td>이진 분류<br>(Binary Classification)</td>
+                            <td>두 개의 클래스로 구분<br>(Yes/No, 0/1)</td>
+                            <td>• 고객 만족 여부<br>• 신용카드 사기 여부<br>• Opinion 긍정/부정</td>
+                        </tr>
+                        <tr>
+                            <td>다중 분류<br>(Multi-class Classification)</td>
+                            <td>3개 이상의 클래스로 구분</td>
+                            <td>• 상품 카테고리 분류</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">1.1.3 모델 평가의 중요성</h3>
+                <div class="content">
+                    <p>머신러닝 모델의 성능을 평가하는 것은 모델 개발만큼 중요합니다. 단순히 정확도(Accuracy)만 보는 것이 아니라, 문제의 특성에 맞는 <strong>적절한 평가 지표</strong>를 선택해야 합니다.</p>
+                    
+                    <div class="highlight-box">
+                        <h4>⚠️ 불균형 데이터에서 정확도의 함정</h4>
+                        <p>예: 신용카드 거래 10,000건 중 사기는 10건(0.1%)</p>
+                        <p>→ 모든 거래를 "정상"으로 예측해도 정확도 99.9%!</p>
+                        <p>→ 하지만 실제로는 사기를 하나도 탐지하지 못함</p>
+                        <p><strong>해결책:</strong> Precision, Recall, F1-Score, AUC 등 다양한 지표 활용</p>
+                    </div>
+                    
+                    <p>따라서 본 프로젝트에서는 각 데이터셋의 특성에 맞는 다양한 평가 지표를 사용하며, 특히 불균형 데이터셋에서는 <strong>Recall, F1-Score, AUC</strong>에 주목합니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1.2 분류 -->
+        <div class="section">
+            <h2 class="section-title">1.2 분류 (Classification)</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">1.2.1 분류 개요</h3>
+                
+                <h4 class="subsubsection-title">분류 문제의 정의</h4>
+                <div class="content">
+                    <p>분류(Classification)는 입력 특성(features)을 바탕으로 데이터가 어떤 범주(category)에 속하는지 예측하는 지도 학습의 대표적인 문제입니다. 수학적으로는 입력 공간 X에서 이산적인 출력 공간 Y로의 함수 f: X → Y를 학습하는 과정입니다.</p>
+                </div>
+                
+                <h4 class="subsubsection-title">평가 지표</h4>
+                <div class="content">
+                    <p><strong>1) 정확도 (Accuracy)</strong></p>
+                    <p>전체 예측 중 올바르게 예측한 비율입니다. 가장 직관적이지만, 클래스 불균형 시 신뢰할 수 없습니다.</p>
+                    
+                    <div class="formula-box">
+                        Accuracy = (TP + TN) / (TP + TN + FP + FN)
+                    </div>
+                    
+                    <p><strong>2) 정밀도 (Precision)</strong></p>
+                    <p>모델이 Positive로 예측한 것 중 실제 Positive의 비율입니다. <strong>"양성 예측의 신뢰도"</strong>를 나타냅니다.</p>
+                    
+                    <div class="formula-box">
+                        Precision = TP / (TP + FP)
+                    </div>
+                    
+                    <p><strong>예시:</strong> 스팸 필터에서 정밀도가 높다 = 스팸으로 분류한 메일이 실제로 스팸일 확률이 높다</p>
+                    
+                    <p><strong>3) 재현율 (Recall, Sensitivity)</strong></p>
+                    <p>실제 Positive 중 모델이 Positive로 예측한 비율입니다. <strong>"실제 양성을 얼마나 찾아냈는가"</strong>를 나타냅니다.</p>
+                    
+                    <div class="formula-box">
+                        Recall = TP / (TP + FN)
+                    </div>
+                    
+                    <p><strong>예시:</strong> 암 진단에서 재현율이 높다 = 실제 암 환자를 놓치지 않고 탐지</p>
+                    
+                    <p><strong>4) F1 Score</strong></p>
+                    <p>Precision과 Recall의 조화 평균입니다. 두 지표의 균형을 고려합니다.</p>
+                    
+                    <div class="formula-box">
+                        F1 = 2 × (Precision × Recall) / (Precision + Recall)
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <h4>📊 Precision vs Recall 트레이드오프</h4>
+                        <ul>
+                            <li><strong>Precision 우선</strong>: 잘못된 양성 판정의 비용이 큰 경우 (스팸 필터, 추천 시스템)</li>
+                            <li><strong>Recall 우선</strong>: 놓치는 것(FN)의 비용이 큰 경우 (암 진단, 사기 탐지)</li>
+                            <li><strong>F1 Score</strong>: 둘 다 중요한 경우 (일반적인 상황)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h4 class="subsubsection-title">혼동행렬 (Confusion Matrix)</h4>
+                <div class="content">
+                    <p>예측 결과를 4가지 경우로 분류한 표입니다. 모든 분류 지표의 기초가 됩니다.</p>
+                    
+                    <table>
+                        <tr>
+                            <th>실제 \ 예측</th>
+                            <th>Positive 예측</th>
+                            <th>Negative 예측</th>
+                        </tr>
+                        <tr>
+                            <td><strong>실제 Positive</strong></td>
+                            <td>TP (True Positive)<br>올바른 양성</td>
+                            <td>FN (False Negative)<br>놓친 양성</td>
+                        </tr>
+                        <tr>
+                            <td><strong>실제 Negative</strong></td>
+                            <td>FP (False Positive)<br>잘못된 양성</td>
+                            <td>TN (True Negative)<br>올바른 음성</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <h4 class="subsubsection-title">ROC 곡선과 AUC</h4>
+                <div class="content">
+                    <p><strong>ROC 곡선</strong>(Receiver Operating Characteristic Curve)은 분류 모델의 성능을 시각화하는 도구입니다. X축에 FPR(False Positive Rate), Y축에 TPR(True Positive Rate, Recall)을 놓고 임계값(threshold)을 변화시키며 그린 곡선입니다.</p>
+                    
+                    <div class="formula-box">
+                        FPR = FP / (FP + TN)<br>
+                        TPR = TP / (TP + FN) = Recall
+                    </div>
+                    
+                    <p><strong>AUC</strong>(Area Under the Curve)는 ROC 곡선 아래 면적으로, 0.5~1.0 사이의 값을 가집니다:</p>
+                    <ul>
+                        <li><strong>AUC = 1.0</strong>: 완벽한 분류</li>
+                        <li><strong>AUC = 0.9~1.0</strong>: 매우 우수</li>
+                        <li><strong>AUC = 0.8~0.9</strong>: 우수</li>
+                        <li><strong>AUC = 0.7~0.8</strong>: 양호</li>
+                        <li><strong>AUC = 0.5</strong>: 동전 던지기 (무작위)</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h4>💡 AUC의 장점</h4>
+                        <ul>
+                            <li>임계값에 독립적인 평가 가능</li>
+                            <li>클래스 불균형에 비교적 강건</li>
+                            <li>모델의 전반적인 성능을 하나의 수치로 표현</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">1.2.2 결정 트리 (Decision Tree)</h3>
+                
+                <h4 class="subsubsection-title">결정 트리의 구조</h4>
+                <div class="content">
+                    <p>결정 트리는 데이터를 규칙(rule) 기반으로 분할하여 트리 구조를 만드는 알고리즘입니다. 직관적이고 해석하기 쉬운 화이트박스 모델입니다.</p>
+                    
+                    <ul>
+                        <li><strong>루트 노드 (Root Node)</strong>: 전체 데이터셋을 포함하는 최상위 노드</li>
+                        <li><strong>규칙 노드 (Decision Node)</strong>: 특정 조건으로 데이터를 분할하는 중간 노드</li>
+                        <li><strong>리프 노드 (Leaf Node)</strong>: 최종 예측 결과를 나타내는 말단 노드</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h4>🌳 결정 트리 예시 (타이타닉 생존 예측)</h4>
+                        <code>
+                        성별이 남성인가?<br>
+                        ├─ Yes → 사망 (정확도: 81%)<br>
+                        └─ No → 나이가 18세 이상인가?<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;├─ Yes → 1등실 승객인가?<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├─ Yes → 생존<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└─ No → 사망<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;└─ No → 생존 (정확도: 85%)
+                        </code>
+                    </div>
+                </div>
+                
+                <h4 class="subsubsection-title">불순도 측정</h4>
+                <div class="content">
+                    <p>결정 트리는 데이터를 분할할 때 <strong>불순도(Impurity)</strong>가 가장 많이 감소하는 기준을 선택합니다. 불순도는 한 노드 안에 서로 다른 클래스가 섞여있는 정도를 나타냅니다.</p>
+                    
+                    <p><strong>1) 지니 계수 (Gini Index)</strong></p>
+                    <p>Scikit-learn의 기본 설정입니다. 계산이 빠르고 효율적입니다.</p>
+                    
+                    <div class="formula-box">
+                        Gini = 1 - Σ(p_i)²<br>
+                        (p_i: 클래스 i의 비율)
+                    </div>
+                    
+                    <p><strong>2) 엔트로피 (Entropy)</strong></p>
+                    <p>정보 이론에 기반한 불순도 측정 방법입니다.</p>
+                    
+                    <div class="formula-box">
+                        Entropy = -Σ(p_i × log₂(p_i))
+                    </div>
+                    
+                    <p><strong>3) 정보 이득 (Information Gain)</strong></p>
+                    <p>분할 전후의 엔트로피 차이로, 정보 이득이 큰 특성을 선택합니다.</p>
+                    
+                    <div class="formula-box">
+                        Information Gain = Entropy(부모) - 가중평균(Entropy(자식))
+                    </div>
+                </div>
+                
+                <h4 class="subsubsection-title">하이퍼파라미터</h4>
+                <div class="content">
+                    <table>
+                        <tr>
+                            <th>파라미터</th>
+                            <th>설명</th>
+                            <th>기본값</th>
+                        </tr>
+                        <tr>
+                            <td><code>max_depth</code></td>
+                            <td>트리의 최대 깊이. 깊을수록 과적합 위험</td>
+                            <td>None (제한없음)</td>
+                        </tr>
+                        <tr>
+                            <td><code>min_samples_split</code></td>
+                            <td>노드를 분할하기 위한 최소 샘플 수</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td><code>min_samples_leaf</code></td>
+                            <td>리프 노드가 되기 위한 최소 샘플 수</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td><code>max_features</code></td>
+                            <td>분할 시 고려할 최대 특성 수</td>
+                            <td>None (전체)</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <h4 class="subsubsection-title">과적합 제어 방법</h4>
+                <div class="content">
+                    <p>결정 트리는 <strong>과적합(Overfitting)</strong>에 매우 취약합니다. 제한 없이 성장하면 학습 데이터에만 완벽히 맞는 모델이 만들어집니다.</p>
+                    
+                    <div class="highlight-box">
+                        <h4>🔧 과적합 방지 전략</h4>
+                        <ul>
+                            <li><strong>Pre-pruning (사전 가지치기)</strong>: 트리 성장을 미리 제한
+                                <ul>
+                                    <li><code>max_depth=5</code>: 깊이 제한</li>
+                                    <li><code>min_samples_split=20</code>: 분할 조건 강화</li>
+                                    <li><code>min_samples_leaf=10</code>: 리프 크기 제한</li>
+                                </ul>
+                            </li>
+                            <li><strong>Post-pruning (사후 가지치기)</strong>: 트리를 키운 후 불필요한 가지 제거</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h4 class="subsubsection-title">Feature Importance</h4>
+                <div class="content">
+                    <p>결정 트리는 각 특성이 예측에 얼마나 중요한지 자동으로 계산합니다. <code>feature_importances_</code> 속성으로 확인할 수 있으며, 중요도가 높은 특성일수록 트리의 상단에 위치하고 불순도 감소에 크게 기여합니다.</p>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">1.2.3 앙상블 학습 (Ensemble Learning)</h3>
+                
+                <h4 class="subsubsection-title">앙상블 학습의 개념</h4>
+                <div class="content">
+                    <p>앙상블(Ensemble)은 "집단", "조합"을 의미합니다. 앙상블 학습은 여러 개의 약한 학습기(weak learner)를 결합하여 하나의 강한 학습기(strong learner)를 만드는 방법입니다.</p>
+                
