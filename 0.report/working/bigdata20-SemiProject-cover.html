@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>빅데이터 20기 3조 프로젝트 표지</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .cover-page {
+            width: 210mm;
+            height: 297mm;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 상단 데코레이션 */
+        .top-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+        }
+        
+        /* AI/ML 아이콘 배경 */
+        .background-icons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            font-size: 80px;
+            color: #667eea;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            padding: 50px;
+            pointer-events: none;
+        }
+        
+        .background-icons span {
+            margin: 20px;
+        }
+        
+        /* 메인 컨텐츠 */
+        .content {
+            position: relative;
+            z-index: 1;
+            padding: 80px 60px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        /* 헤더 */
+        .header {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .main-title {
+            font-size: 48px;
+            font-weight: 900;
+            color: #2d3748;
+            margin-bottom: 20px;
+            line-height: 1.3;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 50px;
+        }
+        
+        /* 프로젝트 목록 */
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .project-card {
+            background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .project-number {
+            font-size: 14px;
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .project-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .project-source {
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        /* 팀 정보 */
+        .team-section {
+            background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .team-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .team-members {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .member {
+            text-align: center;
+            padding: 15px 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .member-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .member-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        /* 하단 정보 */
+        .footer {
+            text-align: center;
+            margin-top: auto;
+        }
+        
+        .period {
+            font-size: 18px;
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .divider {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+        
+        .organization {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-top: 10px;
+        }
+        
+        /* 하단 데코레이션 */
+        .bottom-decoration {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            opacity: 0.1;
+            border-radius: 50%;
+            transform: translate(50%, 50%);
+        }
+        
+        /* 인쇄 스타일 */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .cover-page {
+                width: 100%;
+                height: 100vh;
+                box-shadow: none;
+                page-break-after: always;
+            }
+        }
+        
+        /* 다운로드 버튼 */
+        .download-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: transform 0.2s ease;
+            z-index: 1000;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        @media print {
+            .download-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- button class="download-btn" onclick="window.print()">📄 PDF로 저장</button -->
+    
+    <div class="cover-page">
+        <!-- 배경 아이콘 -->
+        <div class="background-icons">
+            <span>🤖</span>
+            <span>📊</span>
+            <span>💳</span>
+            <span>🏦</span>
+            <span>💰</span>
+            <span>📈</span>
+            <span>🎯</span>
+            <span>📱</span>
+            <span>⭐</span>
+            <span>🔍</span>
+        </div>
+        
+        <!-- 상단 데코레이션 -->
+        <div class="top-decoration"></div>
+        
+        <!-- 메인 컨텐츠 -->
+        <div class="content">
+            <!-- 헤더 -->
+            <div class="header">
+                <div class="badge">빅데이터 20기 3조</div>
+                <h1 class="main-title">머신러닝 기반<br>다중 도메인 예측 분석</h1>
+                <p class="subtitle">Machine Learning Multi-Domain Prediction Analysis</p>
+            </div>
+            
+            <!-- 프로젝트 목록 -->
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-number">PROJECT 01</div>
+                    <div class="project-name">산탄데르 은행 고객만족도 예측</div>
+                    <div class="project-source">Kaggle Competition</div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-number">PROJECT 02</div>
+                    <div class="project-name">신용카드 사기 검출</div>
+                    <div class="project-source">Kaggle Competition</div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-number">PROJECT 03</div>
+                    <div class="project-name">Opinion Review 분석</div>
+                    <div class="project-source">UCI Dataset</div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-number">PROJECT 04</div>
+                    <div class="project-name">Mercari Price Suggestion</div>
+                    <div class="project-source">Kaggle Competition</div>
+                </div>
+            </div>
+            
+            <!-- 팀 정보 -->
+            <div class="team-section">
+                <div class="team-title">🎓 TEAM MEMBERS</div>
+                <div class="team-members">
+                    <div class="member">
+                        <div class="member-icon">👨‍💻</div>
+                        <div class="member-name">엄재민</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-icon">👨‍💻</div>
+                        <div class="member-name">권준호</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-icon">👨‍💻</div>
+                        <div class="member-name">이경주</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-icon">👨‍💻</div>
+                        <div class="member-name">이승재</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-icon">👨‍💻</div>
+                        <div class="member-name">윤지훈</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 하단 정보 -->
+            <div class="footer">
+                <p class="period">📅 2025.11.25 ~ 2025.12.16</p>
+                <div class="divider"></div>
+                <p class="organization">빅데이터 20기 세미 프로젝트</p>
+            </div>
+        </div>
+        
+        <!-- 하단 데코레이션 -->
+        <div class="bottom-decoration"></div>
+    </div>
+    
+    <script>
+        // 애니메이션 효과
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>
