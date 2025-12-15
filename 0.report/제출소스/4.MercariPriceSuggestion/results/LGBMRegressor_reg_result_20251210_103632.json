@@ -1,0 +1,18 @@
+{
+    "model_name": "LGBMRegressor",
+    "metrics": {
+        "rmse": 26.955539854611324,
+        "mae": 9.888399748438571,
+        "r2": 0.4909441068982172,
+        "rmsle": 0.4427155110012827
+    },
+    "학습 시간": 1514.396033525467,
+    "하이퍼파라미터": {
+        "learning_rate": 0.09372825546785564,
+        "n_estimators": 900,
+        "num_leaves": 206,
+        "random_state": 23
+    },
+    "target_is_log1p": true,
+    "timestamp": "2025-12-10 10:36:32"
+}

@@ -1,0 +1,6 @@
+{'AUC': 0.9662, '정확도': 0.9877, '정밀도': 0.1097, '재현율': 0.8673, 'F1': 0.1947 }
+{'오차행렬':
+[[56174   690]
+ [   13    85]] }
+실행 시간: 9597.309264421463
+하이퍼파라미터: {'criterion': 'entropy', 'max_depth': 5, 'max_features': 'log2', 'min_impurity_decrease': 0.0002503185521839207, 'min_samples_leaf': 3, 'min_samples_split': 32, 'random_state': 23}

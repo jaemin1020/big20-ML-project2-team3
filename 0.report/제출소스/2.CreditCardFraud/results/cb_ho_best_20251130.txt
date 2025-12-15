@@ -1,0 +1,32 @@
+{
+    "result_dict": {
+        "AUC": 0.9707,
+        "정확도": 0.9996,
+        "정밀도": 0.9639,
+        "재현율": 0.8163,
+        "F1": 0.8840
+    },
+    "오차행렬": [
+        [
+            56861,
+            3
+        ],
+        [
+            18,
+            80
+        ]
+    ],
+    "학습 시간": 25.6335666179657,
+    "하이퍼파라미터": {
+        "bagging_temperature": 0.9785064406120697,
+        "border_count": 128,
+        "depth": 6,
+        "iterations": 850,
+        "l2_leaf_reg": 2.40870230306742,
+        "learning_rate": 0.04375728432712771,
+        "random_strength": 5.812907782545954,
+        "random_state": 23,
+        "verbose": 0,
+        "allow_writing_files": false
+    }
+}
