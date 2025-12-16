@@ -1,0 +1,6 @@
+AUC: 0.8346, 정확도: 0.9597, 정밀도: 0.2963, 재현율: 0.0133, F1: 0.0254
+오차행렬:
+[[14583    19]
+ [  594     8]]
+실행 시간: 7.18304181098938
+하이퍼파라미터: {'random_state': 23, 'n_estimators': 390, 'max_depth': 25, 'class_weight': {0: 1, 1: 2}, 'min_samples_leaf': 1, 'min_samples_split': 7, 'n_jobs': -1}
